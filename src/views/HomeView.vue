@@ -3,11 +3,33 @@
         <div class="position-absolute top-50 start-50 translate-middle">
             <h1 class="display-1">Magic Dice</h1>
             <div class="list-group mt-4">
-                <a href="#" class="list-group-item list-group-item-action">Roll Dice</a>
+                <a href="#" class="list-group-item list-group-item-action" v-on:click="LoadCharacter">Run {{
+                    Teagan.name }}</a>
                 <a href="#" class="list-group-item list-group-item-action">Create Character</a>
-                <a href="#" class="list-group-item list-group-item-action">Load Character</a>
-                <a href="#" class="list-group-item list-group-item-action">Upload File</a>
+                <router-link to="/load" class="list-group-item list-group-item-action">Load Character</router-link>
+                <a href="#" class="list-group-item list-group-item-action">About</a>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import { Teagan } from '@/assets/Teagan.js';
+
+export default {
+    methods: {
+        LoadCharacter() {
+            this.$md.magicHandler.managed_players = [];
+            this.$md.Load.restoreFromObj(this.Teagan);
+            this.$md.magicHandler.last.self;
+            this.$md.savePlayerOld();
+        }
+    },
+    data() {
+        return {
+            Teagan: Teagan
+        }
+    }
+}
+
+</script>

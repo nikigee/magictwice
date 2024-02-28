@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, inject } from 'vue'
 import App from './App.vue'
 import router from './router'
 
@@ -7,4 +7,9 @@ import "bootstrap"
 
 import "./assets/magicdice.scss"
 
-createApp(App).use(router).mount('#app')
+import { magicDice } from "./assets/md_magicdie"
+
+const app = createApp(App);
+app.use(router).mount('#app');
+
+app.config.globalProperties.$md = magicDice;

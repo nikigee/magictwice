@@ -1284,12 +1284,13 @@ export const magicDice = (() => {
     return {
         Dice: Dice,
         magicHandler: magicHandler,
-        Spell: Spell,
-        Item: Item,
         Load: Load,
         savePlayer: savePlayer,
         savePlayerOld: savePlayerOld,
-        Player: Player
+        Player: Player,
+        get ply() {
+            return magicHandler.last;
+        }
     }
 })();
 

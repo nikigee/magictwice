@@ -1,6 +1,6 @@
 <template>
     <div class="container text-center">
-        <h1 class="my-3">Load Character</h1>
+        <h1 class="mb-4 mt-5 py-2 display-4">Load Character</h1>
         <div class="row justify-content-center">
             <template v-for="(character, key) in characters">
                 <CharacterCard :char="character" :link="key" />

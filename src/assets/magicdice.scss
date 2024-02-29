@@ -1,6 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
 
+$md-accent: rgb(73, 207, 203);
+
 $font-family-base: "EB Garamond", serif;
+$body-bg-dark: #0d1117;
+$nav-link-color: $md-accent;
+$card-title-color: $md-accent;
+$primary: $md-accent;
+
+
+@import "/node_modules/bootstrap/scss/bootstrap";
 
 .eb-garamond-normal {
     font-family: "EB Garamond", serif;
@@ -8,5 +17,3 @@ $font-family-base: "EB Garamond", serif;
     font-weight: normal;
     font-style: normal;
 }
-
-@import "/node_modules/bootstrap/scss/bootstrap";

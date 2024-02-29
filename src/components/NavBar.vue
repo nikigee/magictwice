@@ -1,5 +1,5 @@
 <template>
-    <div class="border-bottom mb-4">
+    <div class="mb-2">
         <div class="container">
             <header class="d-flex flex-wrap justify-content-center py-3">
                 <a href="/"

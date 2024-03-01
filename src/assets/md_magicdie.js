@@ -436,11 +436,9 @@ export const magicDice = (() => {
                     let list = JSON.parse(localStorage.charList); // get character list
                     delete list[ID];
                     localStorage.charList = JSON.stringify(list);
-                    MagicUI.alert(`${ID} is gone, bye bye`);
+                    console.log(`${ID} is gone, bye bye`);
                 } catch (err) {
-                    MagicUI.alert(err, {
-                        type: "error"
-                    });
+                    console.log(err);
                 }
             },
             restoreFromObj: function (characterData) {

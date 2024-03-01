@@ -1,7 +1,25 @@
 <template>
     <div>
         <div>
-            <h1 class="h2 mt-2 mb-1">{{ $md.ply.name }}</h1>
+            <div v-if="showPhotoForm" class="my-3 d-flex align-items-center">
+                <input type="text" v-model="newAvatarUrl" class="form-control" placeholder="New photo URL">
+                <button @click="changeAvatarUrl" class="py-1 px-1 m-0 ms-1 btn btn-primary"><i class="bi bi-check"></i></button>
+            </div>
+            <div class="d-flex my-1 align-items-center justify-content-between">
+                <h1 class="h2 py-1 m-0">{{ $md.ply.name }}</h1>
+                <div class="dropdown dropcenter">
+                    <button class="btn fs-4 p-0 px-2 text-muted" data-bs-toggle="dropdown" aria-expanded="false"><i
+                            class="bi bi-three-dots"></i></button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" @click="showPhotoForm = true">
+                            Choose Photo
+                        </li>
+                        <li class="dropdown-item">
+                            Edit Information
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <p class="text-body-secondary mb-0"> {{ $md.ply.player_class.name }} - Level {{ $md.ply.lvl }}</p>
             <p><span class="text-body-secondary">XP: </span>{{ $md.ply.exp }}</p>
             <div class="row justify-content-between mt-2">
@@ -36,7 +54,25 @@
 
 <script>
 export default {
-    name: "PlayerBio"
+    name: "PlayerBio",
+    data() {
+        return {
+            showPhotoForm: false,
+            newAvatarUrl: ''
+        };
+    },
+    methods: {
+        changeAvatarUrl(e) {
+            // Update the avatar URL with the new value
+            this.$md.ply.render.avatar = this.newAvatarUrl;
+
+            // Close the form after saving
+            this.showPhotoForm = false;
+            this.newAvatarUrl = '';
+
+            this.$md.savePlayerOld(); // save
+        }
+    }
 }
 </script>
 

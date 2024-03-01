@@ -1,4 +1,4 @@
-import { createApp, inject } from 'vue'
+import { createApp, reactive } from 'vue'
 import App from './App.vue'
 import router from './router'
 
@@ -9,6 +9,12 @@ import 'bootstrap'
 import { magicDice } from "./assets/md_magicdie"
 
 const app = createApp(App);
-app.use(router).mount('#app');
+app.use(router);
 
-app.config.globalProperties.$md = magicDice;
+// Create a reactive object for $md
+const md = reactive(magicDice);
+
+// Expose $md to all components
+app.config.globalProperties.$md = md;
+
+app.mount('#app');

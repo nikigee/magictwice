@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-3 mb-3">
                 <div class="text-center">
-                    <img :src="$md.ply.render.avatar" class="img-fluid shadow rounded d-none d-md-block"
+                    <img :src="$md.ply.render.avatar" class="img-fluid shadow rounded d-none d-md-block mx-auto"
                         style="max-height: 500px;" />
                 </div>
                 <PlayerBio />

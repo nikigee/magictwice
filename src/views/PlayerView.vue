@@ -20,6 +20,7 @@
                         <HealthBar class="mb-3" />
                         <AbilityScores />
                         <SpellScores v-if="$md.ply.magic.spcMod" class="mb-3 mx-2" />
+                        <DiceRoller />
                     </div>
                     <div class="col-lg">
                         <Stats class="mt-1" />
@@ -41,6 +42,8 @@ import AbilityScores from '@/components/AbilityScores.vue';
 import SpellScores from '@/components/SpellScores.vue';
 import Stats from '../components/Stats.vue';
 import PlayerBio from '../components/PlayerBio.vue';
+import Card from '../components/Card.vue';
+import DiceRoller from '../components/DiceRoller.vue';
 
 export default {
 
@@ -58,7 +61,9 @@ export default {
         AbilityScores: AbilityScores,
         SpellScores: SpellScores,
         Stats: Stats,
-        PlayerBio: PlayerBio
+        PlayerBio: PlayerBio,
+        Card: Card,
+        DiceRoller: DiceRoller
     },
     watch: {
         $route(to, from) {

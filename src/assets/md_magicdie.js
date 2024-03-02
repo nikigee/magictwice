@@ -42,7 +42,7 @@ export const magicDice = (() => {
         }
     }
 
-
+    const diceHistory = []; // array for storing previous dice rolls
     const Dice = (() => {
         class SingleDice {
             constructor(string = "d20") {
@@ -146,7 +146,12 @@ export const magicDice = (() => {
                 return text;
             }
             get total() {
-                return Number(eval(this.compText));
+                const re = /(?:(?:^|[-+_*/])(?:\s*-?\d+(\.\d+)?(?:[eE][+-]?\d+)?\s*))+$/;
+
+                if (re.test(this.compText))
+                    return Number(eval(this.compText));
+                else
+                    return 0;
             }
             roll() {
                 try {
@@ -181,7 +186,10 @@ export const magicDice = (() => {
             static x(arg, mute = false) {
                 try {
                     const dice = new diceRoll(arg);
-                    if (!mute) dice.show();
+                    if (!mute) {
+                        diceHistory.push(dice);
+                        dice.show();
+                    }
                     return dice;
                 } catch (err) {
                     console.error(err);
@@ -1226,9 +1234,7 @@ export const magicDice = (() => {
                     exportName = this.name;
                 }
                 console.log("[WARNING] This will not save to HTML5 Local Storage, this will save externally only!");
-                MagicUI.alert("Downloading to external file.", {
-                    type: "info"
-                });
+
                 // thanks to stack overflow for this code
                 var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(new Save(this)));
                 var downloadAnchorNode = document.createElement('a');
@@ -1281,6 +1287,7 @@ export const magicDice = (() => {
 
     return {
         Dice: Dice,
+        diceHistory: diceHistory,
         magicHandler: magicHandler,
         Load: Load,
         savePlayer: savePlayer,

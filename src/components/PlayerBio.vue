@@ -3,7 +3,8 @@
         <div>
             <div v-if="showPhotoForm" class="my-3 d-flex align-items-center">
                 <input type="text" v-model="newAvatarUrl" class="form-control" placeholder="New photo URL">
-                <button @click="changeAvatarUrl" class="py-1 px-1 m-0 ms-1 btn btn-primary"><i class="bi bi-check"></i></button>
+                <button @click="changeAvatarUrl" class="py-1 px-1 m-0 ms-1 btn btn-primary"><i
+                        class="bi bi-check"></i></button>
             </div>
             <div class="d-flex my-1 align-items-center justify-content-between">
                 <h1 class="h2 py-1 m-0">{{ $md.ply.name }}</h1>
@@ -16,6 +17,9 @@
                         </li>
                         <li class="dropdown-item">
                             Edit Information
+                        </li>
+                        <li class="dropdown-item" @click="$md.ply.saveToFile()">
+                            Export (.json)
                         </li>
                     </ul>
                 </div>
@@ -47,7 +51,7 @@
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Gold: </span><span class="col-3 text-start">{{ $md.ply.inv.gold
-            }} GP</span>
+                }} GP</span>
         </div>
     </div>
 </template>
@@ -62,7 +66,7 @@ export default {
         };
     },
     methods: {
-        changeAvatarUrl(e) {
+        changeAvatarUrl() {
             // Update the avatar URL with the new value
             this.$md.ply.render.avatar = this.newAvatarUrl;
 

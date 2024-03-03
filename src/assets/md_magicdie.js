@@ -136,7 +136,10 @@ export const magicDice = (() => {
                 this.list.forEach((x) => {
                     text = text.replace(x.string, x.max); // replace all dice rolls with the rolled equivelent
                 });
-                return Number(eval(text));
+                const re = /(?:(?:^|[-+_*/])(?:\s*-?\d+(\.\d+)?(?:[eE][+-]?\d+)?\s*))+$/;
+
+                if (re.test(this.compText))
+                    return Number(eval(text));
             }
             get compText() {
                 let text = this.dice;
@@ -813,9 +816,7 @@ export const magicDice = (() => {
                 }
                 var status = (amt < 0) ? "Damaged" : "Healed"; // did it heal or damage?
                 console.log(status + " by " + amt + " points! %c(HP: " + this.currentHP + " / " + this.maxHP + ")", "color:" + getColor(this.currentHP / this.maxHP * 100));
-                MagicUI.alert(`${status} by ${amt} points! (${(this.currentHP / this.maxHP * 100).toFixed(0)}%)`, {
-                    type: "info"
-                });
+
                 return this.currentHP;
             }
             useHitDie(numDice) {
@@ -1287,7 +1288,7 @@ export const magicDice = (() => {
 
     return {
         Dice: Dice,
-        diceHistory: diceHistory,
+        diceHistory: [],
         magicHandler: magicHandler,
         Load: Load,
         savePlayer: savePlayer,

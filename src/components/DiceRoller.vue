@@ -62,11 +62,19 @@ export default {
                 this.$md.diceHistory.splice(0, this.$md.diceHistory.length);
                 this.diceInput = "";
                 return false;
+            } else if (this.diceInput.split(" ")[0] == "health") {
+                const diceRoll = this.$md.Dice.x(this.diceInput.substring(this.diceInput.indexOf(" ") + 1));
+                this.$md.ply.health.add(diceRoll.total);
+
+                if (diceRoll.list.length > 0)
+                    this.$md.diceHistory.push(diceRoll);
+                this.diceInput = "";
+
+                this.$md.savePlayerOld(); // save changes
+                return false;
             }
 
-            this.$md.Dice.x(this.diceInput);
-
-            console.log(this.$md.diceHistory);
+            this.$md.diceHistory.push(this.$md.Dice.x(this.diceInput));
             this.diceInput = "";
         }
     }

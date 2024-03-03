@@ -3,7 +3,7 @@
         <div class="mb-3">
             <h4 class="">Saving Throws</h4>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item list-group-item-action d-flex justify-content-between"
+                <li class="list-group-item list-group-item-action d-flex justify-content-between" @click="roll(x[1])"
                     :class="$md.ply.stats.save_throws.find((v) => v == x[0]) ? 'list-group-item-primary' : ''"
                     v-for="x in $md.ply.stats.sthrows">
                     <div>{{ getName(x[0]) }}</div>
@@ -14,7 +14,8 @@
         <div class="mb-4">
             <h4 class="">Skills</h4>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item list-group-item-action d-flex justify-content-between" :class="getColor(skill)"
+                <li class="list-group-item list-group-item-action d-flex justify-content-between"
+                    @click="roll(calcSkill(skill, $md.ply.stats))" :class="getColor(skill)"
                     v-for="(skill, key) in $md.ply.stats.skill_modifiers">
                     <div>{{ skill.name }}</div>
                     <div>{{ calcSkill(skill, $md.ply.stats) }}</div>
@@ -63,6 +64,9 @@ export default {
                 default:
                     return "Attribute";
             }
+        },
+        roll(v) {
+            this.$md.diceHistory.push(this.$md.Dice.x("d20+" + v)); // roll and save
         }
     }
 }

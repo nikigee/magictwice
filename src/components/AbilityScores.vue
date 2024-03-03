@@ -5,7 +5,7 @@
             <div id="md-abscores" class="row justify-content-center">
                 <div style=""
                     class="col-3 col-xxl shadow rounded text-center bg-secondary-subtle text-secondary-emphasis m-1 py-1"
-                    v-for="(v, key) in $md.ply.stats.ability">
+                    @click="roll($md.ply.stats.ability_mod[key])" v-for="(v, key) in $md.ply.stats.ability">
                     <div class="" style="font-size: 14px;">{{ abName(key) }}</div>
                     <div class="fs-3 text-white">{{ $md.ply.stats.ability_mod[key] }}</div>
                     <div class="">{{ v }}</div>
@@ -36,6 +36,9 @@ export default {
                 default:
                     return "Score";
             }
+        },
+        roll(v) {
+            this.$md.diceHistory.push(this.$md.Dice.x("d20+" + v)); // roll and save
         }
     }
 }

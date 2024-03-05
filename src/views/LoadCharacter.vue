@@ -46,7 +46,7 @@ export default {
                     this.$md.magicHandler.managed_players = [];
                     this.$md.Load.restoreFromObj(JSON.parse(result));
                     this.$md.magicHandler.last.self;
-                    this.$md.savePlayerOld();
+                    this.$md.savePlayer();
 
                     this.characters = getCharacters();
                 }).catch((err) => {

@@ -24,7 +24,7 @@ export default {
             this.$md.magicHandler.managed_players = [];
             this.$md.Load.restoreFromObj(this.Teagan);
             this.$md.magicHandler.last.self;
-            this.$md.savePlayerOld();
+            this.$md.savePlayer();
         }
     },
     data() {

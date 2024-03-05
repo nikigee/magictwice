@@ -48,12 +48,15 @@ import DiceRoller from '../components/DiceRoller.vue';
 export default {
 
     data() {
+        return {
+            ply: null
+        }
+    },
+    created() {
         const player = JSON.parse(localStorage.charList)[this.$route.params.id];
         if (player)
             this.$md.Load.restoreFromObj(player);
-        return {
-            ply: player
-        }
+        this.ply = player;
     },
     components: {
         NavBar: NavBar,

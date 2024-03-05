@@ -8,9 +8,12 @@
                 </router-link>
 
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Notebook</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Spellbook</a></li>
+                    <li class="nav-item"><router-link class="nav-link"
+                            :to="'/player/' + $md.ply.id">Dashboard</router-link></li>
+                    <li class="nav-item"><router-link class="nav-link"
+                            :to="'/player/' + $md.ply.id + '/notes'">Notebook</router-link></li>
+                    <li class="nav-item"><router-link class="nav-link"
+                            :to="'/player/' + $md.ply.id + '/spells'">Spellbook</router-link></li>
                 </ul>
             </header>
         </div>

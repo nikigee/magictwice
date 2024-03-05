@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoadCharacter from '../views/LoadCharacter.vue'
 import PlayerView from '../views/PlayerView.vue'
+import NotesView from '../views/NotesView.vue'
+import SpellView from '../views/SpellView.vue'
 
 const routes = [
     {
@@ -16,7 +18,18 @@ const routes = [
     },
     {
         path: '/player/:id',
+        name: 'player',
         component: PlayerView
+    },
+    {
+        path: '/player/:id/notes',
+        name: 'notebook',
+        component: NotesView
+    },
+    {
+        path: '/player/:id/spells',
+        name: 'spellbook',
+        component: SpellView
     }
 ]
 

@@ -1171,6 +1171,9 @@ export const magicDice = (() => {
             get d20() {
                 return Dice.r("d20", true);
             }
+            get id() {
+                return this.name.toLowerCase().replace(/\s/g, '-');
+            }
             setLevel(lvl) {
                 this.lvl = lvl;
                 this.longrest();
@@ -1252,9 +1255,9 @@ export const magicDice = (() => {
         return Player;
     })();
 
-    function savePlayerOld(playerObj = magicHandler.last) {
+    function savePlayer(playerObj = magicHandler.last) {
         if (typeof (Storage) !== "undefined") {
-            const id = playerObj.name.toLowerCase().replace(/\s/g, '-');
+            const id = playerObj.id;
             let charArray = {};
 
             if (localStorage["charList"])
@@ -1269,7 +1272,7 @@ export const magicDice = (() => {
         }
     }
 
-    function savePlayer(ply) {
+    function savePlayerLocalStorage(ply) {
         if (typeof (Storage) !== "undefined") {
             const id = ply.name.toLowerCase().replace(/\s/g, '-');
             let charArray = {};
@@ -1292,7 +1295,7 @@ export const magicDice = (() => {
         magicHandler: magicHandler,
         Load: Load,
         savePlayer: savePlayer,
-        savePlayerOld: savePlayerOld,
+        savePlayerLocalStorage: savePlayerLocalStorage,
         Player: Player,
         get ply() {
             return magicHandler.last;

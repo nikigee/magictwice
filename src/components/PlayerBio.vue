@@ -74,7 +74,7 @@ export default {
             this.showPhotoForm = false;
             this.newAvatarUrl = '';
 
-            this.$md.savePlayerOld(); // save
+            this.$md.savePlayer(); // save
         }
     }
 }

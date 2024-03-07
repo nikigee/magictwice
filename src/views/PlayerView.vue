@@ -15,9 +15,7 @@
             </div>
             <div class="col">
                 <div class="row">
-                    <div class="rounded"
-                        :style="{ backgroundImage: 'url(' + require('@/assets/img/bg/3.jpg') + ')', maxWidth: '100%', height: '10rem', backgroundSize: 'cover', backgroundPosition: 'center' }">
-                    </div>
+                    <Banner />
                 </div>
                 <div class="row pt-2">
                     <div class="col-lg-7">
@@ -48,6 +46,7 @@ import Stats from '../components/Stats.vue';
 import PlayerBio from '../components/PlayerBio.vue';
 import Card from '../components/Card.vue';
 import DiceRoller from '../components/DiceRoller.vue';
+import Banner from '../components/Banner.vue';
 
 export default {
 
@@ -70,7 +69,8 @@ export default {
         Stats: Stats,
         PlayerBio: PlayerBio,
         Card: Card,
-        DiceRoller: DiceRoller
+        DiceRoller: DiceRoller,
+        Banner: Banner
     },
     watch: {
         $route(to, from) {

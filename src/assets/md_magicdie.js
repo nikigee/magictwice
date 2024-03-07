@@ -418,7 +418,8 @@ export const magicDice = (() => {
             };
 
             this.renderData = {
-                avatar: parent.render.avatar
+                avatar: parent.render.avatar,
+                banner: parent.render.banner
             };
         }
     };
@@ -782,10 +783,14 @@ export const magicDice = (() => {
         class Render {
             constructor(props = {}) {
                 const {
-                    parent = undefined,
-                    avatar = "./src/img/render_default.jpg"
+                    avatar = "./src/img/render_default.jpg",
+                    banner = {
+                        url: '',
+                        position: 'center'
+                    }
                 } = props;
                 this.avatar = avatar;
+                this.banner = banner;
             }
         }
         class Health {

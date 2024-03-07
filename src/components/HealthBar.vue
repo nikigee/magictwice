@@ -1,19 +1,78 @@
 <template>
     <div class="mb-2">
-        <label for="md-healthbar" class="text-body-secondary">Health Points</label>
-        <div id="md-healthbar" class="bg-dark-subtle rounded overflow-hidden">
-            <div class="p-1 bg-success text-white text-center"
-                :style="{ width: ($md.ply.health.currentHP / $md.ply.health.maxHP * 100) + '%' }">
-                <span style="text-wrap: nowrap">{{ $md.ply.health.currentHP }} / {{ $md.ply.health.maxHP }}</span>
+        <div class="dropdown">
+            <label for="md-healthbar" class="text-body-secondary">Health Points</label>
+            <div id="md-healthbar" class="bg-dark-subtle rounded overflow-hidden" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <div class="p-1 text-center" :class="getColor()"
+                    :style="{ width: getPercentage($md.ply.health.currentHP, $md.ply.health.maxHP) + '%' }">
+                    <span style="text-wrap: nowrap">{{ $md.ply.health.currentHP }} / {{ $md.ply.health.maxHP }}</span>
+                </div>
             </div>
+            <ul class="dropdown-menu dropdown-menu-end" style="">
+                <form class="px-3 py-2 text-center" @submit="runForm">
+                    <div class="mb-2">
+                        <label for="healthInput" class="form-label">Modify Health</label>
+                        <input v-model="hpInt" type="text" class="form-control" id="healthInput" placeholder="5" autofocus
+                            style="width: 140px;">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" @click="addHP()"
+                            class="health-button btn btn-outline-primary px-2 py-1 mx-1 text-uppercase">Heal</button>
+                        <button type="submit" @click="addHP(true)"
+                            class="health-button btn btn-outline-primary px-2 py-1 mx-1 text-uppercase">Damage</button>
+                    </div>
+                </form>
+            </ul>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "HealthBar"
+    name: "HealthBar",
+    data() {
+        return {
+            hpInt: ''
+        }
+    },
+    methods: {
+        runForm(e) {
+            e.preventDefault();
+            return false;
+        },
+        addHP(reverse = false) {
+
+            const diceRoll = this.$md.Dice.x(this.hpInt);
+            this.$md.ply.health.add(reverse ? diceRoll.total * -1 : diceRoll.total);
+
+            if (diceRoll.list.length > 0)
+                this.$md.diceHistory.push(diceRoll);
+            this.hpInt = "";
+
+            this.$md.savePlayer(); // save changes
+        },
+        getPercentage(current, max) {
+            return (current / max * 100) < 0 ? 0 : (current / max * 100);
+        },
+        getColor() {
+            const perc = this.getPercentage(this.$md.ply.health.currentHP, this.$md.ply.health.maxHP);
+            if (perc <= 25) {
+                return "bg-danger-subtle text-danger-emphasis";
+            } else if (perc <= 50) {
+                return "bg-warning-subtle text-warning-emphasis"
+            }
+
+            return "bg-success text-white";
+        }
+    }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.health-button {
+    font-size: 12px;
+    // font-weight: bold;
+    // font-family: 'Roboto', sans-serif;
+}
+</style>

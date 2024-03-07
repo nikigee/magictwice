@@ -12,7 +12,8 @@
 
                 <VMarkdownEditor v-if="edit" v-model="$md.ply.stats.misc_notes" locale="en"
                     :upload-action="handleUpload"></VMarkdownEditor>
-                <VMarkdownView class="mb-5" v-if="!edit" mode="dark" :content="$md.ply.stats.misc_notes"></VMarkdownView>
+                <VMarkdownView class="mb-5" v-if="!edit" mode="dark" :content="$md.ply.stats.misc_notes">
+                </VMarkdownView>
             </div>
             <div class="col-md-3 mb-3">
                 <div class="text-center">

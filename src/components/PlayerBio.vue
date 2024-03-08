@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!editMode">
         <!-- Edit Avatar -->
         <div v-if="showPhotoForm" class="my-3 d-flex align-items-center">
             <input type="text" v-model="newAvatarUrl" class="form-control" placeholder="New photo URL">
@@ -17,7 +17,7 @@
                     <li class="dropdown-item" @click="showPhotoForm = true">
                         Choose Photo
                     </li>
-                    <li class="dropdown-item">
+                    <li class="dropdown-item" @click="editMode = true">
                         Edit Information
                     </li>
                     <li class="dropdown-item" @click="$md.ply.saveToFile()">
@@ -46,11 +46,11 @@
         <!-- Other Info -->
         <div class="row py-1 mt-2 align-items-center">
             <span class="text-body-secondary col">Proficiency Bonus: </span><span class="col-3 text-start">{{
-            $md.ply.stats.prof }}</span>
+        $md.ply.stats.prof }}</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Passive Perception: </span><span class="col-3 text-start">{{
-            $md.ply.stats.passive_perception }}</span>
+        $md.ply.stats.passive_perception }}</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Gold: </span><span class="col-3 text-start">{{ $md.ply.inv.gold
@@ -58,21 +58,36 @@
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Hit Dice: </span><span class="col-3 text-start">{{
-            $md.ply.health.hitdie }}</span>
+        $md.ply.health.hitdie }}</span>
+        </div>
+    </div>
+    <div v-if="editMode">
+        <div class="text-center mt-3">
+            <mdButton>Save</mdButton>
+            <mdButton @click="editMode = false">Cancel</mdButton>
         </div>
     </div>
 </template>
 
 <script>
+import mdButton from "@/components/ui/mdButton.vue"
+
 export default {
     name: "PlayerBio",
     data() {
         return {
             showPhotoForm: false,
-            newAvatarUrl: ''
+            newAvatarUrl: '',
+            editMode: false
         };
     },
+    components: {
+        mdButton: mdButton
+    },
     methods: {
+        toggleEdit() {
+            this.editMode = this.editMode ? false : true;
+        },
         changeAvatarUrl() {
             // Update the avatar URL with the new value
             this.$md.ply.render.avatar = this.newAvatarUrl;

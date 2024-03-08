@@ -26,12 +26,9 @@
                             </select>
                         </div>
                         <div class="d-flex">
-                            <button type="submit" @click="changeBanner"
-                                class="btn btn-outline-primary px-2 py-1 mx-1">Save</button>
-                            <button type="submit" @click="clearBanner"
-                                class="btn btn-outline-primary px-2 py-1 mx-1">Clear</button>
-                            <button type="submit" @click="revertBanner"
-                                class="btn btn-outline-primary px-2 py-1 mx-1">Undo</button>
+                            <mdButton @click="changeBanner">Save</mdButton>
+                            <mdButton @click="clearBanner">Clear</mdButton>
+                            <mdButton @click="revertBanner">Undo</mdButton>
                         </div>
                     </form>
                 </ul>
@@ -41,8 +38,12 @@
 </template>
 
 <script>
+import mdButton from "@/components/mdButton.vue"
 export default {
     name: "Banner",
+    components: {
+        mdButton: mdButton
+    },
     data() {
         return {
             banner: {

@@ -17,10 +17,8 @@
                             style="width: 140px;">
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="submit" @click="addHP()"
-                            class="health-button btn btn-outline-primary px-2 py-1 mx-1 text-uppercase">Heal</button>
-                        <button type="submit" @click="addHP(true)"
-                            class="health-button btn btn-outline-primary px-2 py-1 mx-1 text-uppercase">Damage</button>
+                        <mdButton @click="addHP()">Heal</mdButton>
+                        <mdButton @click="addHP(true)">Damage</mdButton>
                     </div>
                 </form>
             </ul>
@@ -29,12 +27,17 @@
 </template>
 
 <script>
+import mdButton from "@/components/mdButton.vue"
+
 export default {
     name: "HealthBar",
     data() {
         return {
             hpInt: ''
         }
+    },
+    components: {
+        mdButton: mdButton
     },
     methods: {
         runForm(e) {
@@ -70,9 +73,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.health-button {
-    font-size: 12px;
-    // font-weight: bold;
-    // font-family: 'Roboto', sans-serif;
-}
+
 </style>

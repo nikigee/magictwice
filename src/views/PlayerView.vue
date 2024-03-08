@@ -44,7 +44,6 @@ import AbilityScores from '@/components/AbilityScores.vue';
 import SpellScores from '@/components/SpellScores.vue';
 import Stats from '../components/Stats.vue';
 import PlayerBio from '../components/PlayerBio.vue';
-import Card from '../components/Card.vue';
 import DiceRoller from '../components/DiceRoller.vue';
 import Banner from '../components/Banner.vue';
 
@@ -68,7 +67,6 @@ export default {
         SpellScores: SpellScores,
         Stats: Stats,
         PlayerBio: PlayerBio,
-        Card: Card,
         DiceRoller: DiceRoller,
         Banner: Banner
     },
@@ -84,4 +82,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped></style>../components/ui/Card.vue

@@ -158,6 +158,12 @@ export const magicDice = (() => {
             }
             roll() {
                 try {
+                    if (magicHandler.managed_players.length > 0) {
+                        for (let [key, value] of Object.entries(magicHandler.last.stats.ability_mod)) {
+                            this.dice = this.dice.replaceAll(key, value);
+                        }
+                        this.dice = this.dice.replaceAll("prof", magicHandler.last.stats.prof);
+                    }
                     // roll each set of dice
                     this.generateList();
                     return this.total; // return total

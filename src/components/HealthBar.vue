@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import mdButton from "@/components/mdButton.vue"
+import mdButton from "@/components/ui/mdButton.vue"
 
 export default {
     name: "HealthBar",

@@ -3,10 +3,11 @@
         <label for="md-diceroller" class="text-body-secondary">Dice Tray</label>
         <Card id="md-diceroller" bgImage="cards/doragi-2.jpg">
             <ul class="list-group list-group-flush mb-1">
-                <li v-for="(d, index) in $md.diceHistory" v-show="index >= ($md.diceHistory.length - 3)"
+                <li v-for="(d, index) in $md.diceHistory"
+                    v-show="index >= ($md.diceHistory.length - 3)"
                     class="list-group-item list-group-item-action list-group-item-secondary text-white">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div>
+                        <div @click="$md.diceHistory.push($md.Dice.x(d.dice))">
                             <p class="mb-0 text-muted">{{ d.dice }}</p>
                             <div class="d-flex align-items-center">
                                 <div class="pe-3 text-center">
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-import Card from './Card.vue';
+import Card from '@/components/ui/Card.vue';
 
 export default {
     name: "DiceRoller",
@@ -111,4 +112,4 @@ export default {
     min-width: 30px;
     font-size: large;
 }
-</style>
+</style>./ui/Card.vue

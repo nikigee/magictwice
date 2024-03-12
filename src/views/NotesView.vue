@@ -2,7 +2,7 @@
     <NavBar />
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-md-9 col">
                 <div class="d-flex align-items-center justify-content-end">
                     <!-- <h1>Features and Notes</h1> -->
                     <div class="">

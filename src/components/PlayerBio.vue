@@ -62,15 +62,17 @@
         </div>
     </div>
     <div v-if="editMode">
-        <div class="text-center mt-3">
+        <EditPlayerBio />
+        <div class="mt-3">
             <mdButton>Save</mdButton>
-            <mdButton @click="editMode = false">Cancel</mdButton>
+            <mdButton class="btn-outline-secondary"  @click="editMode = false">Cancel</mdButton>
         </div>
     </div>
 </template>
 
 <script>
 import mdButton from "@/components/ui/mdButton.vue"
+import EditPlayerBio from "./EditPlayerBio.vue";
 
 export default {
     name: "PlayerBio",
@@ -82,7 +84,8 @@ export default {
         };
     },
     components: {
-        mdButton: mdButton
+        mdButton: mdButton,
+        EditPlayerBio: EditPlayerBio
     },
     methods: {
         toggleEdit() {

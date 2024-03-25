@@ -63,10 +63,6 @@
     </div>
     <div v-if="editMode">
         <EditPlayerBio />
-        <div class="mt-3">
-            <mdButton>Save</mdButton>
-            <mdButton class="btn-outline-secondary"  @click="editMode = false">Cancel</mdButton>
-        </div>
     </div>
 </template>
 

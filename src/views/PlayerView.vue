@@ -19,9 +19,22 @@
                 </div>
                 <div class="row pt-2">
                     <div class="col-lg-7">
-                        <HealthBar class="mb-3" />
-                        <AbilityScores />
-                        <SpellScores v-if="$md.ply.magic.spcMod" class="mb-3 mx-2" />
+                        <div class="text-end">
+                            <div class="dropdown dropcenter">
+                                <i class="bi bi-three-dots text-body-secondary" data-bs-toggle="dropdown"></i>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item" @click="editScores = true">
+                                        Edit Information
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div v-if="!editScores">
+                            <HealthBar class="mb-3" />
+                            <AbilityScores />
+                            <SpellScores v-if="$md.ply.magic.spcMod" class="mb-3 mx-2" />
+                        </div>
+                        <EditScores class="mb-2" v-if="editScores" />
                         <DiceRoller />
                     </div>
                     <div class="col-lg">
@@ -46,11 +59,13 @@ import Stats from '../components/Stats.vue';
 import PlayerBio from '../components/PlayerBio.vue';
 import DiceRoller from '../components/DiceRoller.vue';
 import Banner from '../components/Banner.vue';
+import EditScores from '../components/EditScores.vue';
 
 export default {
 
     data() {
         return {
+            editScores: false,
             ply: null
         }
     },
@@ -68,7 +83,8 @@ export default {
         Stats: Stats,
         PlayerBio: PlayerBio,
         DiceRoller: DiceRoller,
-        Banner: Banner
+        Banner: Banner,
+        EditScores: EditScores
     },
     watch: {
         $route(to, from) {

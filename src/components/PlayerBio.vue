@@ -4,7 +4,7 @@
         <div class="my-3" v-if="showPhotoForm">
             <input type="text" v-model="newAvatarUrl" class="form-control form-control-sm" placeholder="New photo URL">
 
-            <div class="mt-2">
+            <div class="mt-2 text-center text-lg-start">
                 <mdButton class="ms-0" @click="changeAvatarUrl()">Set</mdButton>
                 <mdButton class="me-0 btn-outline-secondary" @click="showPhotoForm = false">Cancel</mdButton>
             </div>

@@ -1,10 +1,13 @@
 <template>
     <div v-if="!editMode">
         <!-- Edit Avatar -->
-        <div v-if="showPhotoForm" class="my-3 d-flex align-items-center">
-            <input type="text" v-model="newAvatarUrl" class="form-control" placeholder="New photo URL">
-            <button @click="changeAvatarUrl" class="py-1 px-1 m-0 ms-1 btn btn-primary"><i
-                    class="bi bi-check"></i></button>
+        <div class="my-3" v-if="showPhotoForm">
+            <input type="text" v-model="newAvatarUrl" class="form-control form-control-sm" placeholder="New photo URL">
+
+            <div class="mt-2">
+                <mdButton class="ms-0" @click="changeAvatarUrl()">Set</mdButton>
+                <mdButton class="me-0 btn-outline-secondary" @click="showPhotoForm = false">Cancel</mdButton>
+            </div>
         </div>
         <!-- Name -->
         <div class="d-flex my-1 align-items-center justify-content-between">
@@ -75,7 +78,7 @@ export default {
     data() {
         return {
             showPhotoForm: false,
-            newAvatarUrl: '',
+            newAvatarUrl: this.$md.ply.render.avatar,
             editMode: false
         };
     },

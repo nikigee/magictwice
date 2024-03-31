@@ -1099,6 +1099,9 @@ export const magicDice = (() => {
                         console.log(`${this.skill_modifiers[skill].name} is now proficent!`);
                     } else {
                         this.skill_modifiers[skill].proficent = false;
+                        if (this.skill_modifiers[skill].expert) {
+                            this.skill_modifiers[skill].expert = false;
+                        }
                         console.log(`${this.skill_modifiers[skill].name} is now no longer proficent!`);
                     }
                     return this.skills[skill];
@@ -1110,6 +1113,9 @@ export const magicDice = (() => {
             expertCheck(skill) {
                 skill = skill.toLowerCase();
                 if (this.skill_modifiers[skill]) {
+                    if (!this.skill_modifiers[skill].proficent) {
+                        this.skill_modifiers[skill].proficent = true;
+                    }
                     if (!this.skill_modifiers[skill].expert) {
                         this.skill_modifiers[skill].expert = true;
                         console.log(`You are now an expert at ${this.skill_modifiers[skill].name}! (Need to be proficent for this to apply)`);

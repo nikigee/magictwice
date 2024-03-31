@@ -3,11 +3,24 @@
         <div class="mb-3">
             <h4 class="">Saving Throws</h4>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item list-group-item-action d-flex justify-content-between" @click="roll(x[1])"
+                <li class="list-group-item list-group-item-action d-flex justify-content-between"
                     :class="$md.ply.stats.save_throws.find((v) => v == x[0]) ? 'list-group-item-primary' : ''"
                     v-for="x in $md.ply.stats.sthrows">
                     <div>{{ getName(x[0]) }}</div>
-                    <div>{{ x[1] }}</div>
+                    <div>
+                        <span>{{ x[1] }}</span>
+                        <span class="dropdown">
+                            <i class="bi bi-three-dots ms-2" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" @click="roll(x[1])">Roll</a>
+                                </li>
+                                <li><a class="dropdown-item" @click="toggleSThrow(x[0]); $md.savePlayer()">{{
+                        $md.ply.stats.save_throws.find((v) => v == x[0]) ? "Remove" : "Add" }}
+                                        Proficiency</a></li>
+                            </ul>
+                        </span>
+
+                    </div>
                 </li>
             </ul>
         </div>
@@ -15,15 +28,33 @@
             <h4 class="">Skills</h4>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action d-flex justify-content-between"
-                    @click="roll(calcSkill(skill, $md.ply.stats))" :class="getColor(skill)"
-                    v-for="(skill, key) in $md.ply.stats.skill_modifiers">
+                    :class="getColor(skill)" v-for="(skill, key) in $md.ply.stats.skill_modifiers">
                     <div>{{ skill.name }}</div>
-                    <div>{{ calcSkill(skill, $md.ply.stats) }}</div>
+                    <div>
+                        <span>
+                            {{ calcSkill(skill, $md.ply.stats) }}
+                        </span>
+                        <span class="dropdown">
+                            <i class="bi bi-three-dots ms-2" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" @click="roll(calcSkill(skill, $md.ply.stats))">Roll</a>
+                                </li>
+                                <li><a class="dropdown-item"
+                                        @click="$md.ply.stats.makeProficent(key); $md.savePlayer();">{{
+                        skill.proficent ? "Remove" : "Add" }} Proficiency</a></li>
+                                <li><a class="dropdown-item"
+                                        @click="$md.ply.stats.expertCheck(key); $md.savePlayer();">{{ skill.expert ?
+                                        "Remove" : "Add" }} Expertise</a></li>
+                            </ul>
+                        </span>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </template>
+
+<!-- @click="roll(calcSkill(skill, $md.ply.stats))" -->
 
 <script>
 export default {
@@ -46,6 +77,16 @@ export default {
                 }
             }
             return val;
+        },
+        toggleSThrow(v) {
+            if (this.$md.ply.stats.save_throws.includes(v)) {
+                const index = this.$md.ply.stats.save_throws.indexOf(v);
+                if (index > -1) {
+                    this.$md.ply.stats.save_throws.splice(index, 1); // remove proficiency
+                }
+            } else if (this.$md.ply.stats.sthrows.get(v) !== undefined) {
+                this.$md.ply.stats.save_throws.push(v); // add proficiency
+            }
         },
         getName: (key) => {
             switch (key) {
@@ -72,4 +113,33 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bi-three-dots {
+    display: none;
+}
+
+.list-group-item-action:hover .bi-three-dots {
+    display: inline;
+    cursor: pointer;
+}
+
+.bi-three-dots::bs-toggle .bi-three-dots {
+    display: inline;
+    cursor: pointer;
+}
+
+.dropdown{
+    vertical-align: middle;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}
+
+/* Style for mobile devices (less than 768px width) */
+@media (max-width: 767px) {
+    .bi-three-dots {
+        display: inline;
+    }
+}
+</style>

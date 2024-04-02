@@ -13,8 +13,8 @@
                 <form class="px-3 py-2 text-center" @submit="runForm">
                     <div class="mb-2">
                         <label for="healthInput" class="form-label">Modify Health</label>
-                        <input v-model="hpInt" type="text" class="form-control" id="healthInput" placeholder="5" autofocus
-                            style="width: 140px;">
+                        <input v-model="hpInt" type="text" class="form-control" id="healthInput" placeholder="5"
+                            autofocus style="width: 140px;">
                     </div>
                     <div class="d-flex justify-content-center">
                         <mdButton @click="addHP()">Heal</mdButton>
@@ -72,6 +72,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

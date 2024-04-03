@@ -7,7 +7,7 @@
                     <img src="../assets/navlogo.png" style="height: 35px;">
                 </router-link>
 
-                <ul class="nav nav-pills">
+                <ul class="nav nav-pills" v-if="$md.ply">
                     <li class="nav-item"><router-link class="nav-link"
                             :to="'/player/' + $md.ply.id">Dashboard</router-link></li>
                     <li class="nav-item"><router-link class="nav-link"

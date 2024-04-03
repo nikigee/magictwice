@@ -1,6 +1,6 @@
 <template>
     <NavBar />
-    <div class="container">
+    <div class="container" v-if="$md.ply">
         <div class="row">
             <div class="col-md-9 col">
                 <div class="d-flex align-items-center justify-content-end">
@@ -24,6 +24,9 @@
                 <DiceRoller class="border-top mt-3 pt-2" />
             </div>
         </div>
+    </div>
+    <div class="container" v-else>
+        <h1>Sorry, this character doesn't exist :C</h1>
     </div>
 </template>
 

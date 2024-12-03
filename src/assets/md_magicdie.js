@@ -341,6 +341,13 @@ export const magicDice = (() => {
             get wiki() {
                 window.open(this.url);
             }
+            get id() {
+                return this.name
+                    .toLowerCase()            // Convert to lowercase
+                    .replace(/[^a-z0-9 ]/g, '') // Remove special characters
+                    .trim()                   // Remove whitespace from start/end
+                    .replace(/\s+/g, '-');    // Replace spaces with hyphens
+            }
             get x() {
                 console.log("\n" + this.name.toUpperCase());
                 console.log(this.level + "-level " + this.school);

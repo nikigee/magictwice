@@ -4,10 +4,12 @@
             <h5 class="text-capitalize text-muted">{{ group[0] }} Level</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action" v-for="spell in group[1]">
-                    <div class="ms-2 me-auto">
-                        <div class="lato-bold fst-italic text-primary">{{ spell.name }}</div>
-                        <div class="text-muted">{{ spell.ctime }}</div>
-                    </div>
+                    <router-link :to="`/player/${$md.ply.id}/spell/${toUrlFriendly(spell.name)}`" class="text-decoration-none">
+                        <div class="ms-2 me-auto">
+                            <div class="lato-bold fst-italic text-primary">{{ spell.name }}</div>
+                            <div class="text-muted">{{ spell.ctime }}</div>
+                        </div>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -41,6 +43,13 @@ export default {
                 }
             });
             return arr;
+        },
+        toUrlFriendly(name) {
+            return name
+                .toLowerCase()            // Convert to lowercase
+                .replace(/[^a-z0-9 ]/g, '') // Remove special characters
+                .trim()                   // Remove whitespace from start/end
+                .replace(/\s+/g, '-');    // Replace spaces with hyphens
         }
     }
 }

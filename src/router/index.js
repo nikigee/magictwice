@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoadCharacter from '../views/LoadCharacter.vue'
 import PlayerView from '../views/PlayerView.vue'
 import NotesView from '../views/NotesView.vue'
+import SpellListView from '../views/SpellListView.vue'
 import SpellView from '../views/SpellView.vue'
 
 const routes = [
@@ -29,6 +30,11 @@ const routes = [
     {
         path: '/player/:id/spells',
         name: 'spellbook',
+        component: SpellListView
+    },
+    {
+        path: '/player/:id/spell/:spell',
+        name: 'spell',
         component: SpellView
     }
 ]

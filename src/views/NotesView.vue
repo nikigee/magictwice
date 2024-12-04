@@ -2,20 +2,20 @@
     <NavBar />
     <div class="container" v-if="$md.ply">
         <div class="row">
-            <div class="col-md-9 col">
-                <div class="d-flex align-items-center justify-content-end">
+            <div class="col-lg-9 col">
+                <div class="d-flex align-items-center justify-content-end mb-1">
                     <!-- <h1>Features and Notes</h1> -->
                     <div class="">
-                        <button class="btn btn-outline-primary py-1 px-2" v-on:click="toggleEdit">Edit</button>
+                        <MdButtonLarge v-on:click="toggleEdit" class="mb-1"><i class="bi bi-pencil"></i>  Modify</MdButtonLarge>
                     </div>
                 </div>
 
-                <VMarkdownEditor v-if="edit" v-model="$md.ply.stats.misc_notes" locale="en"
+                <VMarkdownEditor class="editor" v-if="edit" v-model="$md.ply.stats.misc_notes" locale="en"
                     :upload-action="handleUpload"></VMarkdownEditor>
-                <VMarkdownView class="mb-5" v-if="!edit" mode="dark" :content="$md.ply.stats.misc_notes">
+                <VMarkdownView class="mb-5 bg-body" v-if="!edit" mode="dark" :content="$md.ply.stats.misc_notes">
                 </VMarkdownView>
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-3 mb-3 d-none d-lg-block">
                 <div class="text-center">
                     <img :src="$md.ply.render.avatar" class="img-fluid shadow rounded d-none d-md-block mx-auto"
                         style="max-height: 500px;" />
@@ -28,6 +28,8 @@
     <div class="container" v-else>
         <h1>Sorry, this character doesn't exist :C</h1>
     </div>
+    <div style="height: 50px;" class="d-block d-md-none"></div>
+    <MobileNavBar class="d-block d-md-none" />
 </template>
 
 <script>
@@ -36,6 +38,8 @@ import PlayerBio from '@/components/PlayerBio.vue'
 import DiceRoller from '../components/DiceRoller.vue'
 import { VMarkdownEditor, VMarkdownView } from 'vue3-markdown'
 import 'vue3-markdown/dist/style.css'
+import MdButtonLarge from '../components/ui/mdButtonLarge.vue'
+import MobileNavBar from '../components/MobileNavBar.vue'
 
 export default {
     data() {
@@ -48,8 +52,10 @@ export default {
         NavBar: NavBar,
         PlayerBio: PlayerBio,
         DiceRoller: DiceRoller,
+        MdButtonLarge,
         VMarkdownEditor,
-        VMarkdownView
+        VMarkdownView,
+        MobileNavBar
     },
     created() {
         const player = JSON.parse(localStorage.charList)[this.$route.params.id];
@@ -69,4 +75,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.editor {
+    min-height: 600px;
+}
+</style>

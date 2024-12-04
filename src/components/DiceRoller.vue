@@ -4,8 +4,8 @@
         <Card id="md-diceroller" bgImage="cards/doragi-2.jpg">
             <ul class="list-group list-group-flush mb-1">
                 <li v-for="(d, index) in $md.diceHistory"
-                    v-show="index >= ($md.diceHistory.length - 3)"
-                    class="list-group-item list-group-item-action list-group-item-secondary text-white">
+                    v-show="index >= ($md.diceHistory.length - 1)"
+                    class="list-group-item list-group-item-action list-group-item-secondary text-white dicerow">
                     <div class="d-flex justify-content-between align-items-center">
                         <div @click="$md.diceHistory.push($md.Dice.x(d.dice))">
                             <p class="mb-0 text-muted">{{ d.dice }}</p>
@@ -111,5 +111,9 @@ export default {
     text-align: center;
     min-width: 30px;
     font-size: large;
+}
+
+.dicerow {
+    background: none;
 }
 </style>./ui/Card.vue

@@ -1,18 +1,13 @@
 <template>
     <NavBar />
     <div class="container" v-if="$md.ply">
-        <div class="row g-5 mb-4">
-            <!-- <div class="col-3">
-                <img class="img-fluid rounded box-shadow" src="https://i.imgur.com/59h582H.jpeg" />
-            </div> -->
-            <!-- no spell selected menu -->
-            <div class="col-3 box-shadow background d-none d-lg-block">
-            </div>
-            <div class="col col-lg-9">
+        <div class="row">
+            <div class="col-3 box-shadow background d-none d-lg-block"></div>
+            <div class="col col-lg-9 ps-lg-3">
                 <h1 class="mb-3 text-uppercase spellbook h2">List of Spells</h1>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control form-control-lg" placeholder="Search Spells..."
+                    <input type="text" class="form-control" placeholder="Search Spells..."
                         aria-label="Spell Name" aria-describedby="basic-addon1" v-model="filter">
                 </div>
                 <!-- no spells? -->
@@ -30,11 +25,14 @@
     <div class="container" v-else>
         <h1>Sorry, this character doesn't exist :C</h1>
     </div>
+    <div style="height: 50px;" class="d-block d-md-none"></div>
+    <MobileNavBar class="d-block d-md-none" />
 </template>
 
 <script>
 import NavBar from '@/components/NavBar.vue';
 import SpellList from '@/components/SpellList.vue';
+import MobileNavBar from '../components/MobileNavBar.vue';
 
 export default {
     data() {
@@ -46,7 +44,8 @@ export default {
     },
     components: {
         NavBar: NavBar,
-        SpellList: SpellList
+        SpellList: SpellList,
+        MobileNavBar
     },
     created() {
         const player = JSON.parse(localStorage.charList)[this.$route.params.id];

@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
 $md-accent: rgb(73, 207, 203);
+$md-secondary: rgb(73, 207, 203);
+$md-og-bg: #0d1117;
 
 $font-family-base: "EB Garamond", serif;
-$body-bg-dark: #0d1117;
+$body-bg-dark: #090c11;
+$body-secondary-bg-dark: #13161a;
 $nav-link-color: $md-accent;
 $card-title-color: $md-accent;
 $primary: $md-accent;

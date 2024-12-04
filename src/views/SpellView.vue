@@ -2,9 +2,6 @@
     <NavBar />
     <div class="container text-center">
         <div class="row">
-            <div class="col-xl-auto d-none d-xl-block mb-3" v-if="hasDiceRoll">
-                <DiceRoller class="text-start" />
-            </div>
             <div class="col-xl-8 m-auto mb-4">
                 <div class="text-start">
                     <router-link :to="`/player/${$md.ply.id}/spells/`" class="text-decoration-none"><i
@@ -40,12 +37,14 @@
             </div>
         </div>
     </div>
+    <div style="height: 50px;" class="d-block d-md-none"></div>
+    <MobileNavBar class="d-block d-md-none" />
 </template>
 
 <script setup>
-import DiceRoller from '../components/DiceRoller.vue';
 import NavBar from '../components/NavBar.vue';
 import DOMPurify from 'dompurify';
+import MobileNavBar from '../components/MobileNavBar.vue';
 
 import { ref } from 'vue';
 
@@ -90,8 +89,6 @@ function prettyDescription(description) {
 </script>
 
 <script>
-
-
 export default {
     data() {
         return {

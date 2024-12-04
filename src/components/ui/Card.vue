@@ -1,7 +1,7 @@
 <template>
-    <div class="card bg-secondary-subtle border-0 shadow m-1 overflow-hidden">
+    <div class="card bg-body-secondary border-0 shadow m-1 overflow-hidden">
         <div class="card-banner" v-if="bgImage" :style="{ backgroundImage: getBg(bgImage) }"></div>
-        <div class="card-body p-4">
+        <div class="card-body p-3">
             <slot></slot>
         </div>
     </div>

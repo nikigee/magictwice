@@ -4,7 +4,7 @@
             <label for="md-abscores" class="text-body-secondary">Ability Scores</label>
             <div id="md-abscores" class="row justify-content-center">
                 <div style=""
-                    class="col-3 col-xxl shadow rounded text-center bg-secondary-subtle text-secondary-emphasis m-1 py-1"
+                    class="col-3 col-xxl shadow rounded text-center bg-body-secondary text-secondary-emphasis m-1 py-1"
                     @click="roll($md.ply.stats.ability_mod[key])" v-for="(v, key) in $md.ply.stats.ability">
                     <div class="" style="font-size: 14px;">{{ abName(key) }}</div>
                     <div class="fs-3 text-white">{{ $md.ply.stats.ability_mod[key] }}</div>

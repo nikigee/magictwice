@@ -4,7 +4,7 @@
             <label for="md-healthbar" class="text-body-secondary">Health Points</label>
             <div id="md-healthbar" class="bg-dark-subtle rounded overflow-hidden" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <div class="p-1 text-center" :class="getColor()"
+                <div class="p-1 text-center healthbar" :class="getColor()"
                     :style="{ width: getPercentage($md.ply.health.currentHP, $md.ply.health.maxHP) + '%' }">
                     <span style="text-wrap: nowrap">{{ $md.ply.health.currentHP }} / {{ $md.ply.health.maxHP }}</span>
                 </div>
@@ -72,4 +72,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.healthbar {
+    transition: 0.4s;
+}
+</style>

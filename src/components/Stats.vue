@@ -2,6 +2,7 @@
     <div>
         <div class="mb-3">
             <h4 class="">Saving Throws</h4>
+            <hr class="mt-2 mb-0" />
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action d-flex justify-content-between"
                     :class="$md.ply.stats.save_throws.find((v) => v == x[0]) ? 'list-group-item-primary' : ''"
@@ -26,6 +27,7 @@
         </div>
         <div class="mb-4">
             <h4 class="">Skills</h4>
+            <hr class="mt-2 mb-0" />
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action d-flex justify-content-between"
                     :class="getColor(skill)" v-for="(skill, key) in $md.ply.stats.skill_modifiers">

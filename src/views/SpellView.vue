@@ -37,8 +37,7 @@
             </div>
         </div>
     </div>
-    <div style="height: 50px;" class="d-block d-md-none"></div>
-    <MobileNavBar class="d-block d-md-none" />
+    <MobileNavBar />
 </template>
 
 <script setup>

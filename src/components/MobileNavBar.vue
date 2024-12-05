@@ -1,5 +1,6 @@
 <template>
-    <div class="fixed-bottom">
+    <div style="height: 50px;" class="d-block d-sm-none"></div>
+    <div class="fixed-bottom d-block d-sm-none">
         <div class="d-flex justify-content-around nav-mobile py-2 fs-3 text-muted px-3">
             <router-link class="nav-link" :to="`/player/${$md.ply.id}/`">
                 <div class="d-flex flex-column text-center px-3">

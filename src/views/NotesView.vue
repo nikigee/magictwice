@@ -28,8 +28,7 @@
     <div class="container" v-else>
         <h1>Sorry, this character doesn't exist :C</h1>
     </div>
-    <div style="height: 50px;" class="d-block d-md-none"></div>
-    <MobileNavBar class="d-block d-md-none" />
+    <MobileNavBar />
 </template>
 
 <script>

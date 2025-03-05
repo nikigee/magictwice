@@ -5,6 +5,7 @@ import PlayerView from '../views/PlayerView.vue'
 import NotesView from '../views/NotesView.vue'
 import SpellListView from '../views/SpellListView.vue'
 import SpellView from '../views/SpellView.vue'
+import CreateCharacter from '../views/CreateCharacter.vue'
 
 const routes = [
     {
@@ -16,6 +17,11 @@ const routes = [
         path: '/load',
         name: 'load',
         component: LoadCharacter
+    },
+    {
+        path: '/create',
+        name: 'create',
+        component: CreateCharacter
     },
     {
         path: '/player/:id',

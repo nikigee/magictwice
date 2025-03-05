@@ -33,6 +33,7 @@
 
 .nav-mobile span {
     font-size: 12px;
+    // font-family: 'Lato', sans-serif;
 }
 
 .router-link-active {

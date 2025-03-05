@@ -7,31 +7,10 @@
             <div class="list-group mt-2">
                 <!-- <a href="#" class="list-group-item list-group-item-action" v-on:click="LoadCharacter">Run {{
                     Teagan.name }}</a> -->
-                <a href="#" class="list-group-item list-group-item-action">Create Character</a>
+                <router-link to="/create" class="list-group-item list-group-item-action">Create Character</router-link>
                 <router-link to="/load" class="list-group-item list-group-item-action">Load Character</router-link>
                 <a href="#" class="list-group-item list-group-item-action">About</a>
             </div>
         </div>
     </div>
 </template>
-
-<script>
-import { Teagan } from '@/assets/Teagan.js';
-
-export default {
-    methods: {
-        LoadCharacter() {
-            this.$md.magicHandler.managed_players = [];
-            this.$md.Load.restoreFromObj(this.Teagan);
-            this.$md.magicHandler.last.self;
-            this.$md.savePlayer();
-        }
-    },
-    data() {
-        return {
-            Teagan: Teagan
-        }
-    }
-}
-
-</script>

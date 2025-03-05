@@ -18,8 +18,8 @@
                         </div>
                     </div>
                     <!-- Spell details -->
-                    <div class="bg-body-secondary my-1 shadow rounded spell-item border border-dark" v-for="spell in group[1]">
-                        <router-link class="text-decoration-none d-block p-3 spell-link" :to="`/player/${$md.ply.id}/spell/${spell.id}`">
+                    <div class="my-1 py-2 spell-item" v-for="spell in group[1]">
+                        <router-link class="text-decoration-none d-block p-3 py-0 spell-link" :to="`/player/${$md.ply.id}/spell/${spell.id}`">
                             <div class="row align-items-center">
                                 <div class="col text-primary">{{ spell.name }}</div>
                                 <div class="col">{{ spell.ctime.length >= 27 ? spell.ctime.slice(0, 26) + "..." :
@@ -81,6 +81,9 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/magicdice.scss";
 
+.spell-heading{
+    letter-spacing: 0.7rem;
+}
 
 .spell-item:hover {
     box-shadow: 0px 0px 5px $md-accent !important;

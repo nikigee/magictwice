@@ -440,18 +440,22 @@ export const magicDice = (() => {
     const Load = (() => {
         const Loadf = {
             deSer: function (objData) {
-                var restored = objData;
+                let restored = objData;
                 // looks a bit ugly copying the code but it's gotta be since JSON don't save methods
-                for (var property in restored.magicData.spells) {
-                    if (restored.magicData.spells.hasOwnProperty(property)) {
-                        var spell = restored.magicData.spells[property]
-                        restored.magicData.spells[property] = new Spell(spell);
+                if (restored.magicData) {
+                    for (var property in restored.magicData.spells) {
+                        if (restored.magicData.spells.hasOwnProperty(property)) {
+                            var spell = restored.magicData.spells[property]
+                            restored.magicData.spells[property] = new Spell(spell);
+                        }
                     }
                 }
-                for (var property in restored.invData.backpack) {
-                    if (restored.invData.backpack.hasOwnProperty(property)) {
-                        var item = restored.invData.backpack[property]
-                        restored.invData.backpack[property] = new Item(item);
+                if (restored.invData) {
+                    for (var property in restored.invData.backpack) {
+                        if (restored.invData.backpack.hasOwnProperty(property)) {
+                            var item = restored.invData.backpack[property]
+                            restored.invData.backpack[property] = new Item(item);
+                        }
                     }
                 }
                 return new Player(restored);
@@ -796,7 +800,7 @@ export const magicDice = (() => {
         class Render {
             constructor(props = {}) {
                 const {
-                    avatar = "./src/img/render_default.jpg",
+                    avatar = "",
                     banner = {
                         url: '',
                         position: 'center'

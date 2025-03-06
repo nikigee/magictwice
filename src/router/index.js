@@ -6,6 +6,7 @@ import NotesView from '../views/NotesView.vue'
 import SpellListView from '../views/SpellListView.vue'
 import SpellView from '../views/SpellView.vue'
 import CreateCharacter from '../views/CreateCharacter.vue'
+import SpellDebug from '../views/SpellDebug.vue'
 
 const routes = [
     {
@@ -42,6 +43,11 @@ const routes = [
         path: '/player/:id/spell/:spell',
         name: 'spell',
         component: SpellView
+    },
+    {
+        path: '/player/:id/spells/debug',
+        name: 'spell debug',
+        component: SpellDebug
     }
 ]
 

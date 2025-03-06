@@ -642,6 +642,13 @@ export const magicDice = (() => {
                 spell.x;
                 return console.log("%cNew Spell Added!", "color: limegreen");
             }
+            addJSON(data){
+                const obj = new Spell(data);
+                this.spells.set(obj.name, obj);
+                this.sort();
+                obj.x;
+                return obj;
+            }
             sort() {
                 const spellArray = Array.from(this.spells);
                 spellArray.sort((a, b) => {

@@ -19,6 +19,12 @@
         </div>
         <hr />
         <div class="form pb-5">
+            <!-- Display errors if any -->
+            <div v-if="errors.length" class="alert alert-danger">
+                <ul class="mb-0">
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
+                </ul>
+            </div>
             <h2 class="text-start my-4">Step 1. Choose a Name, Race</h2>
             <div class="mb-3 row align-items-center">
                 <label for="characterName" class="col-sm-3 col-form-label">Character Name</label>
@@ -40,6 +46,12 @@
                 </div>
             </div>
             <div class="mb-3 row align-items-center">
+                <label for="ac" class="col-sm-3 col-form-label">AC</label>
+                <div class="col-sm-9">
+                    <input type="number" id="ac" class="form-control" v-model.number="character.ac" />
+                </div>
+            </div>
+            <div class="mb-3 row align-items-center">
                 <label for="hitDie" class="col-sm-3 col-form-label">Hit Die</label>
                 <div class="col-sm-9">
                     <select id="hitDie" class="form-control" v-model="character.hitDie" required>
@@ -51,7 +63,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="mb-3 row align-items-center">
                 <label for="proficiencyBonus" class="col-sm-3 col-form-label">Proficiency Bonus</label>
                 <div class="col-sm-9">
@@ -68,37 +79,37 @@
                     <div class="text-muted">Strength</div>
                     <input type="number" id="strength" class="form-control form-control-lg"
                         v-model.number="character.abilities.strength" value="10" max="30" min="1" />
-                    <div class="text-muted">({{serAbility(character.abilities.strength)}})</div>
+                    <div class="text-muted">({{ serAbility(character.abilities.strength) }})</div>
                 </div>
                 <div class="text-center m-1">
                     <div class="text-muted">Dexterity</div>
                     <input type="number" id="dexterity" class="form-control form-control-lg"
                         v-model.number="character.abilities.dexterity" value="10" max="30" min="1" />
-                    <div class="text-muted">({{serAbility(character.abilities.dexterity)}})</div>
+                    <div class="text-muted">({{ serAbility(character.abilities.dexterity) }})</div>
                 </div>
                 <div class="text-center m-1">
                     <div class="text-muted">Constitution</div>
                     <input type="number" id="constitution" class="form-control form-control-lg"
                         v-model.number="character.abilities.constitution" value="10" max="30" min="1" />
-                    <div class="text-muted">({{serAbility(character.abilities.constitution)}})</div>
+                    <div class="text-muted">({{ serAbility(character.abilities.constitution) }})</div>
                 </div>
                 <div class="text-center m-1">
                     <div class="text-muted">Intelligence</div>
                     <input type="number" id="intelligence" class="form-control form-control-lg"
                         v-model.number="character.abilities.intelligence" value="10" max="30" min="1" />
-                    <div class="text-muted">({{serAbility(character.abilities.intelligence)}})</div>
+                    <div class="text-muted">({{ serAbility(character.abilities.intelligence) }})</div>
                 </div>
                 <div class="text-center m-1">
                     <div class="text-muted">Wisdom</div>
                     <input type="number" id="wisdom" class="form-control form-control-lg"
                         v-model.number="character.abilities.wisdom" value="10" max="30" min="1" />
-                    <div class="text-muted">({{serAbility(character.abilities.wisdom)}})</div>
+                    <div class="text-muted">({{ serAbility(character.abilities.wisdom) }})</div>
                 </div>
                 <div class="text-center m-1">
                     <div class="text-muted">Charisma</div>
                     <input type="number" id="charisma" class="form-control form-control-lg"
                         v-model.number="character.abilities.charisma" value="10" max="30" min="1" />
-                    <div class="text-muted">({{serAbility(character.abilities.charisma)}})</div>
+                    <div class="text-muted">({{ serAbility(character.abilities.charisma) }})</div>
                 </div>
             </div>
             <h2 class="text-start mt-4">Step 4. Describe Your Character</h2>
@@ -145,9 +156,6 @@
             </div>
         </div>
     </div>
-    <div class="banner-img-two d-none d-sm-block">
-        <div class="banner-two"></div>
-    </div>
 </template>
 
 <script>
@@ -161,6 +169,7 @@ export default {
                 characterClass: "",
                 hitDie: "",
                 proficiencyBonus: "+2",
+                ac: null,  // AC field (should be a number)
                 abilities: {
                     strength: 10,
                     dexterity: 10,
@@ -173,29 +182,57 @@ export default {
                 languages: "",
                 equipment: "",
             },
+            errors: []
         };
     },
     methods: {
-        // get ability score modifier from ability score
+        // Returns the ability modifier for a given ability score
         serAbility(value) {
-            var modifier = -5;
-            for (var i = 1; i <= 31; i += 2) {
+            let modifier = -5;
+            for (let i = 1; i <= 31; i += 2) {
                 if (i >= value) {
-                    return modifier
+                    return modifier;
                 } else {
                     modifier++;
                 }
             }
         },
+        // Validate required fields before character creation
+        validateForm() {
+            this.errors = [];
+            if (!this.character.name.trim()) {
+                this.errors.push("Character Name is required.");
+            }
+            if (!this.character.race.trim()) {
+                this.errors.push("Race is required.");
+            }
+            if (!this.character.characterClass.trim()) {
+                this.errors.push("Class is required.");
+            }
+            if (!this.character.hitDie) {
+                this.errors.push("Hit Die selection is required.");
+            }
+            // Make sure AC is a valid number (can be zero or positive)
+            if (this.character.ac === null || this.character.ac === "") {
+                this.errors.push("AC is required and must be a number.");
+            }
+            return this.errors.length === 0;
+        },
         createCharacter() {
-            if (this.character.hitDie == "") {
-                this.character.hitDie = "d6";
+            // Run form validation first
+            if (!this.validateForm()) {
+                return;
+            }
+            // Calculate dexterity modifier first so that AC calculation works properly.
+            const dexMod = this.serAbility(this.character.abilities.dexterity);
+            // If AC hasn't been manually set, default to 10 + dexterity modifier
+            if (!this.character.ac) {
+                this.character.ac = 10 + dexMod;
             }
 
             // Calculate hit points from the hit die using the $md global helper
             const hp = this.$md.Dice.x(this.character.hitDie).max;
             const conMod = this.serAbility(this.character.abilities.constitution);
-            const dexMod = this.serAbility(this.character.abilities.dexterity);
 
             const characterJSON = {
                 name: this.character.name,
@@ -218,8 +255,8 @@ export default {
                     maxHP: hp + conMod,
                     currentHP: hp + conMod,
                     hitdie: this.character.hitDie,
-                    defaultAC: 10 + dexMod,
-                    currentAC: 10 + dexMod,
+                    defaultAC: this.character.ac,
+                    currentAC: this.character.ac,
                 },
             };
 
@@ -247,11 +284,6 @@ export default {
     height: 20vh;
 }
 
-.banner-two {
-    background: linear-gradient(to top, #00000000, $body-bg-dark);
-    height: 10vh;
-}
-
 .form {
     max-width: 700px;
     margin-left: auto;
@@ -259,12 +291,7 @@ export default {
 }
 
 .banner-img {
-    background: url("../assets/img/bg/2.jpg") top center;
-    background-size: cover;
-}
-
-.banner-img-two {
-    background: url("../assets/img/bg/2.jpg") bottom center;
+    background: url("../assets/img/bg/2.jpg") center center;
     background-size: cover;
 }
 

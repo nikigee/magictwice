@@ -2,6 +2,11 @@
     <NavBar />
     <div class="container">
         <h1 class="display-4 text-uppercase spell-heading text-center text-md-start">List of Spells</h1>
+        <!-- no spells? -->
+        <div class="mt-2" v-if="$md.ply.magic.spells.size == 0">
+            <hr class="hr" />
+            <p class="lead">Your character doesn't have any spells.</p>
+        </div>
         <div class="spell-table mb-5 mt-4">
             <div v-for="group in getSpellsByLevel($md.ply.magic.spells)">
                 <h3 class="text-capitalize h5">{{ group[0] }} Level</h3>
@@ -19,7 +24,8 @@
                     </div>
                     <!-- Spell details -->
                     <div class="my-1 py-2 spell-item" v-for="spell in group[1]">
-                        <router-link class="text-decoration-none d-block p-3 py-0 spell-link" :to="`/player/${$md.ply.id}/spell/${spell.id}`">
+                        <router-link class="text-decoration-none d-block p-3 py-0 spell-link"
+                            :to="`/player/${$md.ply.id}/spell/${spell.id}`">
                             <div class="row align-items-center">
                                 <div class="col text-primary">{{ spell.name }}</div>
                                 <div class="col">{{ spell.ctime.length >= 27 ? spell.ctime.slice(0, 26) + "..." :
@@ -81,7 +87,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/magicdice.scss";
 
-.spell-heading{
+.spell-heading {
     letter-spacing: 0.7rem;
 }
 
@@ -91,7 +97,7 @@ export default {
     filter: brightness(1.2);
 }
 
-.spell-link{
+.spell-link {
     color: initial;
 }
 </style>

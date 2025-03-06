@@ -3,7 +3,7 @@
     <div class="container" v-if="$md.ply">
         <div class="row">
             <div class="col-lg-9 col">
-                <div class="d-flex align-items-center justify-content-end mb-1">
+                <div class="d-flex align-items-center justify-content-end mb-1 d-sm-none">
                     <!-- <h1>Features and Notes</h1> -->
                     <div class="">
                         <MdButtonLarge v-on:click="toggleEdit" class="mb-1"><i class="bi bi-pencil"></i>  Modify</MdButtonLarge>
@@ -16,12 +16,10 @@
                 </VMarkdownView>
             </div>
             <div class="col-md-3 mb-3 d-none d-lg-block">
-                <div class="text-center">
-                    <img :src="$md.ply.render.avatar" class="img-fluid shadow rounded d-none d-md-block mx-auto"
-                        style="max-height: 500px;" />
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-outline-primary btn-block" @click="toggleEdit()">Edit Notes</button>
                 </div>
-                <PlayerBio />
-                <DiceRoller class="border-top mt-3 pt-2" />
+                <DiceRoller class="mt-3" />
             </div>
         </div>
     </div>
@@ -76,6 +74,6 @@ export default {
 
 <style lang="scss" scoped>
 .editor {
-    min-height: 600px;
+    min-height: 90vh;
 }
 </style>

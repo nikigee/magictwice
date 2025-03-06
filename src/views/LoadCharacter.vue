@@ -1,6 +1,11 @@
 <template>
     <div class="container text-center">
-        <div class="row mt-5">
+        <div class="text-start mt-5">
+            <router-link to="/" class="text-decoration-none">
+                <i class="bi bi-arrow-left"></i> Back
+            </router-link>
+        </div>
+        <div class="row mt-3">
             <div class="col-xl-5 text-start">
                 <h1 class="mb-2 py-2 display-4 text-uppercase fst-italic">Load your Character</h1>
                 <p class="lead col-lg-10 mb-5">All stories begin, only some end. But tonight — one continues.</p>

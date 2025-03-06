@@ -873,7 +873,7 @@ export const magicDice = (() => {
             constructor(props = {}) {
                 const {
                     parent = undefined,
-                    save_throws = [],
+                    save_throws = parent.player_class.save_throws,
                     marks = [],
                     expert = [],
                     ability = genABS(27),

@@ -398,6 +398,7 @@ export const magicDice = (() => {
             this.classData = parent.player_class;
             this.lvl = parent.lvl;
             this.inspiration = parent.inspiration;
+            this.quick_rolls = parent.quick_rolls;
             //this.statsData = parent.stats;
             this.statsData = {
                 save_throws: parent.stats.save_throws,
@@ -1187,7 +1188,8 @@ export const magicDice = (() => {
                     magicData = {},
                     statsData = {},
                     invData = {},
-                    renderData = {}
+                    renderData = {},
+                    quick_rolls = []
                 } = props;
                 statsData.parent = this;
                 healthData.parent = this;
@@ -1202,6 +1204,7 @@ export const magicDice = (() => {
                 this.magic = new Magic(magicData);
                 this.inv = new Inventory(invData);
                 this.render = new Render(renderData);
+                this.quick_rolls = quick_rolls;
             }
             get d20() {
                 return Dice.r("d20", true);

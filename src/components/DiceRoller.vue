@@ -3,8 +3,7 @@
         <label for="md-diceroller" class="text-body-secondary">Dice Tray</label>
         <Card id="md-diceroller" bgImage="cards/doragi-2.jpg">
             <ul class="list-group list-group-flush mb-1">
-                <li v-for="(d, index) in $md.diceHistory"
-                    v-show="index >= ($md.diceHistory.length - 1)"
+                <li v-for="(d, index) in $md.diceHistory" v-show="index >= ($md.diceHistory.length - 1)"
                     class="list-group-item list-group-item-action list-group-item-secondary text-white dicerow">
                     <div class="d-flex justify-content-between align-items-center">
                         <div @click="$md.diceHistory.push($md.Dice.x(d.dice))">
@@ -12,7 +11,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="pe-3 text-center">
                                     <p class="fs-3 m-0 fw-bold" :class="d.total == d.max && 'text-success'">{{
-                    d.total }}</p>
+                                        d.total }}</p>
                                     <p class="m-0 text-muted">total</p>
                                 </div>
                                 <div class="ps-3 border-start">
@@ -40,6 +39,11 @@
                     aria-label="Enter dice roll here (example: d20+4)" aria-describedby="button-addon2">
                 <button @click="roll" class="btn btn-outline-primary" type="button" id="button-addon2">Roll</button>
             </div>
+            <div class="mt-2 text-center text-sm-start" v-if="$md.ply.quick_rolls">
+                <span v-for="(roll) in $md.ply.quick_rolls"
+                    class="border border-primary text-primary rounded p-1 px-2 quickroll shadow m-1"
+                    @click="$md.diceHistory.push($md.Dice.x(roll))">{{ roll }}</span>
+            </div>
         </Card>
     </div>
 </template>
@@ -61,6 +65,7 @@ export default {
         roll() {
             const command = this.diceInput.split(" ")[0]; // simple command parsing
             let args = this.diceInput.substring(this.diceInput.indexOf(" ") + 1);
+            const props = args.split(" ");
             if (this.diceInput == "clear") {
                 this.$md.diceHistory.splice(0, this.$md.diceHistory.length);
                 this.diceInput = "";
@@ -93,10 +98,39 @@ export default {
                 this.diceInput = "";
 
                 this.$md.savePlayer();
+            } else if (command == "quickroll") {
+                if (Array.isArray(this.$md.ply.quick_rolls)) {
+                    if (props[0] == "remove") {
+                        if (props[1] == "all") {
+                            this.$md.ply.quick_rolls = [];
+
+                            this.$md.savePlayer();
+                        } else if (!isNaN(props[1])) {
+                            if (props[1] > 0 && props[1] <= this.$md.ply.quick_rolls.length) {
+                                this.$md.ply.quick_rolls.splice(props[1] - 1, 1); // delete at specific index
+
+                                this.$md.savePlayer();
+                            }
+                        }
+                    } else {
+                        this.$md.ply.quick_rolls.push(args);
+
+                        this.$md.savePlayer();
+                    }
+                }
+                this.diceInput = "";
             }
             else {
-                this.$md.diceHistory.push(this.$md.Dice.x(this.diceInput));
-                this.diceInput = "";
+                try {
+                    if (command == "roll") {
+                        this.$md.diceHistory.push(this.$md.Dice.x(args));
+                    } else {
+                        this.$md.diceHistory.push(this.$md.Dice.x(this.diceInput));
+                    }
+                    this.diceInput = "";
+                } catch (err) {
+                    console.error(err);
+                }
             }
 
 
@@ -115,5 +149,17 @@ export default {
 
 .dicerow {
     background: none;
+}
+
+.quickroll {
+    font-size: 12px;
+    transition: 0.5s;
+    cursor: pointer;
+    user-select: none;
+}
+
+.quickroll:hover {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
 }
 </style>./ui/Card.vue

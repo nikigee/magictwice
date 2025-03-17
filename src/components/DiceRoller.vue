@@ -153,13 +153,13 @@ export default {
 
 .quickroll {
     font-size: 12px;
-    transition: 0.5s;
+    transition: 0.1s;
     cursor: pointer;
     user-select: none;
 }
 
 .quickroll:hover {
-    padding-left: 15px !important;
-    padding-right: 15px !important;
+    border-color: white !important;
+    color: white !important;
 }
 </style>./ui/Card.vue

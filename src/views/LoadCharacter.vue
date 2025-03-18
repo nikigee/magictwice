@@ -18,9 +18,12 @@
                 </div>
                 <hr class="mb-4" />
                 <h2 class="mb-2 mt-0">List of Characters</h2>
-                <div class="d-flex flex-wrap justify-content-start">
-                    <div v-for="(character, key) in characters">
-                        <CharacterCard class="m-1" :char="character" :link="key" />
+                <div class="row justify-content-start">
+                    <div class="col-6 col-sm-4 g-2" v-for="(character, key) in characters">
+                        <CharacterCard class="" :char="character" :link="key" />
+                    </div>
+                    <div v-if="Object.keys(characters).length === 0">
+                        <p class="lead mt-2">no characters... yet.</p>
                     </div>
                 </div>
             </div>

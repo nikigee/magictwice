@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 14rem;" class="card overflow-hidden text-center border-0 shadow">
+    <div class="card overflow-hidden text-center border-0 shadow">
         <div class="bg-black"
             :style="{ 'background-image': 'url(' + char.renderData.avatar + ')', backgroundPosition: 'center top', backgroundSize: 'cover' }">
             <div style="height: 10rem;" class="">

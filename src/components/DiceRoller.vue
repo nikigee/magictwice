@@ -39,7 +39,8 @@
                     aria-label="Enter dice roll here (example: d20+4)" aria-describedby="button-addon2">
                 <button @click="roll" class="btn btn-outline-primary" type="button" id="button-addon2">Roll</button>
             </div>
-            <div class="mt-1 d-flex flex-wrap justify-content-center justify-content-sm-start" v-if="$md.ply.quick_rolls">
+            <div class="mt-1 d-flex flex-wrap justify-content-center justify-content-sm-start"
+                v-if="$md.ply.quick_rolls">
                 <span v-for="(roll) in $md.ply.quick_rolls"
                     class="border border-primary text-primary rounded p-1 px-2 quickroll shadow m-1 mb-0"
                     @click="$md.diceHistory.push($md.Dice.x(roll))">{{ roll }}</span>
@@ -132,8 +133,6 @@ export default {
                     console.error(err);
                 }
             }
-
-
         }
     }
 }

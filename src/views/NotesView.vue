@@ -3,11 +3,11 @@
     <div class="container" v-if="$md.ply">
         <div class="row">
             <div class="col-lg-9 col">
-                <div class="d-flex align-items-center justify-content-end mb-1 d-sm-none">
-                    <!-- <h1>Features and Notes</h1> -->
-                    <div class="">
-                        <MdButtonLarge v-on:click="toggleEdit" class="mb-1"><i class="bi bi-pencil"></i>  Modify</MdButtonLarge>
-                    </div>
+                <!-- <h1>Features and Notes</h1> -->
+                <div class="d-grid gap-2 mb-3 d-lg-none">
+                    <button type="button" class="btn btn-outline-primary btn-block mobile-edit"
+                        @click="toggleEdit()">Edit
+                        Notes</button>
                 </div>
 
                 <VMarkdownEditor class="editor" v-if="edit" v-model="$md.ply.stats.misc_notes" locale="en"
@@ -17,7 +17,8 @@
             </div>
             <div class="col-md-3 mb-3 d-none d-lg-block">
                 <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-outline-primary btn-block" @click="toggleEdit()">Edit Notes</button>
+                    <button type="button" class="btn btn-outline-primary btn-block" @click="toggleEdit()">Edit
+                        Notes</button>
                 </div>
                 <DiceRoller class="mt-3" />
             </div>

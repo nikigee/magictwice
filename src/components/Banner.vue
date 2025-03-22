@@ -13,8 +13,12 @@
                 <ul class="dropdown-menu">
                     <form class="px-3 py-2" @submit="(e) => { e.preventDefault(); return false; }">
                         <div class="mb-2">
-                            <label for="bannerURL" class="form-label">Banner URL</label>
-                            <input v-model="$md.ply.render.banner.url" type="text" class="form-control" id="bannerURL"
+                            <label for="bannerBase64" class="form-label">Banner Source</label>
+                            <input @change="onFileChange" class="form-control form-control-sm" type="file"
+                                id="bannerBase64" />
+                        </div>
+                        <div class="mb-2">
+                            <input v-model="bannerUrlInput" type="text" class="form-control" id="bannerURL"
                                 placeholder="url" />
                         </div>
                         <div class="mb-3">
@@ -39,6 +43,9 @@
 
 <script>
 import mdButton from "@/components/ui/mdButton.vue"
+
+
+
 export default {
     name: "Banner",
     components: {
@@ -54,14 +61,6 @@ export default {
     },
     methods: {
         changeBanner() {
-            // if (!this.banner.url) {
-            //     return false;
-            // }
-
-            //this.$md.ply.render.banner.url = this.banner.url;
-            //this.$md.ply.render.banner.pos = this.banner.pos;
-
-            //this.banner.url = ""; // clear
 
             this.$md.savePlayer(); // save player
         },
@@ -78,6 +77,31 @@ export default {
             this.$md.ply.render.banner.pos = 'center';
 
             this.$md.savePlayer(); // save player
+        },
+        onFileChange(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    this.$md.ply.render.banner.url = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    },
+    computed: {
+        bannerUrlInput: {
+            get() {
+                const url = this.$md.ply.render.banner.url || '';
+                // If the URL is a data URL, return an empty string.
+                if (url.startsWith('data:')) {
+                    return '';
+                }
+                return url;
+            },
+            set(newUrl) {
+                this.$md.ply.render.banner.url = newUrl;
+            }
         }
     }
 }

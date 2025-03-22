@@ -2,11 +2,14 @@
     <div v-if="!editMode">
         <!-- Edit Avatar -->
         <div class="my-3" v-if="showPhotoForm">
-            <input type="text" v-model="newAvatarUrl" class="form-control form-control-sm" placeholder="New photo URL">
+            <!-- File Upload for Avatar -->
+            <input type="file" @change="onAvatarFileChange" class="form-control form-control-sm mb-1" />
+            <input type="text" v-model="avatarUrlInput" class="form-control form-control-sm"
+                placeholder="New photo URL" />
 
             <div class="mt-2 text-center text-lg-start">
-                <mdButton class="ms-0" @click="changeAvatarUrl()">Set</mdButton>
-                <mdButton class="me-0 btn-outline-secondary" @click="showPhotoForm = false">Cancel</mdButton>
+                <mdButton class="ms-0" @click="changeAvatarUrl">Set</mdButton>
+                <mdButton class="me-0 btn-outline-secondary" @click="cancelPhotoForm">Cancel</mdButton>
             </div>
         </div>
         <!-- Name -->
@@ -17,7 +20,7 @@
                 <button class="btn fs-4 p-0 px-2 text-muted" data-bs-toggle="dropdown" aria-expanded="false"><i
                         class="bi bi-three-dots"></i></button>
                 <ul class="dropdown-menu">
-                    <li class="dropdown-item" @click="showPhotoForm = true">
+                    <li class="dropdown-item" @click="openPhotoForm">
                         Choose Photo
                     </li>
                     <li class="dropdown-item" @click="editMode = true">
@@ -31,7 +34,10 @@
         </div>
         <!-- Important Info -->
         <p class="text-body-secondary mb-0"> {{ $md.ply.player_class.name }} - Level {{ $md.ply.lvl }}</p>
-        <p><span class="text-body-secondary">XP: </span>{{ $md.ply.exp }}</p>
+        <p>
+            <span class="text-body-secondary">XP: </span>{{ $md.ply.exp }}
+        </p>
+        <!-- Additional Player Info ... -->
         <div class="row justify-content-between mt-2">
             <div class="col-3">
                 <label class="text-body-secondary">AC</label>
@@ -49,19 +55,19 @@
         <!-- Other Info -->
         <div class="row py-1 mt-2 align-items-center">
             <span class="text-body-secondary col">Proficiency Bonus: </span><span class="col-3 text-start">{{
-        $md.ply.stats.prof }}</span>
+                $md.ply.stats.prof }}</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Passive Perception: </span><span class="col-3 text-start">{{
-        $md.ply.stats.passive_perception }}</span>
+                $md.ply.stats.passive_perception }}</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Gold: </span><span class="col-3 text-start">{{ $md.ply.inv.gold
-                }} GP</span>
+            }} GP</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Hit Dice: </span><span class="col-3 text-start">{{
-        $md.ply.health.hitdie }}</span>
+                $md.ply.health.hitdie }}</span>
         </div>
     </div>
     <div v-if="editMode">
@@ -70,7 +76,7 @@
 </template>
 
 <script>
-import mdButton from "@/components/ui/mdButton.vue"
+import mdButton from "@/components/ui/mdButton.vue";
 import EditPlayerBio from "./EditPlayerBio.vue";
 
 export default {
@@ -78,30 +84,64 @@ export default {
     data() {
         return {
             showPhotoForm: false,
-            newAvatarUrl: this.$md.ply.render.avatar,
-            editMode: false
+            editMode: false,
+            oldAvatar: ""
         };
     },
     components: {
-        mdButton: mdButton,
-        EditPlayerBio: EditPlayerBio
+        mdButton,
+        EditPlayerBio
+    },
+    computed: {
+        avatarUrlInput: {
+            get() {
+                const url = this.$md.ply.render.avatar || "";
+                // If the URL is a base64 string, don't display it in the input
+                if (url.startsWith("data:")) {
+                    return "";
+                }
+                return url;
+            },
+            set(newUrl) {
+                this.$md.ply.render.avatar = newUrl;
+            }
+        }
     },
     methods: {
         toggleEdit() {
-            this.editMode = this.editMode ? false : true;
+            this.editMode = !this.editMode;
+        },
+        openPhotoForm(){
+            this.oldAvatar = this.$md.ply.render.avatar || "";
+
+            this.showPhotoForm = true;
         },
         changeAvatarUrl() {
-            // Update the avatar URL with the new value
-            this.$md.ply.render.avatar = this.newAvatarUrl;
-
-            // Close the form after saving
+            // The avatar URL has already been set via the file upload or text input
+            // Close the form and clear the input if needed
             this.showPhotoForm = false;
-            this.newAvatarUrl = '';
+            this.$md.savePlayer(); // Save the player data
+        },
+        cancelPhotoForm() {
+            this.$md.ply.render.avatar = this.oldAvatar || "";
 
-            this.$md.savePlayer(); // save
+            this.showPhotoForm = false;
+        },
+        onAvatarFileChange(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    // Set the player's avatar to the base64 data URL
+                    this.$md.ply.render.avatar = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         }
     }
-}
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/* Your component styles here */
+</style>

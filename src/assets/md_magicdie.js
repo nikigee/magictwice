@@ -1,3 +1,7 @@
+import {create, all} from 'mathjs';
+
+const math = create(all);
+
 export const magicDice = (() => {
     function MapToObj(strMap) {
         let obj = {};
@@ -139,7 +143,7 @@ export const magicDice = (() => {
                 const re = /(?:(?:^|[-+_*/])(?:\s*-?\d+(\.\d+)?(?:[eE][+-]?\d+)?\s*))+$/;
 
                 if (re.test(this.compText))
-                    return Number(eval(text));
+                    return math.evaluate(text);
             }
             get compText() {
                 let text = this.dice;
@@ -152,7 +156,7 @@ export const magicDice = (() => {
                 const re = /(?:(?:^|[-+_*/])(?:\s*-?\d+(\.\d+)?(?:[eE][+-]?\d+)?\s*))+$/;
 
                 if (re.test(this.compText))
-                    return Number(eval(this.compText));
+                    return math.evaluate(this.compText);
                 else
                     return 0;
             }
@@ -1206,7 +1210,7 @@ export const magicDice = (() => {
                 this.render = new Render(renderData);
                 this.quick_rolls = quick_rolls;
             }
-            get d20() {
+            d20() {
                 return Dice.r("d20", true);
             }
             get id() {
@@ -1285,9 +1289,11 @@ export const magicDice = (() => {
                 downloadAnchorNode.click();
                 downloadAnchorNode.remove();
             }
-            enableShortcuts(keybinds = {}) {
-                // print commands
-                console.log("nothing");
+            parse(input){
+                // turns out magic dice can handle all the parsing including ability mods and such
+                // for now this works but maybe the parsing of player specific info should be divorced from the dice and back to this class
+                // but for now its fine since magic dice will only ever have one player loaded at a time
+                return Dice.x(input, true).total;
             }
         }
         return Player;

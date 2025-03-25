@@ -120,6 +120,10 @@ export default {
                     }
                 }
                 this.diceInput = "";
+            } else if (command == "parse") {
+                console.log(this.$md.ply.parse(args));
+
+                this.diceInput = "";
             }
             else {
                 try {

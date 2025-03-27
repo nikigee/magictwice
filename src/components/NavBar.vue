@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-md-2">
+    <div class="">
         <div class="container">
             <header class="d-flex flex-wrap justify-content-center py-3">
                 <router-link to="/"

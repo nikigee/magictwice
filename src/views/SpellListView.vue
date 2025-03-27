@@ -1,7 +1,18 @@
 <template>
-    <NavBar />
-    <div class="container">
-        <h1 class="display-4 text-uppercase spell-heading text-center text-md-start">List of Spells</h1>
+    <NavBar class="shadow" />
+    <div class="banner-img">
+        <div class="banner"></div>
+    </div>
+    <div class="container pt-3">
+        <h1 class="display-4 spell-heading">Spells</h1>
+        <div class="d-flex spell-buttons align-items-center">
+            <div class="text-muted me-3 spell-button">
+                <i class="bi bi-plus-circle"></i>
+            </div>
+            <div class="text-muted spell-button">
+                <i class="bi bi-three-dots"></i>
+            </div>
+        </div>
         <!-- no spells? -->
         <div class="mt-2" v-if="$md.ply.magic.spells.size == 0">
             <hr class="hr" />
@@ -87,8 +98,29 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/magicdice.scss";
 
+.banner {
+    background: linear-gradient(to bottom, #00000000, $body-bg-dark);
+    height: 18vh;
+}
+
+.banner-img {
+    background: url("../assets/img/bg/4.jpg") center center;
+    background-size: cover;
+}
+
 .spell-heading {
-    letter-spacing: 0.7rem;
+    letter-spacing: 0.5rem;
+    text-transform: uppercase;
+}
+
+.spell-button{
+    cursor: pointer;
+    font-size: 32px;
+    text-align: center;
+}
+
+.spell-button:hover{
+    color: $white !important;
 }
 
 .spell-item:hover {

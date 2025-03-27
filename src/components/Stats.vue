@@ -1,52 +1,75 @@
 <template>
     <div>
         <div class="mb-3">
-            <h4 class="">Saving Throws</h4>
+            <h4>Saving Throws</h4>
             <hr class="mt-2 mb-0" />
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action d-flex justify-content-between"
                     :class="$md.ply.stats.save_throws.find((v) => v == x[0]) ? 'list-group-item-primary' : ''"
-                    v-for="x in $md.ply.stats.sthrows">
+                    v-for="x in $md.ply.stats.sthrows" :key="x[0]">
                     <div>{{ getName(x[0]) }}</div>
                     <div>
                         <span>{{ x[1] }}</span>
                         <span class="dropdown">
                             <i class="bi bi-three-dots ms-2" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" @click="roll(x[1])">Roll</a>
+                                <li>
+                                    <a class="dropdown-item" @click="roll(x[1])">
+                                        Roll
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item" @click="toggleSThrow(x[0]); $md.savePlayer()">{{
-                        $md.ply.stats.save_throws.find((v) => v == x[0]) ? "Remove" : "Add" }}
-                                        Proficiency</a></li>
+                                <li class="dropdown-item d-flex align-items-center">
+                                    <span class="me-3">Modifier: </span>
+                                    <input type="number" v-model.number="$md.ply.stats.new_save_throws[x[0]].custom"
+                                        placeholder="0" @change="$md.savePlayer()"
+                                        class="form-control form-control-sm" />
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" @click="toggleSThrow(x[0]); $md.savePlayer()">
+                                        {{$md.ply.stats.save_throws.find((v) => v == x[0]) ? "Remove" : "Add"}}
+                                        Proficiency
+                                    </a>
+                                </li>
                             </ul>
                         </span>
-
                     </div>
                 </li>
             </ul>
         </div>
         <div class="mb-4">
-            <h4 class="">Skills</h4>
+            <h4>Skills</h4>
             <hr class="mt-2 mb-0" />
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action d-flex justify-content-between"
-                    :class="getColor(skill)" v-for="(skill, key) in $md.ply.stats.skill_modifiers">
+                    :class="getColor(skill)" v-for="(skill, key) in $md.ply.stats.skill_modifiers" :key="key">
                     <div>{{ skill.name }}</div>
                     <div>
-                        <span>
-                            {{ calcSkill(skill, $md.ply.stats) }}
-                        </span>
+                        <!-- Display the calculated skill modifier -->
+                        <span>{{ calcSkill(skill, $md.ply.stats) }}</span>
                         <span class="dropdown">
                             <i class="bi bi-three-dots ms-2" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" @click="roll(calcSkill(skill, $md.ply.stats))">Roll</a>
+                                <li>
+                                    <a class="dropdown-item" @click="roll(calcSkill(skill, $md.ply.stats))">
+                                        Roll
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item"
-                                        @click="$md.ply.stats.makeProficent(key); $md.savePlayer();">{{
-                        skill.proficent ? "Remove" : "Add" }} Proficiency</a></li>
-                                <li><a class="dropdown-item"
-                                        @click="$md.ply.stats.expertCheck(key); $md.savePlayer();">{{ skill.expert ?
-                                        "Remove" : "Add" }} Expertise</a></li>
+                                <li class="dropdown-item d-flex align-items-center">
+                                    <span class="me-3">Modifier: </span>
+                                    <input type="number" v-model.number="skill.custom" placeholder="0"
+                                        @change="$md.savePlayer()" class="form-control form-control-sm" />
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        @click="$md.ply.stats.makeProficent(key); $md.savePlayer();">
+                                        {{ skill.proficent ? "Remove" : "Add" }} Proficiency
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" @click="$md.ply.stats.expertCheck(key); $md.savePlayer();">
+                                        {{ skill.expert ? "Remove" : "Add" }} Expertise
+                                    </a>
+                                </li>
                             </ul>
                         </span>
                     </div>
@@ -55,8 +78,6 @@
         </div>
     </div>
 </template>
-
-<!-- @click="roll(calcSkill(skill, $md.ply.stats))" -->
 
 <script>
 export default {
@@ -70,6 +91,7 @@ export default {
             else
                 return '';
         },
+        // calcSkill returns the base calculated modifier
         calcSkill: (skl, ply) => {
             let val = ply.ability_mod[skl.raw];
             if (skl.proficent) {
@@ -77,6 +99,11 @@ export default {
                 if (skl.expert) {
                     val += ply.prof;
                 }
+            }
+            // add custom modifier
+            if (skl.custom) {
+                if (!isNaN(skl.custom))
+                    val += Number(skl.custom);
             }
             return val;
         },
@@ -130,7 +157,7 @@ export default {
     cursor: pointer;
 }
 
-.dropdown{
+.dropdown {
     vertical-align: middle;
 }
 

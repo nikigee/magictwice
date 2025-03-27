@@ -1,4 +1,4 @@
-import {create, all} from 'mathjs';
+import { create, all } from 'mathjs';
 
 const math = create(all);
 
@@ -647,7 +647,7 @@ export const magicDice = (() => {
                 spell.x;
                 return console.log("%cNew Spell Added!", "color: limegreen");
             }
-            addJSON(data){
+            addJSON(data) {
                 const obj = new Spell(data);
                 this.spells.set(obj.name, obj);
                 this.sort();
@@ -886,6 +886,39 @@ export const magicDice = (() => {
                 const {
                     parent = undefined,
                     save_throws = [],
+                    // placeholder for now, eventually want to get rid of the old save_throws system bc its annoying
+                    new_save_throws = {
+                        str: {
+                            name: "Strength",
+                            raw: "str",
+                            proficent: false
+                        },
+                        dex: {
+                            name: "Dexterity",
+                            raw: "dex",
+                            proficent: false
+                        },
+                        cnst: {
+                            name: "Constitution",
+                            raw: "cnst",
+                            proficent: false
+                        },
+                        int: {
+                            name: "Intelligence",
+                            raw: "int",
+                            proficent: false
+                        },
+                        wis: {
+                            name: "Wisdom",
+                            raw: "wis",
+                            proficent: false
+                        },
+                        chr: {
+                            name: "Charisma",
+                            raw: "chr",
+                            proficent: false
+                        }
+                    },
                     marks = [],
                     expert = [],
                     ability = genABS(27),
@@ -1011,6 +1044,7 @@ export const magicDice = (() => {
                 } = props;
                 this.parent = parent;
                 this.save_throws = save_throws;
+                this.new_save_throws = new_save_throws;
                 this.marks = marks;
                 this.expert = expert;
                 this.ability = ability;
@@ -1161,6 +1195,11 @@ export const magicDice = (() => {
                             if (this.save_throws.includes(property)) {
                                 skill += this.prof;
                             }
+                            // if there's a custom modifier, add that too
+                            if (this.new_save_throws[property].custom) {
+                                if (!isNaN(this.new_save_throws[property].custom))
+                                    skill += this.new_save_throws[property].custom;
+                            }
                             sthrows.set(property, skill);
                         }
                     }
@@ -1289,7 +1328,7 @@ export const magicDice = (() => {
                 downloadAnchorNode.click();
                 downloadAnchorNode.remove();
             }
-            parse(input){
+            parse(input) {
                 // turns out magic dice can handle all the parsing including ability mods and such
                 // for now this works but maybe the parsing of player specific info should be divorced from the dice and back to this class
                 // but for now its fine since magic dice will only ever have one player loaded at a time

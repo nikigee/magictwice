@@ -5,7 +5,7 @@
     </div>
     <div class="container pt-3">
         <h1 class="display-4 spell-heading">Spells</h1>
-        <div class="d-flex spell-buttons align-items-center">
+        <div class="d-flex spell-buttons align-items-center fs-3">
             <div class="text-muted me-3 spell-button">
                 <i class="bi bi-plus-circle"></i>
             </div>
@@ -19,7 +19,7 @@
             <p class="lead">Your character doesn't have any spells.</p>
         </div>
         <div class="spell-table mb-5 mt-4">
-            <div v-for="group in getSpellsByLevel($md.ply.magic.spells)">
+            <div v-for="group in getSpellsByLevel($md.ply.magic.spells)" :key="group[0]">
                 <h3 class="text-capitalize h5">{{ group[0] }} Level</h3>
                 <hr class="m-0 mb-2" />
                 <ul class="list-group list-group-flush mb-3">
@@ -31,10 +31,11 @@
                             <div class="col d-none d-sm-block">Duration</div>
                             <div class="col d-none d-sm-block">Range / Area</div>
                             <div class="col-4 d-none d-md-block">Description</div>
+                            <div class="col-1"></div>
                         </div>
                     </div>
                     <!-- Spell details -->
-                    <div class="my-1 py-2 spell-item" v-for="spell in group[1]">
+                    <div class="my-1 py-2 spell-item" v-for="spell in group[1]" :key="spell.id">
                         <router-link class="text-decoration-none d-block p-3 py-0 spell-link"
                             :to="`/player/${$md.ply.id}/spell/${spell.id}`">
                             <div class="row align-items-center">
@@ -43,8 +44,24 @@
                                     spell.ctime }}</div>
                                 <div class="col d-none d-sm-block">{{ spell.duration }}</div>
                                 <div class="col d-none d-sm-block">{{ spell.range }}</div>
-                                <div class="col-4 text-muted d-none d-md-block" style="font-size: 15px;">{{
-                                    spell.description.slice(0, 60) }}...</div>
+                                <div class="col-4 text-muted d-none d-md-block" style="font-size: 15px;">
+                                    {{ spell.description.slice(0, 65) }}...
+                                </div>
+                                <div class="col-1">
+                                    <div class="dropdown text-end">
+                                        <button class="btn text-muted p-0" type="button"
+                                            :id="`dropdownMenuButton-${spell.id}`" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <i class="bi bi-three-dots"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" :aria-labelledby="`dropdownMenuButton-${spell.id}`">
+                                            <li>
+                                                <div class="dropdown-item" @click="deleteSpell(spell, $event)">Remove
+                                                    Spell</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </router-link>
                     </div>
@@ -60,10 +77,7 @@ import MobileNavBar from '../components/MobileNavBar.vue';
 import NavBar from '../components/NavBar.vue';
 
 function getSpellsByLevel(spells) {
-    // arr = {
-    //     lvl: "cantrip",
-    //     spells: []
-    // }
+    // arr = Map with keys as level and values as an array of spells
     let arr = new Map();
     spells.forEach(element => {
         // if that level exists in the map, add it to that levels list of spells
@@ -71,8 +85,7 @@ function getSpellsByLevel(spells) {
         if (arr.has(lvl)) {
             arr.get(lvl).push(element);
         } else {
-            arr.set(lvl, []); // else, create new array at this location.
-            arr.get(lvl).push(element);
+            arr.set(lvl, [element]);
         }
     });
     return arr;
@@ -91,6 +104,13 @@ export default {
         if (player) {
             this.$md.Load.restoreFromObj(player);
         }
+    },
+    methods: {
+        deleteSpell(spell, event) {
+            event.preventDefault();
+            this.$md.ply.magic.spells.delete(spell.name);
+            this.$md.savePlayer();
+        }
     }
 }
 </script>
@@ -100,11 +120,15 @@ export default {
 
 .banner {
     background: linear-gradient(to bottom, #00000000, $body-bg-dark);
-    height: 18vh;
+    height: 19vh;
+}
+
+.dropdown-menu {
+    z-index: 999999;
 }
 
 .banner-img {
-    background: url("../assets/img/bg/4.jpg") center center;
+    background: url("../assets/img/bg/4.jpg") bottom center;
     background-size: cover;
 }
 
@@ -113,20 +137,18 @@ export default {
     text-transform: uppercase;
 }
 
-.spell-button{
+.spell-button {
     cursor: pointer;
-    font-size: 32px;
     text-align: center;
 }
 
-.spell-button:hover{
+.spell-button:hover {
     color: $white !important;
 }
 
 .spell-item:hover {
     box-shadow: 0px 0px 5px $md-accent !important;
-    transition: 0.7s;
-    filter: brightness(1.2);
+    transition: 0.5s;
 }
 
 .spell-link {

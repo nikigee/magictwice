@@ -670,17 +670,11 @@ export const magicDice = (() => {
                 }
             }
             prepare_remove(spell) {
-                try {
-                    if (!spell && this.preparedSpells.indexOf(spell.name) == -1) {
-                        throw new Error("You didn't specify a valid spell");
-                    }
-                    const index = this.preparedSpells.indexOf(spell.name);
-                    return this.preparedSpells.splice(index, 1);
-                } catch (err) {
-                    MagicUI.alert(err, {
-                        type: "error"
-                    }); // log error
+                if (!spell && this.preparedSpells.indexOf(spell.name) == -1) {
+                    throw new Error("You didn't specify a valid spell");
                 }
+                const index = this.preparedSpells.indexOf(spell.name);
+                return this.preparedSpells.splice(index, 1);
             }
             prepare(spell) {
                 try {

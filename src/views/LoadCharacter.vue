@@ -35,7 +35,11 @@
 import CharacterCard from "@/components/CharacterCard.vue";
 
 function getCharacters() {
-    return JSON.parse(localStorage.getItem('charList'));
+    if (localStorage.getItem('charList')) {
+        return JSON.parse(localStorage.getItem('charList'));
+    } else {
+        return {};
+    }
 }
 export default {
     components: {

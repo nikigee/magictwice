@@ -6,9 +6,10 @@
     <div class="container pt-3">
         <h1 class="display-4 spell-heading">Spells</h1>
         <div class="d-flex spell-buttons align-items-center fs-3">
-            <div class="text-muted me-3 spell-button">
-                <i class="bi bi-plus-circle"></i>
-            </div>
+            <button type="button" class="btn btn-link text-muted me-3 spell-button p-0" data-bs-toggle="modal"
+                data-bs-target="#createSpellModal">
+                <i class="bi bi-plus-circle fs-3"></i>
+            </button>
             <div class="text-muted spell-button">
                 <i class="bi bi-three-dots"></i>
             </div>
@@ -69,12 +70,90 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="createSpellModal" tabindex="-1" aria-labelledby="createSpellModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form @submit.prevent="submitSpell">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createSpellModalLabel">Add a new spell</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" v-model="newSpell.name" required />
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Level</label>
+                                <input type="text" class="form-control" v-model="newSpell.level" required />
+                            </div>
+                            <div class="col">
+                                <label class="form-label">School</label>
+                                <input type="text" class="form-control" v-model="newSpell.school" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Components</label>
+                            <input type="text" class="form-control" v-model="newSpell.components" required />
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Casting Time</label>
+                                <input type="text" class="form-control" v-model="newSpell.ctime" required />
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Duration</label>
+                                <input type="text" class="form-control" v-model="newSpell.duration" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Range / Area</label>
+                            <input type="text" class="form-control" v-model="newSpell.range" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ritual</label>
+                            <select class="form-select" v-model="newSpell.ritual" required>
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Concentration</label>
+                            <select class="form-select" v-model="newSpell.concentration" required>
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" v-model="newSpell.description" rows="4" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <MdButton type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </MdButton>
+                        <MdButton type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">
+                            Submit
+                        </MdButton>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <MobileNavBar />
 </template>
 
 <script setup>
 import MobileNavBar from '../components/MobileNavBar.vue';
 import NavBar from '../components/NavBar.vue';
+
+import MdButton from '../components/ui/mdButton.vue';
 
 function getSpellsByLevel(spells) {
     // arr = Map with keys as level and values as an array of spells
@@ -90,13 +169,27 @@ function getSpellsByLevel(spells) {
     });
     return arr;
 }
+
 </script>
 
 <script>
 export default {
     data() {
         return {
-
+            newSpell: {
+                name: '',
+                level: '',
+                school: '',
+                components: '',
+                ctime: '',
+                ritual: 'no',
+                concentration: 'no',
+                description: '',
+                duration: '',
+                range: '',
+                roll: '',
+                url: ''
+            }
         }
     },
     created() {
@@ -110,6 +203,41 @@ export default {
             event.preventDefault();
             this.$md.ply.magic.spells.delete(spell.name);
             this.$md.savePlayer();
+        },
+        submitSpell() {
+            // Trim values to avoid whitespace-only input.
+            const { name, level, school, description } = this.newSpell;
+            if (!name.trim()) {
+                alert("Spell name is required.");
+                return;
+            }
+            if (!level.trim()) {
+                alert("Spell level is required.");
+                return;
+            }
+            if (!school.trim()) {
+                alert("Spell school is required.");
+                return;
+            }
+            if (!description.trim()) {
+                alert("Spell description is required.");
+                return;
+            }
+
+            // Attempt to add the spell.
+            try {
+                this.$md.ply.magic.addJSON(this.newSpell);
+
+                const new_spell = this.$md.ply.magic.spells.get(this.newSpell.name);
+
+                this.$md.savePlayer(); // save changes
+
+                // Navigate to the new spell's detail page.
+                this.$router.push({ path: `/player/${this.$md.ply.id}/spell/${new_spell.id}` });
+            } catch (err) {
+                console.error("Error adding spell:", err);
+                alert("There was an error adding the spell. Please check the input and try again.");
+            }
         }
     }
 }
@@ -144,6 +272,10 @@ export default {
 
 .spell-button:hover {
     color: $white !important;
+}
+
+.modal-footer button {
+    font-size: 12px !important;
 }
 
 .spell-item:hover {

@@ -82,58 +82,79 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Name</label>
+                            <label class="form-label mb-1 text-body-secondary">Name</label>
                             <input type="text" class="form-control" v-model="newSpell.name" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label mb-1 text-body-secondary">Ritual</label>
+                            <select class="form-select form-select-sm" v-model="newSpell.ritual" required>
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <label class="form-label">Level</label>
-                                <input type="text" class="form-control" v-model="newSpell.level" required />
+                                <label class="form-label mb-1 text-body-secondary">Level</label>
+                                <input type="text" class="form-control form-control-sm" list="levels"
+                                    v-model="newSpell.level" required />
+                                <datalist id="levels">
+                                    <option value="Cantrip" />
+                                    <option value="1st" />
+                                    <option value="2nd" />
+                                    <option value="3rd" />
+                                    <option value="4th" />
+                                    <option value="5th" />
+                                    <option value="6th" />
+                                    <option value="7th" />
+                                    <option value="8th" />
+                                    <option value="9th" />
+                                </datalist>
                             </div>
                             <div class="col">
-                                <label class="form-label">School</label>
-                                <input type="text" class="form-control" v-model="newSpell.school" required />
+                                <label class="form-label mb-1 text-body-secondary">School</label>
+                                <input type="text" class="form-control form-control-sm" list="schools"
+                                    v-model="newSpell.school" required />
+                                <datalist id="schools">
+                                    <option value="Evocation" />
+                                    <option value="Abjuration" />
+                                    <option value="Conjuration" />
+                                    <option value="Divination" />
+                                    <option value="Enchantment" />
+                                    <option value="Illusion" />
+                                    <option value="Necromancy" />
+                                    <option value="Transmuation" />
+                                </datalist>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Components</label>
-                            <input type="text" class="form-control" v-model="newSpell.components" required />
+                            <label class="form-label mb-1 text-body-secondary">Components</label>
+                            <input type="text" class="form-control form-control-sm" v-model="newSpell.components"
+                                placeholder="V, S, M" required />
                         </div>
 
                         <div class="row mb-3">
                             <div class="col">
-                                <label class="form-label">Casting Time</label>
-                                <input type="text" class="form-control" v-model="newSpell.ctime" required />
+                                <label class="form-label mb-1 text-body-secondary">Casting Time</label>
+                                <input type="text" class="form-control form-control-sm" v-model="newSpell.ctime"
+                                    placeholder="1 Action" required />
                             </div>
                             <div class="col">
-                                <label class="form-label">Duration</label>
-                                <input type="text" class="form-control" v-model="newSpell.duration" required />
+                                <label class="form-label mb-1 text-body-secondary">Duration</label>
+                                <input type="text" class="form-control form-control-sm" v-model="newSpell.duration"
+                                    placeholder="Instantaneous" required />
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Range / Area</label>
-                            <input type="text" class="form-control" v-model="newSpell.range" required />
+                            <label class="form-label mb-1 text-body-secondary">Range / Area</label>
+                            <input type="text" class="form-control form-control-sm" v-model="newSpell.range"
+                                placeholder="Self" required />
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Ritual</label>
-                            <select class="form-select" v-model="newSpell.ritual" required>
-                                <option value="no">No</option>
-                                <option value="yes">Yes</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Concentration</label>
-                            <select class="form-select" v-model="newSpell.concentration" required>
-                                <option value="no">No</option>
-                                <option value="yes">Yes</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control" v-model="newSpell.description" rows="4" required></textarea>
+                            <label class="form-label mb-1 text-body-secondary">Description</label>
+                            <textarea class="form-control" v-model="newSpell.description" rows="6" required></textarea>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer border-top-0">
                         <MdButton type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                             Cancel
                         </MdButton>

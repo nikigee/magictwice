@@ -64,7 +64,8 @@ export default {
     },
     methods: {
         roll() {
-            const command = this.diceInput.split(" ")[0]; // simple command parsing
+            this.diceInput = this.diceInput.trim();
+            const command = this.diceInput.split(" ")[0].toLowerCase(); // simple command parsing
             let args = this.diceInput.substring(this.diceInput.indexOf(" ") + 1);
             const props = args.split(" ");
             if (this.diceInput == "clear") {

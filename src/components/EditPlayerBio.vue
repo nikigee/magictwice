@@ -50,12 +50,12 @@
                     <input type="number" placeholder="30" class="form-control fs-4" v-model="speed" />
                 </div>
             </div>
-            <div class="mb-1">
-                <label class="text-body-secondary">Passive Perception Modifier</label>
-                <input type="text" class="form-control form-control-sm" v-model="passive_perception_mod"
-                    placeholder="0" aria-describedby="mdPP" />
-                <div id="mdPP" class="form-text">
-                    This is added on top of your passive perception.
+            <div class="mb-2">
+                <label class="text-body-secondary">Passive Perception</label>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text" id="pp">14 +</span>
+                    <input type="text" class="form-control form-control-sm" v-model="passive_perception_mod"
+                        placeholder="0" aria-describedby="pp" />
                 </div>
             </div>
             <div class="mb-2">
@@ -98,14 +98,19 @@ export default {
     },
     methods: {
         changeName() {
-            // set new name
+            const old_id = this.$md.ply.id;
 
-            // change ID
+            // set new name
+            this.$md.ply.name = this.name;
 
             // save at new location
+            this.$md.savePlayer();
+
+            // delete old player location
+            this.$md.Load.deleteCharacter(old_id);
 
             // navigate router to new player location
-
+            this.$router.push({ path: `/player/${this.$md.ply.id}` });
 
         },
         saveChanges() {

@@ -409,7 +409,8 @@ export const magicDice = (() => {
                 misc_notes: parent.stats.misc_notes,
                 skill_modifiers: parent.stats.skill_modifiers,
                 initiative: parent.stats.initiative,
-                passive_perception_mod: parent.stats.passive_perception_mod
+                passive_perception_mod: parent.stats.passive_perception_mod,
+                speed: parent.stats.speed
             }
             this.healthData = {
                 maxHP: parent.health.maxHP,

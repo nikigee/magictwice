@@ -34,7 +34,7 @@
         <!-- Important Info -->
         <p class="text-body-secondary mb-0"> {{ $md.ply.player_class.name }} - Level {{ $md.ply.lvl }}</p>
         <p>
-            <span class="text-body-secondary">XP: </span>{{ $md.ply.exp }}
+        <div v-if="$md.ply.exp !== 0"><span class="text-body-secondary">XP: </span>{{ $md.ply.exp }}</div>
         </p>
         <!-- Additional Player Info ... -->
         <div class="row justify-content-between mt-2">
@@ -58,11 +58,12 @@
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Passive Perception: </span><span class="col-3 text-start">{{
-                $md.ply.stats.passive_perception }}</span>
+                $md.ply.parse(`${$md.ply.stats.passive_perception} + ${$md.ply.stats.passive_perception_mod ? $md.ply.stats.passive_perception_mod : "0"}`)
+                }}</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Gold: </span><span class="col-3 text-start">{{ $md.ply.inv.gold
-                }} GP</span>
+            }} GP</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Hit Dice: </span><span class="col-3 text-start">{{

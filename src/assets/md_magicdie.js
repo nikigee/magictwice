@@ -408,7 +408,8 @@ export const magicDice = (() => {
                 misc_prof: parent.stats.misc_prof,
                 misc_notes: parent.stats.misc_notes,
                 skill_modifiers: parent.stats.skill_modifiers,
-                initiative: parent.stats.initiative
+                initiative: parent.stats.initiative,
+                passive_perception_mod: parent.stats.passive_perception_mod
             }
             this.healthData = {
                 maxHP: parent.health.maxHP,
@@ -924,6 +925,7 @@ export const magicDice = (() => {
                     },
                     misc_notes = "",
                     initiative = "dex",
+                    passive_perception_mod = "",
                     skill_modifiers = {
                         acrobatics: {
                             name: "Acrobatics",
@@ -1047,6 +1049,7 @@ export const magicDice = (() => {
                 this.speed = speed;
                 this.skill_modifiers = skill_modifiers;
                 this.initiative = initiative;
+                this.passive_perception_mod = passive_perception_mod;
             }
             get prof() {
                 return serProf(this.parent.lvl);

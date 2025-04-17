@@ -22,7 +22,7 @@
                         <option>Bard</option>
                     </datalist>
                     <div id="mdClassHelp" class="form-text">
-                        This is just a label, changing this wont affect your character (todo: add multi-class support).
+                        This is just a label, changing this wont affect your character.
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -42,11 +42,20 @@
                 </div>
                 <div class="col">
                     <label class="text-body-secondary">Initiative</label>
-                    <input type="text" :placeholder="$md.ply.stats.ability_mod.dex" class="form-control fs-4" v-model="initiative" />
+                    <input type="text" :placeholder="$md.ply.stats.ability_mod.dex" class="form-control fs-4"
+                        v-model="initiative" />
                 </div>
                 <div class="col">
                     <label class="text-body-secondary">Speed</label>
                     <input type="number" placeholder="30" class="form-control fs-4" v-model="speed" />
+                </div>
+            </div>
+            <div class="mb-1">
+                <label class="text-body-secondary">Passive Perception Modifier</label>
+                <input type="text" class="form-control form-control-sm" v-model="passive_perception_mod"
+                    placeholder="0" aria-describedby="mdPP" />
+                <div id="mdPP" class="form-text">
+                    This is added on top of your passive perception.
                 </div>
             </div>
             <div class="mb-2">
@@ -83,7 +92,8 @@ export default {
             speed: this.$md.ply.stats.speed,
             gold: this.$md.ply.inv.gold,
             hitdie: this.$md.ply.health.hitdie,
-            initiative: this.$md.ply.stats.initiative
+            initiative: this.$md.ply.stats.initiative,
+            passive_perception_mod: this.$md.ply.stats.passive_perception_mod
         };
     },
     methods: {
@@ -96,7 +106,7 @@ export default {
 
             // navigate router to new player location
 
-            
+
         },
         saveChanges() {
             // make changes
@@ -108,6 +118,7 @@ export default {
             this.$md.ply.inv.gold = this.gold;
             this.$md.ply.health.hitdie = this.hitdie;
             this.$md.ply.stats.initiative = this.initiative;
+            this.$md.ply.stats.passive_perception_mod = this.passive_perception_mod;
 
             this.$md.savePlayer(); // save
 

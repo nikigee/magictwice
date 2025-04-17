@@ -33,16 +33,16 @@
             </div>
             <div class="mb-2">
                 <label for="mdExp" class="form-label mb-1 text-body-secondary">Experience Points</label>
-                <input placeholder="0" type="number" class="form-control" id="mdExp" v-model="xp" />
+                <input placeholder="0" type="number" class="form-control form-control-sm" id="mdExp" v-model="xp" />
             </div>
             <div class="row justify-content-between mb-2">
                 <div class="col">
                     <label class="text-body-secondary">AC</label>
-                    <input type="number" placeholder="10" class="form-control fs-4" v-model="ac" />
+                    <input type="text" placeholder="10" class="form-control fs-4" v-model="ac" />
                 </div>
                 <div class="col">
                     <label class="text-body-secondary">Initiative</label>
-                    <p class="fw-bold fs-3 m-0">{{ $md.ply.stats.initiative }}</p>
+                    <input type="text" :placeholder="$md.ply.stats.ability_mod.dex" class="form-control fs-4" v-model="initiative" />
                 </div>
                 <div class="col">
                     <label class="text-body-secondary">Speed</label>
@@ -82,13 +82,12 @@ export default {
             ac: this.$md.ply.health.defaultAC,
             speed: this.$md.ply.stats.speed,
             gold: this.$md.ply.inv.gold,
-            hitdie: this.$md.ply.health.hitdie
+            hitdie: this.$md.ply.health.hitdie,
+            initiative: this.$md.ply.stats.initiative
         };
     },
     methods: {
         changeName() {
-            // delete info at $md.ply.name
-
             // set new name
 
             // change ID
@@ -107,8 +106,8 @@ export default {
             this.$md.ply.health.defaultAC = this.ac;
             this.$md.ply.stats.speed = this.speed;
             this.$md.ply.inv.gold = this.gold;
-            console.log(this.$md.ply.inv.gold, this.gold);
             this.$md.ply.health.hitdie = this.hitdie;
+            this.$md.ply.stats.initiative = this.initiative;
 
             this.$md.savePlayer(); // save
 

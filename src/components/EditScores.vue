@@ -6,35 +6,35 @@
         </div>
 
         <label class="text-body-secondary form-label">Ability Scores</label>
-        <div class="mb-2 row justify-content-center text-center ab-scores">
+        <div class="mb-2 row row-cols-3 row-cols-xl-6 justify-content-center text-center ab-scores">
             <div class="col">
                 <label class="text-body-secondary">Strength</label>
-                <input class="form-control fs-5" type="number" v-model="ability.str" max="30" />
+                <input class="form-control form-control-lg fs-5" type="number" v-model="ability.str" max="30" />
                 <p class="text-muted mb-0">( {{ serAbility(ability.str) }} )</p>
             </div>
             <div class="col">
                 <label class="text-body-secondary">Dexterity</label>
-                <input class="form-control fs-5" type="number" v-model="ability.dex" />
+                <input class="form-control form-control-lg fs-5" type="number" v-model="ability.dex" />
                 <p class="text-muted mb-0">( {{ serAbility(ability.dex) }} )</p>
             </div>
             <div class="col">
                 <label class="text-body-secondary">Constitution</label>
-                <input class="form-control fs-5" type="number" v-model="ability.cnst" />
+                <input class="form-control form-control-lg fs-5" type="number" v-model="ability.cnst" />
                 <p class="text-muted mb-0">( {{ serAbility(ability.cnst) }} )</p>
             </div>
             <div class="col">
                 <label class="text-body-secondary">Intelligence</label>
-                <input class="form-control fs-5" type="number" v-model="ability.int" />
+                <input class="form-control form-control-lg fs-5" type="number" v-model="ability.int" />
                 <p class="text-muted mb-0">( {{ serAbility(ability.int) }} )</p>
             </div>
             <div class="col">
                 <label class="text-body-secondary">Wisdom</label>
-                <input class="form-control fs-5" type="number" v-model="ability.wis" />
+                <input class="form-control form-control-lg fs-5" type="number" v-model="ability.wis" />
                 <p class="text-muted mb-0">( {{ serAbility(ability.wis) }} )</p>
             </div>
             <div class="col">
                 <label class="text-body-secondary">Charisma</label>
-                <input class="form-control fs-5" type="number" v-model="ability.chr" />
+                <input class="form-control form-control-lg fs-5" type="number" v-model="ability.chr" />
                 <p class="text-muted mb-0">( {{ serAbility(ability.chr) }} )</p>
             </div>
         </div>

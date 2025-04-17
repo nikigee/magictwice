@@ -48,7 +48,7 @@
             <div class="mb-3 row align-items-center">
                 <label for="ac" class="col-sm-3 col-form-label">AC</label>
                 <div class="col-sm-9">
-                    <input type="number" id="ac" class="form-control" v-model.number="character.ac" />
+                    <input type="text" id="ac" class="form-control" v-model="character.ac" placeholder="10 + dex" />
                 </div>
             </div>
             <div class="mb-3 row align-items-center">
@@ -169,7 +169,7 @@ export default {
                 characterClass: "",
                 hitDie: "",
                 proficiencyBonus: "+2",
-                ac: null,  // AC field (should be a number)
+                ac: "",
                 abilities: {
                     strength: 10,
                     dexterity: 10,
@@ -212,9 +212,9 @@ export default {
             if (!this.character.hitDie) {
                 this.errors.push("Hit Die selection is required.");
             }
-            // Make sure AC is a valid number (can be zero or positive)
-            if (this.character.ac === null || this.character.ac === "") {
-                this.errors.push("AC is required and must be a number.");
+            // Make sure AC is there
+            if (!this.character.ac) {
+                this.errors.push("AC is required.");
             }
             return this.errors.length === 0;
         },
@@ -227,7 +227,7 @@ export default {
             const dexMod = this.serAbility(this.character.abilities.dexterity);
             // If AC hasn't been manually set, default to 10 + dexterity modifier
             if (!this.character.ac) {
-                this.character.ac = 10 + dexMod;
+                this.character.ac = "10 + dex";
             }
 
             // Calculate hit points from the hit die using the $md global helper

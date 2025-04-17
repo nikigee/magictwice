@@ -153,12 +153,9 @@ export const magicDice = (() => {
                 return text;
             }
             get total() {
-                const re = /(?:(?:^|[-+_*/])(?:\s*-?\d+(\.\d+)?(?:[eE][+-]?\d+)?\s*))+$/;
 
-                if (re.test(this.compText))
-                    return math.evaluate(this.compText);
-                else
-                    return 0;
+                return math.evaluate(this.compText);
+
             }
             roll() {
                 try {
@@ -410,7 +407,8 @@ export const magicDice = (() => {
                 inspiration: parent.stats.inspiration,
                 misc_prof: parent.stats.misc_prof,
                 misc_notes: parent.stats.misc_notes,
-                skill_modifiers: parent.stats.skill_modifiers
+                skill_modifiers: parent.stats.skill_modifiers,
+                initiative: parent.stats.initiative
             }
             this.healthData = {
                 maxHP: parent.health.maxHP,
@@ -823,7 +821,7 @@ export const magicDice = (() => {
                     hitdie = parent.lvl + parent.player_class.hitdie,
                     maxHP = new Dice(`${new Dice(parent.player_class.hitdie).max} + ${(parent.lvl - 1) + parent.player_class.hitdie}->${parent.stats.ability_mod.cnst}`).total,
                     currentHP = maxHP,
-                    defaultAC = 10 + parent.stats.ability_mod.dex,
+                    defaultAC = "10 + dex",
                     currentAC = defaultAC
                 } = props;
                 this.maxHP = maxHP;
@@ -925,6 +923,7 @@ export const magicDice = (() => {
                         armr: parent.player_class.start_prof.armr
                     },
                     misc_notes = "",
+                    initiative = "dex",
                     skill_modifiers = {
                         acrobatics: {
                             name: "Acrobatics",
@@ -1047,13 +1046,11 @@ export const magicDice = (() => {
                 this.misc_notes = misc_notes;
                 this.speed = speed;
                 this.skill_modifiers = skill_modifiers;
+                this.initiative = initiative;
             }
             get prof() {
                 return serProf(this.parent.lvl);
             }
-            get initiative() {
-                return this.ability_mod.dex;
-            };
             get passive_perception() {
                 return 10 + this.skills.perception;
             }
@@ -1326,7 +1323,11 @@ export const magicDice = (() => {
                 // turns out magic dice can handle all the parsing including ability mods and such
                 // for now this works but maybe the parsing of player specific info should be divorced from the dice and back to this class
                 // but for now its fine since magic dice will only ever have one player loaded at a time
-                return Dice.x(input, true).total;
+                if (input) {
+                    return Dice.x(input, true).total;
+                } else {
+                    return 0;
+                }
             }
         }
         return Player;

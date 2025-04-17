@@ -4,8 +4,7 @@
         <div class="my-3" v-if="showPhotoForm">
             <!-- File Upload for Avatar -->
             <input type="file" @change="onAvatarFileChange" class="form-control form-control-sm mb-1" />
-            <input type="text" v-model="avatarUrlInput" class="form-control form-control-sm"
-                placeholder="image url" />
+            <input type="text" v-model="avatarUrlInput" class="form-control form-control-sm" placeholder="image url" />
 
             <div class="mt-2 text-center text-lg-start">
                 <mdButton class="ms-0" @click="changeAvatarUrl">Set</mdButton>
@@ -41,11 +40,11 @@
         <div class="row justify-content-between mt-2">
             <div class="col-3">
                 <label class="text-body-secondary">AC</label>
-                <p class="fw-bold fs-3 m-0">{{ $md.ply.health.defaultAC }}</p>
+                <p class="fw-bold fs-3 m-0">{{ $md.ply.parse(String($md.ply.health.defaultAC)) }}</p>
             </div>
             <div class="col-3">
                 <label class="text-body-secondary">Initiative</label>
-                <p class="fw-bold fs-3 m-0">{{ $md.ply.stats.initiative }}</p>
+                <p class="fw-bold fs-3 m-0">{{ $md.ply.parse(String($md.ply.stats.initiative)) }}</p>
             </div>
             <div class="col-3">
                 <label class="text-body-secondary">Speed</label>
@@ -63,7 +62,7 @@
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Gold: </span><span class="col-3 text-start">{{ $md.ply.inv.gold
-            }} GP</span>
+                }} GP</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Hit Dice: </span><span class="col-3 text-start">{{
@@ -111,7 +110,7 @@ export default {
         toggleEdit() {
             this.editMode = !this.editMode;
         },
-        openPhotoForm(){
+        openPhotoForm() {
             this.oldAvatar = this.$md.ply.render.avatar || "";
 
             this.showPhotoForm = true;

@@ -1,5 +1,5 @@
 <template>
-    <div class="p-0 position-relative">
+    <div class="p-0 position-relative banner">
         <div class="rounded" v-if="!$md.ply.render.banner.url"
             :style="{ backgroundImage: 'url(' + require('@/assets/img/bg/3.jpg') + ')', maxWidth: '100%', height: '10rem', backgroundSize: 'cover', backgroundPosition: 'center' }">
         </div>
@@ -107,4 +107,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.banner {
+    box-shadow: 
+    0px 20px 100px 0px rgba(0, 0, 0, 0.8),
+    -30px 20px 180px 0px var(--bs-primary);
+    
+    z-index: -900;
+}
+</style>

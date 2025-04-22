@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="mb-2">
-                <label class="text-body-secondary">Passive Perception</label>
+                <label class="text-body-secondary mb-1">Passive Perception</label>
                 <div class="input-group input-group-sm">
                     <span class="input-group-text" id="pp">14 +</span>
                     <input type="text" class="form-control form-control-sm" v-model="passive_perception_mod"
@@ -66,10 +66,36 @@
                 <label class="text-body-secondary">Hit Dice</label>
                 <input type="text" class="form-control form-control-sm" v-model="hitdie" />
             </div>
+            <hr class="mb-2" />
+            <div class="mb-2">
+                <label class="text-body-secondary mb-1">Primary</label>
+                <div class="d-flex">
+                    <input type="text" class="form-control form-control-sm" placeholder="#49cfcb" v-model="primary" />
+                    <input type="color" class="form-control ms-2 form-control-sm form-control-color"
+                        id="exampleColorInput" value="#49cfcb" v-model="primary" title="Choose your color" />
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="text-body-secondary mb-1">Background</label>
+                <div class="d-flex">
+                    <input type="text" class="form-control form-control-sm" placeholder="#090c11" v-model="bg" />
+                    <input type="color" class="form-control ms-2 form-control-sm form-control-color"
+                        id="exampleColorInput" value="#090c11" v-model="bg" title="Choose your color" />
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="text-body-secondary mb-1">Background Secondary</label>
+                <div class="d-flex">
+                    <input type="text" class="form-control form-control-sm" placeholder="#0c1116"
+                        v-model="bg_secondary" />
+                    <input type="color" class="form-control ms-2 form-control-sm form-control-color"
+                        id="exampleColorInput" value="#0c1116" v-model="bg_secondary" title="Choose your color" />
+                </div>
+            </div>
         </form>
         <div class="mt-3">
             <mdButton @click="saveChanges()">Save</mdButton>
-            <mdButton class="btn-outline-secondary" @click="$parent.editMode = false">Cancel</mdButton>
+            <mdButton class="btn-outline-secondary" @click="cancel">Cancel</mdButton>
         </div>
     </div>
 </template>
@@ -93,7 +119,10 @@ export default {
             gold: this.$md.ply.inv.gold,
             hitdie: this.$md.ply.health.hitdie,
             initiative: this.$md.ply.stats.initiative,
-            passive_perception_mod: this.$md.ply.stats.passive_perception_mod
+            passive_perception_mod: this.$md.ply.stats.passive_perception_mod,
+            primary: "#49cfcb",
+            bg: "#090c11",
+            bg_secondary: "#0c1116"
         };
     },
     methods: {
@@ -112,6 +141,20 @@ export default {
             // navigate router to new player location
             this.$router.push({ path: `/player/${this.$md.ply.id}` });
 
+        },
+        hexToRgb(hex) {
+            // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+            var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+            hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+                return r + r + g + g + b + b;
+            });
+
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
         },
         saveChanges() {
             // make changes
@@ -134,6 +177,13 @@ export default {
                 this.changeName();
             }
 
+            // styling changes
+            
+
+
+            this.$parent.editMode = false; // exit edit menu
+        },
+        cancel() {
             this.$parent.editMode = false; // exit edit menu
         }
     }

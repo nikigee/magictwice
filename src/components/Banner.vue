@@ -211,7 +211,7 @@ export default {
             return {
                 boxShadow: `
                 0px 5px 50px 0px rgba(0, 0, 0, 0.8),
-                -30px 30px 200px 0px ${this.dominantColor || 'none'}
+                -30px 20px 200px 0px ${this.dominantColor || 'none'}
             `
             };
         }

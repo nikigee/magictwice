@@ -184,9 +184,6 @@ export default {
             }
 
             // styling changes
-            
-            console.log("bg:", this.hexToRgb(this.bg));
-            console.log("bg secondary:", this.hexToRgb(this.bg_secondary));
 
 
             this.$parent.editMode = false; // exit edit menu

@@ -210,8 +210,8 @@ export default {
         bannerStyle() {
             return {
                 boxShadow: `
-                0px 5px 50px 0px rgba(0, 0, 0, 0.8),
-                -30px 20px 200px 0px ${this.dominantColor || 'none'}
+                0px 5px 40px 0px rgba(0, 0, 0, 0.4),
+                0px 20px 200px 0px ${this.dominantColor || 'none'}
             `
             };
         }

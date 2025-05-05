@@ -400,6 +400,7 @@ export const magicDice = (() => {
             this.lvl = parent.lvl;
             this.inspiration = parent.inspiration;
             this.quick_rolls = parent.quick_rolls;
+            this.theme = parent.theme;
             //this.statsData = parent.stats;
             this.statsData = {
                 save_throws: parent.stats.save_throws,
@@ -478,6 +479,13 @@ export const magicDice = (() => {
             restoreFromObj: function (characterData) {
                 try {
                     magicHandler.managed_players.push(this.deSer(characterData));
+
+                    // set / reset theme
+                    if(characterData.theme && characterData.theme !== "default"){
+                        document.documentElement.setAttribute("data-theme", characterData.theme);
+                    } else {
+                        document.documentElement.removeAttribute("data-theme");
+                    }
 
                     console.log("You can now access this character by simply typing 'ply' into this console.");
                 } catch (err) {
@@ -1227,7 +1235,8 @@ export const magicDice = (() => {
                     statsData = {},
                     invData = {},
                     renderData = {},
-                    quick_rolls = []
+                    quick_rolls = [],
+                    theme = "default"
                 } = props;
                 statsData.parent = this;
                 healthData.parent = this;
@@ -1243,6 +1252,7 @@ export const magicDice = (() => {
                 this.inv = new Inventory(invData);
                 this.render = new Render(renderData);
                 this.quick_rolls = quick_rolls;
+                this.theme = theme;
             }
             d20() {
                 return Dice.r("d20", true);

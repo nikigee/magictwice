@@ -12,7 +12,7 @@
 
                 <VMarkdownEditor class="editor" v-if="edit" v-model="$md.ply.stats.misc_notes" locale="en"
                     :upload-action="handleUpload"></VMarkdownEditor>
-                <VMarkdownView class="mb-5 bg-body" v-if="!edit" mode="dark" :content="$md.ply.stats.misc_notes">
+                <VMarkdownView class="mb-5 markdown" v-if="!edit" mode="dark" :content="$md.ply.stats.misc_notes">
                 </VMarkdownView>
             </div>
             <div class="col-md-3 mb-3 d-none d-lg-block">
@@ -76,5 +76,8 @@ export default {
 <style lang="scss" scoped>
 .editor {
     min-height: 90vh;
+}
+.markdown {
+    background: var(--bs-body-bg);
 }
 </style>

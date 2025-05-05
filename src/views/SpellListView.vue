@@ -265,10 +265,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/magicdice.scss";
 
 .banner {
-    background: linear-gradient(to bottom, #00000000, $body-bg-dark);
+    background: linear-gradient(to bottom, #00000000, var(--bs-body-bg));
     height: 19vh;
 }
 
@@ -292,7 +291,7 @@ export default {
 }
 
 .spell-button:hover {
-    color: $white !important;
+    color: var(--bs-white) !important;
 }
 
 .modal-footer button {
@@ -300,7 +299,7 @@ export default {
 }
 
 .spell-item:hover {
-    box-shadow: 0px 0px 5px $md-accent !important;
+    box-shadow: 0px 0px 5px var(--bs-primary) !important;
     transition: 0.5s;
 }
 

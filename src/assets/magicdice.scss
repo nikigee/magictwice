@@ -1,8 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Play:wght@400;700&display=swap');
 
 $md-accent: #49cfcb;
 $md-secondary: #49cfcb;
 $md-og-bg: #0d1117;
+
+$cyberpunk-poster-purple: #ab3fff;
+$cyberpunk-traditional: #c4fbfc;
 
 $font-family-base: "EB Garamond", serif;
 $body-bg-dark: #090c11;
@@ -12,6 +15,59 @@ $card-title-color: $md-accent;
 $primary: $md-accent;
 
 @import "/node_modules/bootstrap/scss/bootstrap";
+
+:root {
+    --cyberpunk-primary: #ab3fff;
+    --default-banner: url("../assets/img/bg/3.jpg");
+}
+
+// Cyberpunk Theme, choom
+[data-theme="cyberpunk"] {
+    --bs-body-bg: #000000;
+    --bs-secondary-bg-rgb: 7, 5, 8;
+    --bs-body-font-family: "Play", sans-serif;
+    --bs-primary: var(--cyberpunk-primary);
+    --bs-primary-rgb: 171, 63, 255;
+    --bs-link-color-rgb: 171, 63, 255;
+    --bs-primary-text-emphasis: var(--cyberpunk-primary);
+    --bs-primary-bg-subtle: #1e0b2c;
+    --bs-primary-border-subtle: #772cb0;
+    --default-banner: url("../assets/img/bg/cyberpunk_4.jpg");
+    --bs-success: rgb(92, 245, 253);
+    --bs-success-rgb: 92, 245, 253;
+}
+
+[data-theme="cyberpunk"] .nav-link {
+    --bs-nav-link-color: var(--cyberpunk-primary);
+    --bs-nav-link-hover-color: #e5c3ff;
+}
+
+[data-theme="cyberpunk"] .healthbar {
+    --bs-white-rgb: var(--bs-black-rgb) !important;
+}
+
+[data-theme="cyberpunk"] #banner-default {
+    background-position: top !important;
+}
+
+[data-theme="cyberpunk"] #md-diceroller .card-banner {
+    background-image: url("../assets/img/cards/cyberpunk-dice.png") !important;
+    background-position: center;
+}
+
+[data-theme="cyberpunk"] .btn-outline-primary {
+    --bs-btn-color: var(--cyberpunk-primary);
+    --bs-btn-border-color: var(--cyberpunk-primary);
+    --bs-btn-hover-bg: var(--cyberpunk-primary);
+    --bs-btn-hover-border-color: var(--cyberpunk-primary);
+    --bs-btn-active-bg: var(--cyberpunk-primary);
+    --bs-btn-active-border-color: var(--cyberpunk-primary);
+}
+
+// ?? why
+.list-group-item-action {
+    color: var(--bs-list-group-color);
+}
 
 .eb-garamond-normal {
     font-family: "EB Garamond", serif;

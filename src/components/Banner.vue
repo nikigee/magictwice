@@ -3,7 +3,7 @@
         <div :style="bannerStyle" class="banner-glow">
         </div>
         <div class="rounded" v-if="!$md.ply.render.banner.url" id="banner-default"
-            :style="{ backgroundImage: 'url(' + require('@/assets/img/bg/3.jpg') + ')', maxWidth: '100%', height: '10rem', backgroundSize: 'cover', backgroundPosition: 'center' }">
+            :style="{ backgroundImage: 'var(--default-banner)', maxWidth: '100%', height: '10rem', backgroundSize: 'cover', backgroundPosition: 'center' }">
         </div>
         <div class="rounded" v-if="$md.ply.render.banner.url" id="banner-custom"
             :style="{ backgroundImage: 'url(' + $md.ply.render.banner.url + ')', maxWidth: '100%', height: '10rem', backgroundSize: 'cover', backgroundPosition: $md.ply.render.banner.pos }">
@@ -48,6 +48,8 @@
 import mdButton from "@/components/ui/mdButton.vue"
 import ColorThief from "colorthief";
 
+import { ref, watch } from 'vue';
+
 
 export default {
     name: "Banner",
@@ -72,12 +74,12 @@ export default {
         saveTemp() {
             this.banner.url = this.$md.ply.render.banner.url;
             this.banner.pos = this.$md.ply.render.banner.pos;
-            
+
         },
         revertBanner() {
             this.$md.ply.render.banner.url = this.banner.url;
             this.$md.ply.render.banner.pos = this.banner.pos;
-            
+
         },
         clearBanner() {
             this.$md.ply.render.banner.url = '';
@@ -175,7 +177,10 @@ export default {
             ];
         },
         setGlow() {
-            const banner_src = this.$md.ply.render.banner.url || require('@/assets/img/bg/3.jpg');
+            let default_banner = window.getComputedStyle(document.documentElement).getPropertyValue("--default-banner");
+            default_banner = default_banner.replace("url(", "");
+            default_banner = default_banner.replace(")", "");
+            const banner_src = this.$md.ply.render.banner.url || default_banner;
 
             const img = document.createElement("img");
             img.crossOrigin = "Anonymous"; // required for CORS-safe images
@@ -218,6 +223,15 @@ export default {
     },
     mounted() {
         this.setGlow();
+
+        const defaultBanner = document.querySelector("#banner-default");
+        if (defaultBanner) {
+            document.querySelector("#banner-default").addEventListener("glow", () => {
+                if (!this.banner.url) {
+                    this.setGlow();
+                }
+            });
+        }
     }
 }
 </script>

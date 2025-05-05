@@ -74,7 +74,7 @@
             <p class="mb-4 text-muted">
                 Tip: Don't forget to add any racial bonuses!
             </p>
-            <div class="mb-3 d-sm-flex flex-row ab-scores">
+            <div class="mb-3 d-sm-flex ab-scores">
                 <div class="text-center m-1">
                     <div class="text-muted">Strength</div>
                     <input type="number" id="strength" class="form-control form-control-lg"

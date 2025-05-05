@@ -66,7 +66,18 @@
                 <label class="text-body-secondary">Hit Dice</label>
                 <input type="text" class="form-control form-control-sm" v-model="hitdie" />
             </div>
-            
+            <hr class="mb-2" />
+            <div class="mb-2">
+                <label class="text-body-secondary mb-1">Theme</label>
+                <select name="Themes" class="form-select form-select-sm" v-model="theme" @change="changeTheme"
+                    aria-describedby="mdThemeDesc">
+                    <option value="default" selected>Magic Dice</option>
+                    <option value="cyberpunk">CYBERPUNK: Stagnation</option>
+                </select>
+                <div id="mdThemeDesc" class="form-text ms-1">
+                    {{ this.theme_descs[this.theme] }}
+                </div>
+            </div>
         </form>
         <div class="mt-3">
             <mdButton @click="saveChanges()">Save</mdButton>
@@ -95,9 +106,11 @@ export default {
             hitdie: this.$md.ply.health.hitdie,
             initiative: this.$md.ply.stats.initiative,
             passive_perception_mod: this.$md.ply.stats.passive_perception_mod,
-            primary: "#49cfcb",
-            bg: "#090c11",
-            bg_secondary: "#0c1116"
+            theme: this.$md.ply.theme,
+            theme_descs: {
+                "default": "A modern serif-style theme with a hint of fantasy.",
+                "cyberpunk": "What are you willing to do, renegade?"
+            }
         };
     },
     methods: {
@@ -116,6 +129,17 @@ export default {
             // navigate router to new player location
             this.$router.push({ path: `/player/${this.$md.ply.id}` });
 
+        },
+        changeTheme() {
+            if (this.theme == "default") {
+                document.documentElement.removeAttribute("data-theme");
+            } else {
+                document.documentElement.setAttribute("data-theme", this.theme);
+            }
+
+            if (document.querySelector("#banner-default")) {
+                document.querySelector("#banner-default").dispatchEvent(new Event("glow")); // tell the banner component to glow
+            }
         },
         hexToRgb(hex) {
             // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -148,6 +172,7 @@ export default {
             this.$md.ply.health.hitdie = this.hitdie;
             this.$md.ply.stats.initiative = this.initiative;
             this.$md.ply.stats.passive_perception_mod = this.passive_perception_mod;
+            this.$md.ply.theme = this.theme;
 
             this.$md.savePlayer(); // save
 
@@ -164,6 +189,9 @@ export default {
             this.$parent.editMode = false; // exit edit menu
         },
         cancel() {
+            this.theme = this.$md.ply.theme;
+            this.changeTheme();
+
             this.$parent.editMode = false; // exit edit menu
         }
     }

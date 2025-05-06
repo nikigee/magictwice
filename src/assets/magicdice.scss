@@ -24,7 +24,7 @@ $primary: $md-accent;
 // Cyberpunk Theme, choom
 [data-theme="cyberpunk"] {
     --bs-body-bg: #000000;
-    --bs-secondary-bg-rgb: 7, 5, 8;
+    --bs-secondary-bg-rgb: 13, 7, 24;
     --bs-body-font-family: "Play", sans-serif;
     --bs-primary: var(--cyberpunk-primary);
     --bs-primary-rgb: 171, 63, 255;
@@ -35,6 +35,11 @@ $primary: $md-accent;
     --default-banner: url("../assets/img/bg/cyberpunk_4.jpg");
     --bs-success: rgb(92, 245, 253);
     --bs-success-rgb: 92, 245, 253;
+}
+
+[data-theme="cyberpunk"] #spellbanner{
+    background-image: url("../assets/img/bg/cyberpunk_4.jpg");
+    background-position: center;
 }
 
 [data-theme="cyberpunk"] .nav-link {

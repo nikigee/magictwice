@@ -1,6 +1,6 @@
 <template>
     <NavBar class="shadow" />
-    <div class="banner-img">
+    <div class="banner-img" id="spellbanner">
         <div class="banner"></div>
     </div>
     <div class="container pt-3">

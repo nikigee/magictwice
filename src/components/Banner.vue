@@ -182,20 +182,25 @@ export default {
             default_banner = default_banner.replace(")", "");
             const banner_src = this.$md.ply.render.banner.url || default_banner;
 
-            const img = document.createElement("img");
-            img.crossOrigin = "Anonymous"; // required for CORS-safe images
-            img.src = banner_src;
-            img.onload = () => {
-                const colorThief = new ColorThief();
-                try {
-                    let color = colorThief.getColor(img);
-                    color = this.saturateRGB(color);
+            if (!this.$md.ply.render.banner.url && (document.documentElement.getAttribute("data-theme") == "cyberpunk")) {
+                // if the user is using the cyberpunk theme, we'll overwrite the glow with a custom value because colour thief doesnt have enough POP / NEON
+                this.dominantColor = "rgb(54 0 107)";
+            } else {
+                const img = document.createElement("img");
+                img.crossOrigin = "Anonymous"; // required for CORS-safe images
+                img.src = banner_src;
+                img.onload = () => {
+                    const colorThief = new ColorThief();
+                    try {
+                        let color = colorThief.getColor(img);
+                        color = this.saturateRGB(color);
 
-                    this.dominantColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-                } catch (e) {
-                    console.warn("ColorThief error:", e.message);
-                }
-            };
+                        this.dominantColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                    } catch (e) {
+                        console.warn("ColorThief error:", e.message);
+                    }
+                };
+            }
         }
     },
     computed: {

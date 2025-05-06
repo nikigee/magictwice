@@ -71,41 +71,41 @@
                 </div>
             </div>
             <h2 class="text-start mt-4">Step 3. Determine Ability Scores</h2>
-            <p class="mb-4 text-muted">
+            <p class="mb-3 text-muted">
                 Tip: Don't forget to add any racial bonuses!
             </p>
-            <div class="mb-3 d-sm-flex ab-scores">
-                <div class="text-center m-1">
+            <div class="mb-3 row ab-scores">
+                <div class="text-center col-4 col-lg">
                     <div class="text-muted">Strength</div>
                     <input type="number" id="strength" class="form-control form-control-lg"
                         v-model.number="character.abilities.strength" value="10" max="30" min="1" />
                     <div class="text-muted">({{ serAbility(character.abilities.strength) }})</div>
                 </div>
-                <div class="text-center m-1">
+                <div class="text-center col-4 col-lg">
                     <div class="text-muted">Dexterity</div>
                     <input type="number" id="dexterity" class="form-control form-control-lg"
                         v-model.number="character.abilities.dexterity" value="10" max="30" min="1" />
                     <div class="text-muted">({{ serAbility(character.abilities.dexterity) }})</div>
                 </div>
-                <div class="text-center m-1">
+                <div class="text-center col-4 col-lg">
                     <div class="text-muted">Constitution</div>
                     <input type="number" id="constitution" class="form-control form-control-lg"
                         v-model.number="character.abilities.constitution" value="10" max="30" min="1" />
                     <div class="text-muted">({{ serAbility(character.abilities.constitution) }})</div>
                 </div>
-                <div class="text-center m-1">
+                <div class="text-center col-4 col-lg">
                     <div class="text-muted">Intelligence</div>
                     <input type="number" id="intelligence" class="form-control form-control-lg"
                         v-model.number="character.abilities.intelligence" value="10" max="30" min="1" />
                     <div class="text-muted">({{ serAbility(character.abilities.intelligence) }})</div>
                 </div>
-                <div class="text-center m-1">
+                <div class="text-center col-4 col-lg">
                     <div class="text-muted">Wisdom</div>
                     <input type="number" id="wisdom" class="form-control form-control-lg"
                         v-model.number="character.abilities.wisdom" value="10" max="30" min="1" />
                     <div class="text-muted">({{ serAbility(character.abilities.wisdom) }})</div>
                 </div>
-                <div class="text-center m-1">
+                <div class="text-center col-4 col-lg">
                     <div class="text-muted">Charisma</div>
                     <input type="number" id="charisma" class="form-control form-control-lg"
                         v-model.number="character.abilities.charisma" value="10" max="30" min="1" />
@@ -259,6 +259,42 @@ export default {
                     currentAC: this.character.ac,
                 },
             };
+
+            // generate some basic notes for the player
+            characterJSON.statsData.misc_notes = `
+# ${characterJSON.name}
+**Race:** ${this.character.race}
+
+**Background:** ${this.character.background}
+
+## Attacks
+| Name | Hit | Damage | Properties |
+|------|-----|--------|------------|
+| Dagger | +5 | 1d4 + dex | Finesse, Light, Thrown (range 20/60) |
+
+## Proficiencies
+**Languages:** ${this.character.languages}
+
+**Tools:** 
+
+**Armor:**
+
+**Weapons:**
+
+## Equipment
+${this.character.equipment}
+
+# Features
+Class features go here ฅ^•ﻌ•^ฅ
+
+..
+
+These notes use Markdown - a simple and easy way to format your text. 
+
+If you need help with syntax, use this: [Basic Syntax | Markdown Guide](https://www.markdownguide.org/basic-syntax/)
+
+Happy note taking : )
+            `.trim();
 
             // Reset or initialize properties on the $md global object as needed
             this.$md.magicHandler.managed_players = [];

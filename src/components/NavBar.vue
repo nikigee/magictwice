@@ -9,7 +9,7 @@
 
                 <ul class="nav nav-pills d-none d-sm-flex" v-if="$md.ply">
                     <li class="nav-item"><router-link class="nav-link"
-                            :to="'/player/' + $md.ply.id">Dashboard</router-link></li>
+                            :to="'/player/' + $md.ply.id">Home</router-link></li>
                     <li class="nav-item"><router-link class="nav-link"
                             :to="'/player/' + $md.ply.id + '/notes'">Notebook</router-link></li>
                     <li class="nav-item"><router-link class="nav-link"

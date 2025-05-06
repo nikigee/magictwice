@@ -5,7 +5,7 @@
             <router-link class="nav-link" :to="`/player/${$md.ply.id}/`">
                 <div class="d-flex flex-column text-center px-3">
                     <i class="bi bi-house-fill"></i>
-                    <span>Dashboard</span>
+                    <span>Home</span>
                 </div>
             </router-link>
             <router-link class="nav-link" :to="`/player/${$md.ply.id}/notes/`">

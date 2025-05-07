@@ -2,6 +2,9 @@
     <div>
         <label for="md-diceroller" class="text-body-secondary">Dice Tray</label>
         <Card id="md-diceroller" bgImage="cards/doragi-2.jpg">
+            <div id="threed" style="height:150px;">
+
+            </div>
             <ul class="list-group list-group-flush mb-1">
                 <li v-for="(d, index) in $md.diceHistory" v-show="index >= ($md.diceHistory.length - 1)"
                     class="list-group-item list-group-item-action list-group-item-secondary text-white dicerow">
@@ -49,6 +52,44 @@
     </div>
 </template>
 
+<script setup>
+import { onMounted, getCurrentInstance } from 'vue';
+import * as THREE from 'three';
+
+
+onMounted(() => {
+    const scene = new THREE.Scene();
+    const canvas = document.querySelector("#threed");
+    if (canvas) {
+        const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+
+        const renderer = new THREE.WebGLRenderer();
+
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+        console.log(canvas.clientWidth, canvas.clientHeight, canvas);
+        canvas.appendChild(renderer.domElement);
+
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        function animate() {
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        renderer.setAnimationLoop(animate);
+
+    }
+});
+
+
+</script>
+
 <script>
 import Card from '@/components/ui/Card.vue';
 
@@ -61,6 +102,15 @@ export default {
     },
     components: {
         Card: Card
+    },
+    computed: {
+        dice() {
+            if (this.$md.diceHistory.length > 0) {
+                return this.$md.diceHistory[this.$md.diceHistory.length - 1];
+            } else {
+                return null;
+            }
+        }
     },
     methods: {
         roll() {

@@ -2,9 +2,7 @@
     <div>
         <label for="md-diceroller" class="text-body-secondary">Dice Tray</label>
         <Card id="md-diceroller" bgImage="cards/doragi-2.jpg">
-            <div id="threed" style="height:150px;">
-
-            </div>
+            <ThreeD />
             <ul class="list-group list-group-flush mb-1">
                 <li v-for="(d, index) in $md.diceHistory" v-show="index >= ($md.diceHistory.length - 1)"
                     class="list-group-item list-group-item-action list-group-item-secondary text-white dicerow">
@@ -36,13 +34,13 @@
                     </div>
                 </li>
             </ul>
-            <div class="input-group">
+            <div class="input-group mt-2">
                 <input @keyup.enter="roll" type="text" class="form-control" v-model="diceInput"
                     placeholder="Enter dice roll here (example: d20+4)"
                     aria-label="Enter dice roll here (example: d20+4)" aria-describedby="button-addon2">
                 <button @click="roll" class="btn btn-outline-primary" type="button" id="button-addon2">Roll</button>
             </div>
-            <div class="mt-1 d-flex flex-wrap justify-content-center justify-content-sm-start"
+            <div class="mt-1 d-flex flex-wrap justify-content-center justify-content-sm-start mb-1"
                 v-if="$md.ply.quick_rolls">
                 <span v-for="(roll) in $md.ply.quick_rolls"
                     class="border border-primary text-primary rounded p-1 px-2 quickroll shadow m-1 mb-0"
@@ -52,46 +50,9 @@
     </div>
 </template>
 
-<script setup>
-import { onMounted, getCurrentInstance } from 'vue';
-import * as THREE from 'three';
-
-
-onMounted(() => {
-    const scene = new THREE.Scene();
-    const canvas = document.querySelector("#threed");
-    if (canvas) {
-        const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-
-        const renderer = new THREE.WebGLRenderer();
-
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-
-        console.log(canvas.clientWidth, canvas.clientHeight, canvas);
-        canvas.appendChild(renderer.domElement);
-
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
-
-        camera.position.z = 5;
-
-        function animate() {
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            renderer.render(scene, camera);
-        }
-        renderer.setAnimationLoop(animate);
-
-    }
-});
-
-
-</script>
-
 <script>
 import Card from '@/components/ui/Card.vue';
+import ThreeD from './ThreeD.vue';
 
 export default {
     name: "DiceRoller",
@@ -101,7 +62,8 @@ export default {
         };
     },
     components: {
-        Card: Card
+        Card: Card,
+        ThreeD
     },
     computed: {
         dice() {
@@ -178,13 +140,17 @@ export default {
             }
             else {
                 try {
-                    if (command == "roll") {
-                        this.$md.diceHistory.push(this.$md.Dice.x(args));
-                    } else {
-                        this.$md.diceHistory.push(this.$md.Dice.x(this.diceInput));
+                    const diceRegex = /\b(\d*)d(\d+)\b/g;
+                    if (diceRegex.test(this.diceInput)) {
+                        if (command == "roll") {
+                            this.$md.diceHistory.push(this.$md.Dice.x(args));
+                        } else {
+                            this.$md.diceHistory.push(this.$md.Dice.x(this.diceInput));
+                        }
                     }
                     this.diceInput = "";
                 } catch (err) {
+                    this.$md.diceHistory = [];
                     console.error(err);
                 }
             }

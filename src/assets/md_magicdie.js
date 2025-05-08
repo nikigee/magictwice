@@ -202,6 +202,7 @@ export const magicDice = (() => {
                     }
                     return dice;
                 } catch (err) {
+                    diceHistory.splice(diceHistory.length - 1, 1);
                     console.error(err);
                 }
             }
@@ -487,7 +488,6 @@ export const magicDice = (() => {
                         document.documentElement.removeAttribute("data-theme");
                     }
 
-                    console.log("You can now access this character by simply typing 'ply' into this console.");
                 } catch (err) {
                     console.log(err);
                 }

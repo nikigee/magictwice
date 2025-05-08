@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "cannon-es": "^0.20.0",
     "colorthief": "^2.6.0",
     "core-js": "^3.8.3",
     "dompurify": "^3.2.2",

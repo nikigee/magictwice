@@ -2,7 +2,7 @@
     <div>
         <label for="md-diceroller" class="text-body-secondary">Dice Tray</label>
         <Card id="md-diceroller" bgImage="cards/doragi-2.jpg">
-            <ThreeD />
+            <!-- <ThreeD /> -->
             <ul class="list-group list-group-flush mb-1">
                 <li v-for="(d, index) in $md.diceHistory" v-show="index >= ($md.diceHistory.length - 1)"
                     class="list-group-item list-group-item-action list-group-item-secondary text-white dicerow">

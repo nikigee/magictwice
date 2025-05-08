@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "baseUrl": "./magictwice/",
+    "baseUrl": "/",
     "moduleResolution": "node",
     "paths": {
       "@/*": [

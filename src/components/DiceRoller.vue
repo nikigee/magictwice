@@ -53,6 +53,7 @@
 <script>
 import Card from '@/components/ui/Card.vue';
 import ThreeD from './ThreeD.vue';
+import { e } from 'mathjs';
 
 export default {
     name: "DiceRoller",
@@ -133,8 +134,8 @@ export default {
                     }
                 }
                 this.diceInput = "";
-            } else if (command == "parse") {
-                console.log(this.$md.ply.parse(args));
+            } else if (command == "test") {
+                console.log("hi :)");
 
                 this.diceInput = "";
             }

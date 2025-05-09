@@ -107,15 +107,6 @@ onMounted(() => {
     // ────────────────────────────────────────────────────────────────────────────
     // 3) DIE CREATION HELPERS
     // ────────────────────────────────────────────────────────────────────────────
-    const LOCAL_NUMBER_NORMAL = new CANNON.Vec3(1, 0, 0)     // numbered face = +X
-    const upVec = new CANNON.Vec3(0, 1, 0)
-    const torqueDir = new CANNON.Vec3()
-    const worldNormal = new CANNON.Vec3()
-
-    // thresholds & gyro strength
-    const LIN_THRESHOLD = 1
-    const ANG_THRESHOLD = 0.6
-    const GYRO_STRENGTH = 250
 
     // single shared “blank” material for non-numbered faces
     const blankMat = new THREE.MeshStandardMaterial({
@@ -127,32 +118,71 @@ onMounted(() => {
         const size = 2;
         let body = "";
         let mesh = "";
-        const geo = new THREE.BoxGeometry(size, size, size)
-        const tex = new THREE.CanvasTexture(generateFaceCanvas(value))
-        const mats = [
-            new THREE.MeshStandardMaterial({ map: tex }),
-            blankMat, blankMat, blankMat, blankMat, blankMat
-        ]
-        mats.forEach(m => { m.roughness = .5; m.metalness = .5 })
+        let shape = "";
 
-        mesh = new THREE.Mesh(geo, mats)
-        scene.add(mesh)
+        // would use switch statement but block scope :")
+        if (face == 20) {
+            // the looks
+            const geo = new THREE.IcosahedronGeometry(size, 0);
+            const material = new THREE.MeshStandardMaterial();
 
-        // physics body
-        const shape = new CANNON.Box(new CANNON.Vec3(size / 2, size / 2, size / 2))
+            mesh = new THREE.Mesh(geo, material);
+
+            // the physics hitbox
+            const t = (size + Math.sqrt(5)) / 2;
+            const verticesIcosa = [
+                new CANNON.Vec3(-1, t, 0), new CANNON.Vec3(1, t, 0),
+                new CANNON.Vec3(-1, -t, 0), new CANNON.Vec3(1, -t, 0),
+                new CANNON.Vec3(0, -1, t), new CANNON.Vec3(0, 1, t),
+                new CANNON.Vec3(0, -1, -t), new CANNON.Vec3(0, 1, -t),
+                new CANNON.Vec3(t, 0, -1), new CANNON.Vec3(t, 0, 1),
+                new CANNON.Vec3(-t, 0, -1), new CANNON.Vec3(-t, 0, 1)
+            ];
+
+            // Faces
+            const facesIcosa = [
+                [0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11],
+                [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8],
+                [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9],
+                [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]
+            ];
+
+            // Create a ConvexPolyhedron shape from the vertices and faces
+            shape = new CANNON.ConvexPolyhedron({
+                vertices: verticesIcosa,
+                faces: facesIcosa
+            });
+
+        } else {
+            // default is a d6
+            const geo = new THREE.BoxGeometry(size, size, size)
+            const tex = new THREE.CanvasTexture(generateFaceCanvas(value))
+            const mats = [
+                new THREE.MeshStandardMaterial({ map: tex }),
+                blankMat, blankMat, blankMat, blankMat, blankMat
+            ]
+            mats.forEach(m => { m.roughness = .5; m.metalness = .5 })
+
+            mesh = new THREE.Mesh(geo, mats)
+            // physics body
+            shape = new CANNON.Box(new CANNON.Vec3(size / 2, size / 2, size / 2))
+
+        }
+
         body = new CANNON.Body({
             mass: 1, shape,
             position: new CANNON.Vec3(
                 (Math.random() - .5) * trayWidth * .8,
-                5 + index,
+                5,
                 (Math.random() - .5) * trayDepth * .8
             )
-        })
-        body.velocity.set(50, 2, -15)
-        body.angularVelocity.set(
-            Math.random() * 5, Math.random() * 5, Math.random() * 5
-        )
+        });
 
+
+        // PUSH
+        body.velocity.set(50, 0, -15);
+
+        // ADD
         scene.add(mesh);
         world.addBody(body);
         return { mesh, body }
@@ -203,27 +233,6 @@ onMounted(() => {
         dice.forEach(({ mesh, body }) => {
             mesh.position.copy(body.position)
             mesh.quaternion.copy(body.quaternion)
-
-            const lin = body.velocity.length()
-            const ang = body.angularVelocity.length()
-            if (lin < LIN_THRESHOLD && ang < ANG_THRESHOLD) {
-                // worldNormal = local +X in world space
-                body.vectorToWorldFrame(LOCAL_NUMBER_NORMAL, worldNormal)
-
-                // compute misalignment
-                const dot = Math.max(-1, Math.min(1, worldNormal.dot(upVec)))
-                const angle = Math.acos(dot)
-
-                // axis = worldNormal × up
-                worldNormal.cross(upVec, torqueDir)
-                if (torqueDir.lengthSquared() > 1e-9 && angle > 0.01) {
-                    torqueDir.normalize()
-                    torqueDir.scale(angle * GYRO_STRENGTH, torqueDir)
-                    body.torque.vadd(torqueDir, body.torque)
-                } else {
-                    body.angularVelocity.scale(0.5, body.angularVelocity)
-                }
-            }
         })
 
         renderer.render(scene, camera)

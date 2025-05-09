@@ -482,7 +482,7 @@ export const magicDice = (() => {
                     magicHandler.managed_players.push(this.deSer(characterData));
 
                     // set / reset theme
-                    if(characterData.theme && characterData.theme !== "default"){
+                    if (characterData.theme && characterData.theme !== "default") {
                         document.documentElement.setAttribute("data-theme", characterData.theme);
                     } else {
                         document.documentElement.removeAttribute("data-theme");
@@ -1356,9 +1356,13 @@ export const magicDice = (() => {
                 charArray = JSON.parse(localStorage["charList"]);
 
             // the actual saving
-            charArray[id] = new Save(playerObj);
-            localStorage["charList"] = JSON.stringify(charArray);
-            console.log("Saved as '" + id + "'");
+            try {
+                charArray[id] = new Save(playerObj);
+                localStorage["charList"] = JSON.stringify(charArray);
+                console.log("Saved as '" + id + "'");
+            } catch (e) {
+                alert("Something went wrong while saving, perhaps you are over the size limit? (5mb): " + e);
+            }
         } else {
             console.log("Save Error");
         }

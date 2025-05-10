@@ -142,7 +142,7 @@ export default {
             else {
                 try {
                     const diceRegex = /\b(\d*)d(\d+)\b/g;
-                    if (diceRegex.test(this.diceInput)) {
+                    if (diceRegex.test(this.diceInput.toLowerCase())) {
                         if (command == "roll") {
                             this.$md.diceHistory.push(this.$md.Dice.x(args));
                         } else {

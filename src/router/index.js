@@ -7,6 +7,7 @@ import SpellListView from '../views/SpellListView.vue'
 import SpellView from '../views/SpellView.vue'
 import CreateCharacter from '../views/CreateCharacter.vue'
 import SpellDebug from '../views/SpellDebug.vue'
+import NotFound from '@/views/NotFound.vue'
 
 const routes = [
     {
@@ -48,6 +49,11 @@ const routes = [
         path: '/player/:id/spells/debug',
         name: 'spell debug',
         component: SpellDebug
+    },
+    {
+        path: '/:catchAll(.*)',
+        name: "404 not found",
+        component: NotFound
     }
 ]
 

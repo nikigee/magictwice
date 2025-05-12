@@ -7,7 +7,7 @@
             <div class="list-group mt-2">
                 <router-link to="/create" class="list-group-item list-group-item-action">Create Character</router-link>
                 <router-link to="/load" class="list-group-item list-group-item-action">Load Character</router-link>
-                <a href="#" class="list-group-item list-group-item-action">About</a>
+                <router-link to="/about" class="list-group-item list-group-item-action">About</router-link>
             </div>
         </div>
     </div>

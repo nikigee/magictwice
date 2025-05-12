@@ -8,6 +8,7 @@ import SpellView from '../views/SpellView.vue'
 import CreateCharacter from '../views/CreateCharacter.vue'
 import SpellDebug from '../views/SpellDebug.vue'
 import NotFound from '@/views/NotFound.vue'
+import AboutView from '@/views/AboutView.vue'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/create',
         name: 'create',
         component: CreateCharacter
+    },
+    {
+        path: '/about',
+        name: "about",
+        component: AboutView
     },
     {
         path: '/player/:id',

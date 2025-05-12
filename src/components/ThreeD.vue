@@ -20,13 +20,14 @@ const diceThrow = computed(() =>
 )
 
 onMounted(() => {
-    // ────────────────────────────────────────────────────────────────────────────
-    // 1) THREE.JS SETUP
-    // ────────────────────────────────────────────────────────────────────────────
     const canvas = document.querySelector('#threed')
     if (!canvas) return
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    
+})
+
+/*
+const renderer = new THREE.WebGLRenderer({ antialias: true })
     const scene = new THREE.Scene()
     let camera, aspect, viewSize = 5
 
@@ -58,7 +59,7 @@ onMounted(() => {
     camera = new THREE.OrthographicCamera(
         -viewSize, viewSize, viewSize, -viewSize, 0.1, 1000
     )
-    camera.position.set(0, 20, 0)
+    camera.position.set(0, 20, 50)
     camera.lookAt(0, 0, 0)
 
     window.addEventListener('resize', resize)
@@ -82,7 +83,7 @@ onMounted(() => {
     const trayWidth = viewSize * aspect * 2
     const trayDepth = viewSize * 2
     const wallThick = 0.2
-    const wallHeight = 20
+    const wallHeight = 100
         ;[-trayDepth / 2, trayDepth / 2].forEach(z => {
             const wall = new CANNON.Body({
                 mass: 0,
@@ -170,21 +171,28 @@ onMounted(() => {
         }
 
         body = new CANNON.Body({
-            mass: 1, shape,
-            position: new CANNON.Vec3(
-                (Math.random() - .5) * trayWidth * .8,
-                5,
-                (Math.random() - .5) * trayDepth * .8
-            )
+            mass: 1,
+            shape: shape,
+            position: new CANNON.Vec3(index * size + 1, 10, 0)
         });
-
-
         // PUSH
-        body.velocity.set(50, 0, -15);
+        body.velocity.set(
+            Math.random() * 10 + 20,
+            -20,
+            Math.random() * 10
+        );
+        body.angularVelocity.set(
+            (Math.random() - 0.5) * 20,
+            (Math.random() - 0.5) * 20,
+            (Math.random() - 0.5) * 20
+        );
+
+
+        world.addBody(body);
+
 
         // ADD
         scene.add(mesh);
-        world.addBody(body);
         return { mesh, body }
     }
 
@@ -231,8 +239,11 @@ onMounted(() => {
         world.step(1 / 60)
 
         dice.forEach(({ mesh, body }) => {
-            mesh.position.copy(body.position)
-            mesh.quaternion.copy(body.quaternion)
+            // Sync position
+            mesh.position.copy(body.position);
+
+            // Sync rotation (convert quaternion)
+            mesh.quaternion.copy(body.quaternion);
         })
 
         renderer.render(scene, camera)
@@ -243,5 +254,5 @@ onMounted(() => {
     onBeforeUnmount(() => {
         window.removeEventListener('resize', resize)
     })
-})
+*/
 </script>

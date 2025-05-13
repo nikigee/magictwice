@@ -279,7 +279,7 @@ export default {
 }
 
 .banner-img {
-    background: url("../assets/img/bg/4.jpg") bottom center;
+    background: url("../assets/img/bg/1.jpg") top center;
     background-size: cover;
 }
 

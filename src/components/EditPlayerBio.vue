@@ -71,11 +71,12 @@
                 <label class="text-body-secondary mb-1">Theme</label>
                 <select name="Themes" class="form-select form-select-sm" v-model="theme" @change="changeTheme"
                     aria-describedby="mdThemeDesc">
-                    <option value="default" selected>Magic Dice</option>
-                    <option value="cyberpunk">CYBERPUNK: Stagnation</option>
+                    <option v-for="theme, v in theme_descs" :value="v">
+                        {{ theme.title }}
+                    </option>
                 </select>
                 <div id="mdThemeDesc" class="form-text ms-1">
-                    {{ this.theme_descs[this.theme] }}
+                    {{ this.theme_descs[this.theme].desc }}
                 </div>
             </div>
         </form>
@@ -108,15 +109,16 @@ export default {
             passive_perception_mod: this.$md.ply.stats.passive_perception_mod,
             theme: this.$md.ply.theme,
             theme_descs: {
-                "default": "A modern serif-style theme with a hint of fantasy.",
-                "cyberpunk": "What are you willing to do, renegade?"
+                "default": { desc: "A modern serif-style theme with a hint of fantasy.", title: "Magic Dice" },
+                "cyberpunk": { desc: "What are you willing to do, renegade?", title: "CYBERPUNK: Stagnation" },
+                "underdark": { desc: "The purple bioluminescence of the Underdark.", title: "Underdark Flower" }
             }
         };
     },
     methods: {
         changeName() {
             const old_id = this.$md.ply.id;
-            if(this.name.trim() == this.$md.ply.name.trim()){
+            if (this.name.trim() == this.$md.ply.name.trim()) {
                 return;
             }
 

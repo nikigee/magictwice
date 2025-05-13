@@ -18,6 +18,7 @@ $primary: $md-accent;
 
 :root {
     --cyberpunk-primary: #ab3fff;
+    --underdark-primary: #8057fa;
     --default-banner: url("../assets/img/bg/3.jpg");
 }
 
@@ -67,6 +68,32 @@ $primary: $md-accent;
     --bs-btn-hover-border-color: var(--cyberpunk-primary);
     --bs-btn-active-bg: var(--cyberpunk-primary);
     --bs-btn-active-border-color: var(--cyberpunk-primary);
+}
+
+// Underdark Theme
+[data-theme="underdark"] {
+    --bs-body-bg: #0d0a19;
+    --bs-secondary-bg-rgb: 17, 17, 31;
+    --bs-primary: var(--underdark-primary);
+    --bs-primary-rgb: 142, 61, 255;
+    --bs-link-color-rgb: 142, 61, 255;
+    --bs-primary-text-emphasis: var(--underdark-primary);
+    --bs-primary-bg-subtle: #140b2c;
+    --bs-primary-border-subtle: #582cb0;
+}
+
+[data-theme="underdark"] .btn-outline-primary {
+    --bs-btn-color: var(--underdark-primary);
+    --bs-btn-border-color: var(--underdark-primary);
+    --bs-btn-hover-bg: var(--underdark-primary);
+    --bs-btn-hover-border-color: var(--underdark-primary);
+    --bs-btn-active-bg: var(--underdark-primary);
+    --bs-btn-active-border-color: var(--underdark-primary);
+}
+
+[data-theme="underdark"] .nav-link {
+    --bs-nav-link-color: var(--underdark-primary);
+    --bs-nav-link-hover-color: #e5c3ff;
 }
 
 // ?? why

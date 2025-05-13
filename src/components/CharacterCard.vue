@@ -16,8 +16,7 @@
                     <button class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false"><i
                             class="bi bi-three-dots"></i></button>
                     <ul class="dropdown-menu">
-                        <li><router-link class="dropdown-item" to="/load"
-                                @click="() => { delete $parent.characters[link]; $md.Load.deleteCharacter(link); }">Remove
+                        <li><router-link class="dropdown-item" to="/load" @click="handleDelete">Remove
                                 Character</router-link>
                         </li>
                     </ul>
@@ -33,6 +32,13 @@ export default {
     props: {
         char: Object,
         link: String
+    },
+    methods: {
+        handleDelete() {
+            console.log(this.link, this.$parent.characters);
+            delete this.$parent.characters[this.link]; 
+            this.$md.Load.deleteCharacter(this.link);
+        }
     }
 }
 </script>

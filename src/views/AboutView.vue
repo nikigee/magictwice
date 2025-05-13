@@ -57,6 +57,14 @@
     </div>
 </template>
 
+<script setup>
+import { onMounted } from "vue";
+
+onMounted(()=>{
+    document.title = "About - Magic Dice";
+})
+</script>
+
 <style type="scss" scoped>
 @media only screen and (max-width: 600px) {
     .profile {

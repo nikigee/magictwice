@@ -116,9 +116,12 @@ export default {
     methods: {
         changeName() {
             const old_id = this.$md.ply.id;
+            if(this.name.trim() == this.$md.ply.name.trim()){
+                return;
+            }
 
             // set new name
-            this.$md.ply.name = this.name;
+            this.$md.ply.name = this.name.trim();
 
             // save at new location
             this.$md.savePlayer();
@@ -127,6 +130,7 @@ export default {
             this.$md.Load.deleteCharacter(old_id);
 
             // navigate router to new player location
+            document.title = this.name.trim();
             this.$router.push({ path: `/player/${this.$md.ply.id}` });
 
         },

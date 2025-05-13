@@ -46,6 +46,7 @@
     <MobileNavBar />
 </template>
 
+
 <script>
 import NavBar from '@/components/NavBar.vue';
 import HealthBar from '@/components/HealthBar.vue';
@@ -72,6 +73,9 @@ export default {
         if (player)
             this.$md.Load.restoreFromObj(player);
         this.ply = player;
+    },
+    mounted() {
+        document.title = this.$md.ply.name;
     },
     components: {
         NavBar: NavBar,

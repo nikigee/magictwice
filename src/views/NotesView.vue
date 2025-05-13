@@ -61,6 +61,9 @@ export default {
             this.$md.Load.restoreFromObj(player);
         this.ply = player;
     },
+    mounted() {
+        document.title = `Notes - ${this.$md.ply.name}`;
+    },
     methods: {
         handleUpload() {
             console.log("meme");

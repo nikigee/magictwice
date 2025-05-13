@@ -474,20 +474,21 @@ export const magicDice = (() => {
                     localStorage.charList = JSON.stringify(list);
                     console.log(`${ID} is gone, bye bye`);
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             },
-            restoreFromObj: function (characterData) {
+            restoreFromObj: function (characterData, setTheme = true) {
                 try {
-                    magicHandler.managed_players.push(this.deSer(characterData));
+                    magicHandler.managed_players[0] = this.deSer(characterData);
 
                     // set / reset theme
-                    if (characterData.theme && characterData.theme !== "default") {
-                        document.documentElement.setAttribute("data-theme", characterData.theme);
-                    } else {
-                        document.documentElement.removeAttribute("data-theme");
+                    if (setTheme) {
+                        if (characterData.theme && characterData.theme !== "default") {
+                            document.documentElement.setAttribute("data-theme", characterData.theme);
+                        } else {
+                            document.documentElement.removeAttribute("data-theme");
+                        }
                     }
-
                 } catch (err) {
                     console.log(err);
                 }

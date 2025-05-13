@@ -50,19 +50,22 @@ export default {
             characters: getCharacters()
         }
     },
+    mounted() {
+        document.title = "Load Character - Magic Dice";
+    },
     methods: {
         handleFileUpload(event) {
             const file = event.target.files[0]; // Get the uploaded file
             if (file && file.name.endsWith('.json')) {
                 file.text().then((result) => {
                     this.$md.magicHandler.managed_players = [];
-                    this.$md.Load.restoreFromObj(JSON.parse(result));
+                    this.$md.Load.restoreFromObj(JSON.parse(result), false);
                     this.$md.magicHandler.last.self;
                     this.$md.savePlayer();
 
                     this.characters = getCharacters();
                 }).catch((err) => {
-
+                    console.error(err);
                 });
             } else {
                 // File is either not selected or not in JSON format

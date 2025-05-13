@@ -158,6 +158,14 @@
     </div>
 </template>
 
+<script setup>
+import { onMounted } from "vue";
+
+onMounted(()=>{
+    document.title = "Create Character - Magic Dice";
+})
+</script>
+
 <script>
 export default {
     name: "CharacterForm",

@@ -19,6 +19,8 @@ import { onMounted } from 'vue';
 // clear theme
 onMounted(()=>{
     document.documentElement.removeAttribute("data-theme");
+
+    document.title = "Magic Dice";
 });
 
 </script>

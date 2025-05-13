@@ -219,6 +219,9 @@ export default {
             this.$md.Load.restoreFromObj(player);
         }
     },
+    mounted() {
+        document.title = `Spells - ${this.$md.ply.name}`;
+    },
     methods: {
         deleteSpell(spell, event) {
             event.preventDefault();

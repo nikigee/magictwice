@@ -94,6 +94,9 @@ export default {
             spell: {}
         }
     },
+    mounted() {
+        document.title = `${this.spell.name} - ${this.$md.ply.name}`;
+    },
     created() {
         const player = JSON.parse(localStorage.charList)[this.$route.params.id];
         if (player) {

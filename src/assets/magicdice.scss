@@ -18,7 +18,7 @@ $primary: $md-accent;
 
 :root {
     --cyberpunk-primary: #ab3fff;
-    --underdark-primary: #8057fa;
+    --underdark-primary: #9357fa;
     --default-banner: url("../assets/img/bg/3.jpg");
 }
 
@@ -72,11 +72,11 @@ $primary: $md-accent;
 
 // Underdark Theme
 [data-theme="underdark"] {
-    --bs-body-bg: #0d0a19;
+    --bs-body-bg: #080711;
     --bs-secondary-bg-rgb: 17, 17, 31;
     --bs-primary: var(--underdark-primary);
-    --bs-primary-rgb: 142, 61, 255;
-    --bs-link-color-rgb: 142, 61, 255;
+    --bs-primary-rgb: 147, 87, 250;
+    --bs-link-color-rgb: 147, 87, 250;
     --bs-primary-text-emphasis: var(--underdark-primary);
     --bs-primary-bg-subtle: #140b2c;
     --bs-primary-border-subtle: #582cb0;

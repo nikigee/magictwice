@@ -307,6 +307,6 @@ export default {
 }
 
 .spell-link {
-    color: initial;
+    color: var(--bs-white);
 }
 </style>

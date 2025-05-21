@@ -2,7 +2,7 @@
     <NavBar />
     <div class="container" v-if="ply">
         <div class="row">
-            <div class="col-md-3 mb-3">
+            <div class="col-md-5 col-lg-4 col-xl-3 mb-3">
                 <div class="text-center">
                     <Avatar />
                 </div>

@@ -9,6 +9,7 @@
                 <PlayerBio />
             </div>
             <div class="col">
+                <Alert />
                 <div class="row">
                     <Banner />
                 </div>
@@ -59,6 +60,7 @@ import Banner from '../components/Banner.vue';
 import EditScores from '../components/EditScores.vue';
 import MobileNavBar from '../components/MobileNavBar.vue';
 import Avatar from '../components/Avatar.vue';
+import Alert from '@/components/Alert.vue';
 
 export default {
 
@@ -77,7 +79,7 @@ export default {
     mounted() {
         document.title = this.$md.ply.name;
 
-        if(localStorage){
+        if (localStorage) {
             localStorage.setItem("last_played", this.$md.ply.id);
         }
     },
@@ -92,7 +94,8 @@ export default {
         Banner: Banner,
         EditScores: EditScores,
         MobileNavBar,
-        Avatar
+        Avatar,
+        Alert
     },
     watch: {
         $route(to, from) {

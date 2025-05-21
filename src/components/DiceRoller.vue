@@ -53,6 +53,7 @@
 <script>
 import Card from '@/components/ui/Card.vue';
 import ThreeD from './ThreeD.vue';
+import { useAlertStore } from '@/stores/alertStore';
 import { e } from 'mathjs';
 
 export default {
@@ -110,6 +111,8 @@ export default {
             }
         },
         roll() {
+            const alert = useAlertStore();
+
             this.diceInput = this.diceInput.trim();
             const command = this.diceInput.split(" ")[0].toLowerCase(); // simple command parsing
             let args = this.diceInput.substring(this.diceInput.indexOf(" ") + 1);
@@ -170,6 +173,8 @@ export default {
                 this.diceInput = "";
             } else if (command == "test") {
                 console.log("hi :)");
+
+                alert.create("You successfully did a thing.");
 
                 this.diceInput = "";
             }

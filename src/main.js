@@ -1,4 +1,5 @@
 import { createApp, reactive } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
@@ -8,7 +9,9 @@ import 'bootstrap'
 
 import { magicDice } from "./assets/md_magicdie"
 
+const pinia = createPinia()
 const app = createApp(App);
+app.use(pinia);
 app.use(router);
 
 // Create a reactive object for $md

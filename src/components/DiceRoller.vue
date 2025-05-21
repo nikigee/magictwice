@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div>
-                            <button @click="$md.diceHistory.splice(index, 1)" class="btn text-muted p-0"><i
+                            <button @click="deleteRoll(index)" class="btn text-muted p-0"><i
                                     class="bi bi-x-lg"></i></button>
                         </div>
                     </div>
@@ -75,7 +75,40 @@ export default {
             }
         }
     },
+    mounted() {
+        if (localStorage) {
+
+            if (localStorage.getItem("last_roll")) {
+                try {
+                    if (this.$md.diceHistory.length == 0) {
+                        // only restore the old dice roll if they're continuing the same character from a previous session.
+                        // no point to restore an old irelevant dice roll when they're playing as a character different from last session.
+                        if (localStorage.getItem("last_played") == this.$md.ply.id) {
+                            const last_roll = JSON.parse(localStorage.getItem("last_roll"));
+                            const dice_roll = new this.$md.Dice(last_roll.dice, last_roll);
+
+                            console.log(`Restored old dice roll: ${dice_roll.dice}`);
+                            this.$md.diceHistory.push(dice_roll);
+                        } else {
+                            localStorage.removeItem("last_roll");
+                        }
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+    },
     methods: {
+        deleteRoll(index) {
+            this.$md.diceHistory.splice(index, 1);
+            if (this.$md.diceHistory.length !== 0) {
+                // set last roll to whatever the last roll is
+                localStorage.setItem("last_roll", JSON.stringify(this.$md.diceHistory[this.$md.diceHistory.length - 1]));
+            } else {
+                localStorage.removeItem("last_roll");
+            }
+        },
         roll() {
             this.diceInput = this.diceInput.trim();
             const command = this.diceInput.split(" ")[0].toLowerCase(); // simple command parsing
@@ -83,6 +116,7 @@ export default {
             const props = args.split(" ");
             if (this.diceInput == "clear") {
                 this.$md.diceHistory.splice(0, this.$md.diceHistory.length);
+                localStorage.removeItem("last_roll");
                 this.diceInput = "";
                 return false;
             } else if (command == "health") {
@@ -152,6 +186,7 @@ export default {
                     this.diceInput = "";
                 } catch (err) {
                     this.$md.diceHistory = [];
+                    localStorage.removeItem("last_roll");
                     console.error(err);
                 }
             }

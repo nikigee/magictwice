@@ -76,6 +76,10 @@ export default {
     },
     mounted() {
         document.title = this.$md.ply.name;
+
+        if(localStorage){
+            localStorage.setItem("last_played", this.$md.ply.id);
+        }
     },
     components: {
         NavBar: NavBar,

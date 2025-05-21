@@ -49,11 +49,18 @@ export const magicDice = (() => {
     const diceHistory = []; // array for storing previous dice rolls
     const Dice = (() => {
         class SingleDice {
-            constructor(string = "d20") {
-                this.string = string.toLowerCase(); // the string value of the dice roll
-                this.list = []; // list of dice rolls
-                this.stats = SingleDice.cvt(string.toLowerCase()); // the iterator, face, etc.
-                this.roll(); // roll numbers
+            constructor(string = "d20", data) {
+                if (data) {
+                    this.string = data.string;
+                    this.list = data.list;
+                    this.stats = data.stats;
+                }
+                else {
+                    this.string = string.toLowerCase(); // the string value of the dice roll
+                    this.list = []; // list of dice rolls
+                    this.stats = SingleDice.cvt(string.toLowerCase()); // the iterator, face, etc.
+                    this.roll(); // roll numbers
+                }
             }
             static cvt(diceRoll) {
                 diceRoll = diceRoll.toLowerCase();
@@ -107,14 +114,18 @@ export const magicDice = (() => {
         }
 
         class diceRoll {
-            constructor(dice = "d20", opts = {}) {
-                const { x = document.body.clientWidth / 2 - 225, y = 150 } = opts;
-                this.pos = {
-                    x,
-                    y,
-                };
-                this.dice = dice.toLowerCase();
-                this.roll();
+            constructor(dice = "d20", diceRoll) {
+                if (diceRoll) {
+                    // construct from dice object
+                    this.dice = diceRoll.dice;
+                    this.list = [];
+                    diceRoll.list.forEach((v, i) => {
+                        this.list[i] = new SingleDice(undefined, v);
+                    });
+                } else {
+                    this.dice = dice.toLowerCase();
+                    this.roll();
+                }
             }
             generateList() {
                 const regexp = /\d*d\d+(?:->-*\d+)*/g; // used to detect dice rolls
@@ -199,6 +210,9 @@ export const magicDice = (() => {
                     if (!mute) {
                         diceHistory.push(dice);
                         dice.show();
+                        if (localStorage) {
+                            localStorage.setItem("last_roll", JSON.stringify(dice));
+                        }
                     }
                     return dice;
                 } catch (err) {
@@ -211,19 +225,6 @@ export const magicDice = (() => {
             }
             static diceObj(string) {
                 return new SingleDice(string);
-            }
-            static gfx_dice(arg, x, y) {
-                try {
-                    const magicRoll = new diceRoll(arg, {
-                        x: x,
-                        y: y,
-                    }); // the dice roll
-                    return magicRoll.render();
-                } catch (err) {
-                    return console.error(
-                        `Something went wrong while rolling the dice! (${err})`
-                    );
-                }
             }
         }
         return diceRoll;

@@ -180,8 +180,11 @@ export default {
                         if (!r.ok) {
                             throw new Error(`HTTP error! status: ${r.status}`);
                         } else {
-                            return alert.create(r.text());
+                            return r.text();
                         }
+                    })
+                    .then(text => {
+                        alert(text);
                     })
                     .catch(err => {
                         alert.create(err, "danger");

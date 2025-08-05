@@ -844,6 +844,10 @@ export const magicDice = (() => {
                 this.parent = parent;
             }
             add(amt) {
+                if(!amt){
+                    return this.currentHP;
+                }
+
                 /* i love it when javascript changes my numbers to strings for no reason :) */
                 this.currentHP = Number(this.currentHP);
                 this.maxHP = Number(this.maxHP);

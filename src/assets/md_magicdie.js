@@ -406,6 +406,7 @@ export const magicDice = (() => {
             //this.statsData = parent.stats;
             this.statsData = {
                 save_throws: parent.stats.save_throws,
+                new_save_throws: parent.stats.new_save_throws,
                 ability: parent.stats.ability,
                 inspiration: parent.stats.inspiration,
                 misc_prof: parent.stats.misc_prof,
@@ -899,32 +900,38 @@ export const magicDice = (() => {
                         str: {
                             name: "Strength",
                             raw: "str",
-                            proficent: false
+                            proficent: false,
+                            custom: 0
                         },
                         dex: {
                             name: "Dexterity",
                             raw: "dex",
-                            proficent: false
+                            proficent: false,
+                            custom: 0
                         },
                         cnst: {
                             name: "Constitution",
                             raw: "cnst",
-                            proficent: false
+                            proficent: false,
+                            custom: 0
                         },
                         int: {
                             name: "Intelligence",
                             raw: "int",
-                            proficent: false
+                            proficent: false,
+                            custom: 0
                         },
                         wis: {
                             name: "Wisdom",
                             raw: "wis",
-                            proficent: false
+                            proficent: false,
+                            custom: 0
                         },
                         chr: {
                             name: "Charisma",
                             raw: "chr",
-                            proficent: false
+                            proficent: false,
+                            custom: 0
                         }
                     },
                     marks = [],

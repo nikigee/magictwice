@@ -18,7 +18,7 @@
                 </div>
                 <hr class="mb-4" />
                 <h2 class="mb-2 mt-0">List of Characters</h2>
-                <div class="row justify-content-start">
+                <div class="row justify-content-start mx-0">
                     <div class="col-6 col-sm-4 g-2" v-for="(character, key) in characters">
                         <CharacterCard class="" :char="character" :link="key" />
                     </div>

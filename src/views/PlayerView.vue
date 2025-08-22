@@ -10,7 +10,7 @@
             </div>
             <div class="col">
                 <Alert />
-                <div class="row">
+                <div class="row mx-0">
                     <Banner />
                 </div>
                 <div class="row pt-2">

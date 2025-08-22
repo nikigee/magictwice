@@ -1,3 +1,8 @@
+<script setup>
+import Footerr from '@/components/Footerr.vue';
+
+</script>
+
 <template>
     <div class="container text-center py-5">
         <div>
@@ -11,6 +16,7 @@
         </p>
         <a href="/">Go Home</a>
     </div>
+    <Footerr />
 </template>
 
 <style scoped>

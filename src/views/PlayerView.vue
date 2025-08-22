@@ -44,6 +44,7 @@
     <div class="container" v-else>
         <h1>Sorry, this character doesn't exist :C</h1>
     </div>
+    <Footerr />
     <MobileNavBar />
 </template>
 
@@ -61,6 +62,7 @@ import EditScores from '../components/EditScores.vue';
 import MobileNavBar from '../components/MobileNavBar.vue';
 import Avatar from '../components/Avatar.vue';
 import Alert from '@/components/Alert.vue';
+import Footerr from '@/components/Footerr.vue';
 
 export default {
 
@@ -95,7 +97,8 @@ export default {
         EditScores: EditScores,
         MobileNavBar,
         Avatar,
-        Alert
+        Alert,
+        Footerr
     },
     watch: {
         $route(to, from) {

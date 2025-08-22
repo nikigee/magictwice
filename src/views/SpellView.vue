@@ -37,6 +37,7 @@
             </div>
         </div>
     </div>
+    <Footerr />
     <MobileNavBar />
 </template>
 
@@ -44,6 +45,7 @@
 import NavBar from '../components/NavBar.vue';
 import DOMPurify from 'dompurify';
 import MobileNavBar from '../components/MobileNavBar.vue';
+import Footerr from '@/components/Footerr.vue';
 
 import { ref } from 'vue';
 

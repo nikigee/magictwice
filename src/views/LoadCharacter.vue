@@ -29,10 +29,12 @@
             </div>
         </div>
     </div>
+    <Footerr />
 </template>
 
 <script>
 import CharacterCard from "@/components/CharacterCard.vue";
+import Footerr from "@/components/Footerr.vue";
 
 function getCharacters() {
     if (localStorage.getItem('charList')) {
@@ -43,7 +45,8 @@ function getCharacters() {
 }
 export default {
     components: {
-        CharacterCard: CharacterCard
+        CharacterCard: CharacterCard,
+        Footerr
     },
     data() {
         return {

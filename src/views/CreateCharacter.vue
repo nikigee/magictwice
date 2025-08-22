@@ -156,10 +156,12 @@
             </div>
         </div>
     </div>
+    <Footerr />
 </template>
 
 <script setup>
 import { onMounted } from "vue";
+import Footerr from "@/components/Footerr.vue";
 
 onMounted(()=>{
     document.title = "Create Character - Magic Dice";

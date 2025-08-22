@@ -166,14 +166,14 @@
             </div>
         </div>
     </div>
-
+    <Footerr />
     <MobileNavBar />
 </template>
 
 <script setup>
 import MobileNavBar from '../components/MobileNavBar.vue';
 import NavBar from '../components/NavBar.vue';
-
+import Footerr from '@/components/Footerr.vue';
 import MdButton from '../components/ui/mdButton.vue';
 
 function getSpellsByLevel(spells) {

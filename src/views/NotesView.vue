@@ -27,6 +27,7 @@
     <div class="container" v-else>
         <h1>Sorry, this character doesn't exist :C</h1>
     </div>
+    <Footerr />
     <MobileNavBar />
 </template>
 
@@ -38,6 +39,7 @@ import { VMarkdownEditor, VMarkdownView } from 'vue3-markdown'
 import 'vue3-markdown/dist/style.css'
 import MdButtonLarge from '../components/ui/mdButtonLarge.vue'
 import MobileNavBar from '../components/MobileNavBar.vue'
+import Footerr from '@/components/Footerr.vue'
 
 export default {
     data() {
@@ -53,7 +55,8 @@ export default {
         MdButtonLarge,
         VMarkdownEditor,
         VMarkdownView,
-        MobileNavBar
+        MobileNavBar,
+        Footerr
     },
     created() {
         const player = JSON.parse(localStorage.charList)[this.$route.params.id];

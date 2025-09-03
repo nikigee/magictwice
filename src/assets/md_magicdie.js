@@ -302,6 +302,7 @@ export const magicDice = (() => {
                     range = "10 feet",
                     roll = "0d4",
                     url = "https://dnd5e.fandom.com/wiki/" + name.replace(/ /g, "_"),
+                    prepared = false
                 } = props;
                 this.name = name;
                 if (!isNaN(level)) {
@@ -314,6 +315,7 @@ export const magicDice = (() => {
                 this.concentration = concentration;
                 this.school = school;
                 this.description = description;
+                this.prepared = prepared;
                 this.components =
                     typeof components != "string" ? components.join(" ") : components;
                 if (!isNaN(duration)) {
@@ -625,11 +627,9 @@ export const magicDice = (() => {
                 const {
                     parent = undefined,
                     spells = {},
-                    preparedSpells = []
                 } = props;
                 this.spells = objToMap(spells);
                 this.parent = parent;
-                this.preparedSpells = preparedSpells;
             }
             get spcMod() {
                 return this.parent.player_class.spcMod;
@@ -680,34 +680,6 @@ export const magicDice = (() => {
                     return this.spells.get(spell).cast();
                 }
             }
-            prepare_remove(spell) {
-                if (!spell && this.preparedSpells.indexOf(spell.name) == -1) {
-                    throw new Error("You didn't specify a valid spell");
-                }
-                const index = this.preparedSpells.indexOf(spell.name);
-                return this.preparedSpells.splice(index, 1);
-            }
-            prepare(spell) {
-                try {
-                    if (!spell) {
-                        throw new Error("You didn't specify a valid spell");
-                    } else if (this.preparedSpells.indexOf(spell.name) > -1) {
-                        throw new Error("You already prepared this spell!");
-                    }
-                    const maxPrepared = this.Mod + this.parent.lvl;
-                    if (maxPrepared > this.preparedSpells.length) {
-                        this.preparedSpells.push(spell.name);
-                        console.log(`'${spell.name}' has been prepared successfuly! (${this.preparedSpells.length} / ${maxPrepared})`);
-                        return true;
-                    } else {
-                        throw new Error("You can't prepare any more spells!");
-                    }
-                } catch (err) {
-                    MagicUI.alert(err, {
-                        type: "error"
-                    }); // log error
-                }
-            }
             list(args = {}) {
                 const {
                     name = undefined,
@@ -728,6 +700,15 @@ export const magicDice = (() => {
                         console.log("- %c" + v.name + " %c(" + v.level + " Level)", "color: " + prep_clr, "color: #03a9f4");
                     }
                 })
+            }
+            getPreparedSpells() {
+                let prepared = [];
+                this.spells.forEach((s) => {
+                    if (s.prepared == true) {
+                        prepared.push(s);
+                    }
+                });
+                return prepared;
             }
         }
         class Inventory {
@@ -845,7 +826,7 @@ export const magicDice = (() => {
                 this.parent = parent;
             }
             add(amt) {
-                if(!amt){
+                if (!amt) {
                     return this.currentHP;
                 }
 

@@ -10,7 +10,10 @@
                 data-bs-target="#createSpellModal">
                 <i class="bi bi-plus-circle fs-3"></i>
             </button>
-            <div class="text-muted spell-button">
+            <div class="text-muted me-3" title="Prepared Spells" v-if="$md.ply.magic.getPreparedSpells().length">
+                P: {{ $md.ply.magic.getPreparedSpells().length }}
+            </div>
+            <div class="text-muted spell-button me-3">
                 <i class="bi bi-three-dots"></i>
             </div>
         </div>
@@ -40,7 +43,10 @@
                         <router-link class="text-decoration-none d-block p-3 py-0 spell-link"
                             :to="`/player/${$md.ply.id}/spell/${spell.id}`">
                             <div class="row align-items-center">
-                                <div class="col text-primary">{{ spell.name }}</div>
+                                <div class="col text-primary">{{ spell.name }} <span class="text-secondary ps-1"
+                                        title="This spell is prepared" v-if="spell.prepared">P</span> <span
+                                        class="text-secondary ps-1" title="Can be ritual casted"
+                                        v-if="spell.ritual == 'yes'">R</span></div>
                                 <div class="col">{{ spell.ctime.length >= 27 ? spell.ctime.slice(0, 26) + "..." :
                                     spell.ctime }}</div>
                                 <div class="col d-none d-sm-block">{{ spell.duration }}</div>
@@ -50,15 +56,20 @@
                                 </div>
                                 <div class="col-1">
                                     <div class="dropdown text-end">
-                                        <button class="btn text-muted p-0" type="button"
+                                        <button class="btn text-muted py-0 px-3" type="button"
                                             :id="`dropdownMenuButton-${spell.id}`" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             <i class="bi bi-three-dots"></i>
                                         </button>
                                         <ul class="dropdown-menu" :aria-labelledby="`dropdownMenuButton-${spell.id}`">
                                             <li>
-                                                <div class="dropdown-item" @click="deleteSpell(spell, $event)">Remove
-                                                    Spell</div>
+                                                <div class="dropdown-item"
+                                                    v-if="spell.level.toLowerCase() !== 'cantrip'"
+                                                    @click="prepareSpell(spell, $event)"><i
+                                                        :class="spell.prepared ? 'bi bi-dash' : 'bi bi-plus'"></i> {{
+                                                    spell.prepared ? "Unprepare" : "Prepare" }}</div>
+                                                <div class="dropdown-item" @click="deleteSpell(spell, $event)"><i
+                                                        class="bi bi-x text-danger"></i> Remove</div>
                                             </li>
                                         </ul>
                                     </div>
@@ -190,7 +201,6 @@ function getSpellsByLevel(spells) {
     });
     return arr;
 }
-
 </script>
 
 <script>
@@ -226,6 +236,11 @@ export default {
         deleteSpell(spell, event) {
             event.preventDefault();
             this.$md.ply.magic.spells.delete(spell.name);
+            this.$md.savePlayer();
+        },
+        prepareSpell(spell, event) {
+            event.preventDefault();
+            spell.prepared = spell.prepared ? false : true;
             this.$md.savePlayer();
         },
         submitSpell() {
@@ -268,7 +283,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .banner {
     background: linear-gradient(to bottom, #00000000, var(--bs-body-bg));
     height: 19vh;

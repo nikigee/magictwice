@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col-1">
                                     <div class="dropdown text-end">
-                                        <button class="btn text-muted py-0 px-3" type="button"
+                                        <button class="btn text-muted px-0 py-0 px-sm-3" type="button"
                                             :id="`dropdownMenuButton-${spell.id}`" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             <i class="bi bi-three-dots"></i>

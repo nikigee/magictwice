@@ -46,7 +46,7 @@ export default {
         },
         addHP(reverse = false) {
 
-            const diceRoll = this.$md.Dice.x(this.hpInt);
+            const diceRoll = this.$md.Dice.x(this.hpInt, true);
             this.$md.ply.health.add(reverse ? diceRoll.total * -1 : diceRoll.total);
 
             if (diceRoll.list.length > 0)

@@ -13,9 +13,22 @@
             <div class="text-muted me-3" title="Prepared Spells" v-if="$md.ply.magic.getPreparedSpells().length">
                 P: {{ $md.ply.magic.getPreparedSpells().length }}
             </div>
-            <div class="text-muted spell-button me-3">
-                <i class="bi bi-three-dots"></i>
-            </div>
+            <button type="button" class="btn btn-link text-muted me-3 spell-button p-0" data-bs-toggle="dropdown"
+                id="spellSettings">
+                <i class="bi bi-three-dots fs-3"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="spellSettings">
+                <li>
+                    <div class="dropdown-item" @click="toggleFilter('prepared', $event)"><i
+                            :class="filterPrepared ? 'bi bi-check text-primary' : 'bi bi-x'"> </i>
+                        Filter: Prepared spells</div>
+                </li>
+                <li>
+                    <div class="dropdown-item" @click="toggleFilter('ritual', $event)"><i
+                            :class="filterRitual ? 'bi bi-check text-primary' : 'bi bi-x'"> </i>
+                        Filter: Ritual spells</div>
+                </li>
+            </ul>
         </div>
         <!-- no spells? -->
         <div class="mt-2" v-if="$md.ply.magic.spells.size == 0">
@@ -47,7 +60,8 @@
                                         title="This spell is prepared" v-if="spell.prepared">P</span> <span
                                         class="text-secondary ps-1" title="Can be ritual casted"
                                         v-if="spell.ritual == 'yes'">R</span></div>
-                                <div class="col">{{ spell.ctime.length >= 27 ? spell.ctime.slice(0, 26) + "..." :
+                                <div class="col capitalise">{{ spell.ctime.length >= 27 ? spell.ctime.slice(0, 26) +
+                                    "..." :
                                     spell.ctime }}</div>
                                 <div class="col d-none d-sm-block">{{ spell.duration }}</div>
                                 <div class="col d-none d-sm-block">{{ spell.range }}</div>
@@ -67,7 +81,9 @@
                                                     v-if="spell.level.toLowerCase() !== 'cantrip'"
                                                     @click="prepareSpell(spell, $event)"><i
                                                         :class="spell.prepared ? 'bi bi-dash' : 'bi bi-plus'"></i> {{
-                                                    spell.prepared ? "Unprepare" : "Prepare" }}</div>
+                                                            spell.prepared ? "Unprepare" : "Prepare" }}</div>
+                                            </li>
+                                            <li>
                                                 <div class="dropdown-item" @click="deleteSpell(spell, $event)"><i
                                                         class="bi bi-x text-danger"></i> Remove</div>
                                             </li>
@@ -82,6 +98,7 @@
         </div>
     </div>
 
+    <!-- CREATE SPELL MODAL -->
     <div class="modal fade" id="createSpellModal" tabindex="-1" aria-labelledby="createSpellModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -182,25 +199,82 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import MobileNavBar from '../components/MobileNavBar.vue';
 import NavBar from '../components/NavBar.vue';
 import Footerr from '@/components/Footerr.vue';
 import MdButton from '../components/ui/mdButton.vue';
 
+let filterPrepared = ref(false);
+let filterRitual = ref(false);
+
+let savedFilters = sessionStorage.getItem("spellFilters");
+if (savedFilters) {
+    savedFilters = JSON.parse(savedFilters);
+    filterPrepared.value = savedFilters.prepared;
+    filterRitual.value = savedFilters.ritual;
+}
+
+function toggleFilter(filter, event) {
+    event.preventDefault();
+    switch (filter) {
+        case "prepared":
+            filterPrepared.value = filterPrepared.value ? false : true;
+            break;
+        case "ritual":
+            filterRitual.value = filterRitual.value ? false : true;
+            break;
+        default:
+            break;
+    }
+
+    const filters = {
+        prepared: filterPrepared.value,
+        ritual: filterRitual.value
+    }
+
+    sessionStorage.setItem("spellFilters", JSON.stringify(filters));
+}
+
 function getSpellsByLevel(spells) {
-    // arr = Map with keys as level and values as an array of spells
     let arr = new Map();
+
     spells.forEach(element => {
-        // if that level exists in the map, add it to that levels list of spells
         const lvl = element.level.toLowerCase();
-        if (arr.has(lvl)) {
-            arr.get(lvl).push(element);
-        } else {
-            arr.set(lvl, [element]);
+
+        let include = true;
+
+        // Ritual and Prepared Filters
+        if (filterPrepared.value && filterRitual.value) {
+            // OR logic
+            include = element.prepared === true || element.ritual === "yes";
+
+            if (element.level.toLowerCase() == "cantrip") {
+                include = true;
+            }
+        } else if (filterPrepared.value) {
+            include = element.prepared === true;
+
+            if (element.level.toLowerCase() == "cantrip") {
+                include = true;
+            }
+        } else if (filterRitual.value) {
+            include = element.ritual === "yes";
+        }
+
+        if (include) {
+            if (arr.has(lvl)) {
+                arr.get(lvl).push(element);
+            } else {
+                arr.set(lvl, [element]);
+            }
         }
     });
+
     return arr;
 }
+
+
 </script>
 
 <script>
@@ -302,8 +376,15 @@ export default {
     text-transform: uppercase;
 }
 
-.spell-button {
+.capitalise {
+    text-transform: capitalize;
+}
+
+.dropdown-item {
     cursor: pointer;
+}
+
+.spell-button {
     text-align: center;
 }
 

@@ -10,9 +10,6 @@
                 data-bs-target="#createSpellModal">
                 <i class="bi bi-plus-circle fs-3"></i>
             </button>
-            <div class="text-muted me-3" title="Prepared Spells" v-if="$md.ply.magic.getPreparedSpells().length">
-                P: {{ $md.ply.magic.getPreparedSpells().length }}
-            </div>
             <button type="button" class="btn btn-link text-muted me-3 spell-button p-0" data-bs-toggle="dropdown"
                 id="spellSettings">
                 <i class="bi bi-three-dots fs-3"></i>
@@ -21,7 +18,7 @@
                 <li>
                     <div class="dropdown-item" @click="toggleFilter('prepared', $event)"><i
                             :class="filterPrepared ? 'bi bi-check text-primary' : 'bi bi-x'"> </i>
-                        Filter: Prepared spells</div>
+                        Filter: Prepared spells ({{ $md.ply.magic.getPreparedSpells().length }})</div>
                 </li>
                 <li>
                     <div class="dropdown-item" @click="toggleFilter('ritual', $event)"><i

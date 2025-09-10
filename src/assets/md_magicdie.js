@@ -1245,6 +1245,12 @@ export const magicDice = (() => {
                 this.magic = new Magic(magicData);
                 this.inv = new Inventory(invData);
                 this.render = new Render(renderData);
+                for (let index = 0; index < quick_rolls.length; index++) {
+                    const element = quick_rolls[index];
+                    if (typeof element == "string") {
+                        quick_rolls[index] = { v: element };
+                    }
+                }
                 this.quick_rolls = quick_rolls;
                 this.theme = theme;
             }

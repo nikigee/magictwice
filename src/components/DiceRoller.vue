@@ -44,9 +44,13 @@
                 v-if="$md.ply.quick_rolls">
                 <span v-for="(roll) in $md.ply.quick_rolls"
                     class="border border-primary text-primary rounded p-1 px-2 quickroll shadow m-1 mb-0"
-                    @click="$md.diceHistory.push($md.Dice.x(roll))">{{ roll }}</span>
+                    @click="$md.diceHistory.push($md.Dice.x(roll.v))">
+                    <div>{{ roll.label }}</div>
+                    <div>{{ roll.v }}</div>
+                </span>
             </div>
         </Card>
+        <QuickRollsMenu />
     </div>
 </template>
 
@@ -54,7 +58,8 @@
 import Card from '@/components/ui/Card.vue';
 import ThreeD from './ThreeD.vue';
 import { useAlertStore } from '@/stores/alertStore';
-import { e } from 'mathjs';
+import { Modal } from 'bootstrap';
+import QuickRollsMenu from '@/components/QuickRollsMenu.vue'
 
 export default {
     name: "DiceRoller",
@@ -65,7 +70,8 @@ export default {
     },
     components: {
         Card: Card,
-        ThreeD
+        ThreeD,
+        QuickRollsMenu
     },
     computed: {
         dice() {
@@ -170,6 +176,11 @@ export default {
                         this.$md.savePlayer();
                     }
                 }
+                this.diceInput = "";
+            } else if (command == "quickrolls") {
+                const quickrolls = new Modal(document.querySelector("#quickRolls"));
+                quickrolls.show();
+
                 this.diceInput = "";
             } else if (command == "test") {
                 console.log("hi :)");

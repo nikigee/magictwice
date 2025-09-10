@@ -22,6 +22,9 @@
                                     <li class="dropdown-item" @click="editScores = true">
                                         Edit Information
                                     </li>
+                                    <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#quickRolls">
+                                        Quickrolls
+                                    </li>
                                 </ul>
                             </div>
                         </div>

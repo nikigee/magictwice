@@ -45,7 +45,7 @@
 
     </div>
     <div class="container" v-else>
-        <h1>Sorry, this character doesn't exist :C</h1>
+        <h1 class="text-center">Sorry, this character doesn't exist :C</h1>
     </div>
     <Footerr />
     <MobileNavBar />
@@ -66,6 +66,7 @@ import MobileNavBar from '../components/MobileNavBar.vue';
 import Avatar from '../components/Avatar.vue';
 import Alert from '@/components/Alert.vue';
 import Footerr from '@/components/Footerr.vue';
+import { useAPIStore } from '@/stores/apiStore';
 
 export default {
 
@@ -76,17 +77,23 @@ export default {
         }
     },
     created() {
+        if(!localStorage.charList) return;
         const player = JSON.parse(localStorage.charList)[this.$route.params.id];
         if (player)
             this.$md.Load.restoreFromObj(player);
         this.ply = player;
     },
     mounted() {
+        if(!this.$md.ply) return;
+
         document.title = this.$md.ply.name;
 
         if (localStorage) {
             localStorage.setItem("last_played", this.$md.ply.id);
         }
+
+        const api = useAPIStore();
+        api.log_session({ name: this.$md.ply.name, lvl: this.$md.ply.lvl });
     },
     components: {
         NavBar: NavBar,

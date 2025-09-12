@@ -193,8 +193,9 @@ export default {
                         if (!r.ok) {
                             throw new Error(`HTTP error! status: ${r.status}`);
                         } else {
-                            r.text()
-                                .then(text => alert.create(text));
+                            r.json().then((data) => {
+                                alert.create(data.message, "success");
+                            })
                         }
                     })
                     .catch(err => {

@@ -1,8 +1,8 @@
 import { create, all } from 'mathjs';
 
-const math = create(all);
-
 export const magicDice = (() => {
+    const math = create(all);
+    
     function MapToObj(strMap) {
         let obj = {};
         for (let [k, v] of strMap) {

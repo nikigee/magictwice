@@ -20,10 +20,10 @@
                                 <i class="bi bi-three-dots text-body-secondary" data-bs-toggle="dropdown"></i>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item" @click="editScores = true">
-                                        Edit Information
+                                        <i class="bi bi-pencil-square me-1"></i> Edit Information
                                     </li>
                                     <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#quickRolls">
-                                        Quickrolls
+                                        <i class="bi bi-dice-5 me-1"></i> Quickrolls
                                     </li>
                                 </ul>
                             </div>
@@ -115,4 +115,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>../components/ui/Card.vue
+<style lang="scss" scoped>
+li {
+    cursor: pointer;
+}
+</style>

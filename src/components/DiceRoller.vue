@@ -60,6 +60,7 @@ import ThreeD from './ThreeD.vue';
 import { useAlertStore } from '@/stores/alertStore';
 import { Modal } from 'bootstrap';
 import QuickRollsMenu from '@/components/QuickRollsMenu.vue'
+import { useMagicDice } from '@/stores/mdStore';
 
 export default {
     name: "DiceRoller",
@@ -86,16 +87,17 @@ export default {
         if (localStorage) {
 
             if (localStorage.getItem("last_roll")) {
+                const { md } = useMagicDice();
                 try {
-                    if (this.$md.diceHistory.length == 0) {
+                    if (md.diceHistory.length == 0) {
                         // only restore the old dice roll if they're continuing the same character from a previous session.
                         // no point to restore an old irelevant dice roll when they're playing as a character different from last session.
-                        if (localStorage.getItem("last_played") == this.$md.ply.id) {
+                        if (localStorage.getItem("last_played") == md.ply.id) {
                             const last_roll = JSON.parse(localStorage.getItem("last_roll"));
-                            const dice_roll = new this.$md.Dice(last_roll.dice, last_roll);
+                            const dice_roll = new md.Dice(last_roll.dice, last_roll);
 
                             console.log(`Restored old dice roll: ${dice_roll.dice}`);
-                            this.$md.diceHistory.push(dice_roll);
+                            md.diceHistory.push(dice_roll);
                         } else {
                             localStorage.removeItem("last_roll");
                         }

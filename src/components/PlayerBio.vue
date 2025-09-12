@@ -20,13 +20,13 @@
                         class="bi bi-three-dots"></i></button>
                 <ul class="dropdown-menu">
                     <li class="dropdown-item" @click="openPhotoForm">
-                        Choose Photo
+                        <i class="bi bi-image me-1"></i> Choose Photo
                     </li>
                     <li class="dropdown-item" @click="editMode = true">
-                        Edit Information
+                        <i class="bi bi-pencil-square me-1"></i> Edit Information
                     </li>
                     <li class="dropdown-item" @click="$md.ply.saveToFile()">
-                        Export (.json)
+                        <i class="bi bi-download me-1"></i> Export (.json)
                     </li>
                 </ul>
             </div>
@@ -58,12 +58,13 @@
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Passive Perception: </span><span class="col-3 text-start">{{
-                $md.ply.parse(`${$md.ply.stats.passive_perception} + ${$md.ply.stats.passive_perception_mod ? $md.ply.stats.passive_perception_mod : "0"}`)
+                $md.ply.parse(`${$md.ply.stats.passive_perception} + ${$md.ply.stats.passive_perception_mod ?
+                    $md.ply.stats.passive_perception_mod : "0"}`)
                 }}</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Gold: </span><span class="col-3 text-start">{{ $md.ply.inv.gold
-            }} GP</span>
+                }} GP</span>
         </div>
         <div class="row py-1 align-items-center">
             <span class="text-body-secondary col">Hit Dice: </span><span class="col-3 text-start">{{
@@ -143,5 +144,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* Your component styles here */
+li {
+    cursor: pointer;
+}
 </style>

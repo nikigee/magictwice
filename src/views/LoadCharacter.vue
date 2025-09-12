@@ -54,6 +54,8 @@ export default {
         }
     },
     mounted() {
+        document.documentElement.removeAttribute("data-theme");
+        
         document.title = "Load Character - Magic Dice";
     },
     methods: {

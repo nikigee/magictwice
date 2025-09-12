@@ -7,7 +7,7 @@ import "./assets/magicdice.scss"
 import 'bootstrap-icons/font/bootstrap-icons.scss'
 import 'bootstrap'
 
-import { magicDice } from "./assets/md_magicdie"
+import { useMagicDice } from '@/stores/mdStore'
 
 const pinia = createPinia()
 const app = createApp(App);
@@ -15,9 +15,7 @@ app.use(pinia);
 app.use(router);
 
 // Create a reactive object for $md
-const md = reactive(magicDice);
-
-// Expose $md to all components
-app.config.globalProperties.$md = md;
+const magicStore = useMagicDice();
+app.config.globalProperties.$md = magicStore.md; // TO DO: eventually get rid of this global
 
 app.mount('#app');

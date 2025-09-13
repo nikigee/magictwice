@@ -49,8 +49,10 @@ export default {
             const diceRoll = this.$md.Dice.x(this.hpInt, true);
             this.$md.ply.health.add(reverse ? diceRoll.total * -1 : diceRoll.total);
 
-            if (diceRoll.list.length > 0)
+            if (diceRoll.list.length > 0) {
                 this.$md.diceHistory.push(diceRoll);
+                localStorage.setItem("last_roll", JSON.stringify(diceRoll));
+            }
             this.hpInt = "";
 
             this.$md.savePlayer(); // save changes

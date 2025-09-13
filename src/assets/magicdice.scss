@@ -38,7 +38,7 @@ $primary: $md-accent;
     --bs-success-rgb: 92, 245, 253;
 }
 
-[data-theme="cyberpunk"] #spellbanner{
+[data-theme="cyberpunk"] #spellbanner {
     background-image: url("../assets/img/bg/cyberpunk_4.jpg");
     background-position: center;
 }
@@ -94,6 +94,86 @@ $primary: $md-accent;
 [data-theme="underdark"] .nav-link {
     --bs-nav-link-color: var(--underdark-primary);
     --bs-nav-link-hover-color: #e5c3ff;
+}
+
+// PRITNING STYLES WOO
+@media print {
+    body {
+        color: black !important;
+    }
+
+    .bi-three-dots {
+        display: none !important;
+    }
+
+    .mobile-avatar {
+        -webkit-print-color-adjust: exact !important;
+        /* Chrome, Safari 6 – 15.3, Edge */
+        print-color-adjust: exact !important;
+        /* Firefox 97+, Safari 15.4+ */
+        border-color: black !important;
+        border-width: 4px !important;
+        height: 280px !important;
+        width: 280px !important;
+    }
+
+    .text-muted,
+    .text-body-secondary,
+    .text-secondary-emphasis,
+    .text-white,
+    .list-group-item-action {
+        color: black !important;
+    }
+
+    .main-stats label {
+        display: block;
+        text-align: center !important;
+        // margin-bottom: 10px !important;
+    }
+
+    .side-bar {
+        margin-bottom: 0px !important;
+    }
+
+    .list-group-item {
+        border: none !important;
+        // border-bottom: 1px solid black !important;
+    }
+
+    .healthbar span {
+        font-weight: bold !important;
+        font-size: 21px !important;
+    }
+
+    .ability_mod,
+    .spl_mod {
+        font-weight: bold !important;
+    }
+
+    .ability_mod {
+        font-size: 30px !important;
+    }
+
+    .shadow {
+        box-shadow: none !important;
+    }
+
+    .notes-view, .spell-view {
+        max-width: none !important;
+    }
+
+    .markdown-body[data-theme=dark] {
+        color: black !important;
+    }
+
+    .spell-item .text-primary,
+    .text-secondary {
+        color: black !important;
+    }
+
+    .spell-link {
+        color: black !important;
+    }
 }
 
 // ?? why

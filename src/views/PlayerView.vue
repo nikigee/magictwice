@@ -2,7 +2,7 @@
     <NavBar />
     <div class="container" v-if="ply">
         <div class="row">
-            <div class="col-md-5 col-lg-4 col-xl-3 mb-3">
+            <div class="col-md-5 col-lg-4 col-xl-3 mb-3 side-bar">
                 <div class="text-center">
                     <Avatar />
                 </div>
@@ -14,7 +14,7 @@
                     <Banner />
                 </div>
                 <div class="row pt-2">
-                    <div class="col-lg-7 mb-3">
+                    <div class="col-lg-7 mb-3 main-stats" style="break-after: page;">
                         <div class="text-end">
                             <div class="dropdown dropcenter">
                                 <i class="bi bi-three-dots text-body-secondary" data-bs-toggle="dropdown"></i>

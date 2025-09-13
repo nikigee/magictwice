@@ -1,5 +1,5 @@
 <template>
-    <div class="p-0 position-relative banner">
+    <div class="p-0 position-relative banner d-print-none">
         <div :style="bannerStyle" class="banner-glow">
         </div>
         <div class="rounded" v-if="!$md.ply.render.banner.url" id="banner-default"

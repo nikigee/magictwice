@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-print-none">
         <label for="md-diceroller" class="text-body-secondary">Dice Tray</label>
         <Card id="md-diceroller" bgImage="cards/doragi-2.jpg">
             <!-- <ThreeD /> -->

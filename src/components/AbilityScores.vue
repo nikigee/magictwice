@@ -7,7 +7,7 @@
                     class="col-3 col-xxl shadow rounded text-center bg-body-secondary text-secondary-emphasis m-1 py-1"
                     @click="roll($md.ply.stats.ability_mod[key])" v-for="(v, key) in $md.ply.stats.ability">
                     <div class="" style="font-size: 14px;">{{ abName(key) }}</div>
-                    <div class="fs-3 text-white">{{ $md.ply.stats.ability_mod[key] }}</div>
+                    <div class="fs-3 text-white ability_mod">{{ $md.ply.stats.ability_mod[key] }}</div>
                     <div class="">{{ v }}</div>
                 </div>
             </div>

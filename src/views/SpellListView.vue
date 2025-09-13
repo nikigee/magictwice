@@ -1,11 +1,11 @@
 <template>
     <NavBar class="shadow" />
-    <div class="banner-img" id="spellbanner">
+    <div class="banner-img d-print-none" id="spellbanner">
         <div class="banner"></div>
     </div>
-    <div class="container pt-3">
+    <div class="container spell-view pt-3">
         <h1 class="display-4 spell-heading">Spells</h1>
-        <div class="d-flex spell-buttons align-items-center fs-3">
+        <div class="d-flex spell-buttons align-items-center fs-3 d-print-none">
             <button type="button" class="btn btn-link text-muted me-3 spell-button p-0" data-bs-toggle="modal"
                 data-bs-target="#createSpellModal">
                 <i class="bi bi-plus-circle fs-3"></i>
@@ -45,7 +45,7 @@
                             <div class="col d-none d-sm-block">Duration</div>
                             <div class="col d-none d-sm-block">Range / Area</div>
                             <div class="col-4 d-none d-md-block">Description</div>
-                            <div class="col-1"></div>
+                            <div class="col-1 d-print-none"></div>
                         </div>
                     </div>
                     <!-- Spell details -->
@@ -65,7 +65,7 @@
                                 <div class="col-4 text-muted d-none d-md-block" style="font-size: 15px;">
                                     {{ spell.description.slice(0, 65) }}...
                                 </div>
-                                <div class="col-1">
+                                <div class="col-1 d-print-none">
                                     <div class="dropdown text-end">
                                         <button class="btn text-muted px-0 py-0 px-sm-3" type="button"
                                             :id="`dropdownMenuButton-${spell.id}`" data-bs-toggle="dropdown"
@@ -191,7 +191,7 @@
             </div>
         </div>
     </div>
-    <Footerr />
+    <Footerr class="spell-view" />
     <MobileNavBar />
 </template>
 

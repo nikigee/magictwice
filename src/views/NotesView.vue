@@ -1,10 +1,10 @@
 <template>
     <NavBar />
-    <div class="container" v-if="$md.ply">
+    <div class="container notes-view" v-if="$md.ply">
         <div class="row">
             <div class="col-lg-9 col">
                 <!-- <h1>Features and Notes</h1> -->
-                <div class="d-grid gap-2 mb-3 d-lg-none">
+                <div class="d-grid gap-2 mb-3 d-lg-none d-print-none">
                     <button type="button" class="btn btn-outline-primary btn-block mobile-edit"
                         @click="toggleEdit()">Edit
                         Notes</button>
@@ -27,7 +27,7 @@
     <div class="container" v-else>
         <h1>Sorry, this character doesn't exist :C</h1>
     </div>
-    <Footerr />
+    <Footerr class="notes-view" />
     <MobileNavBar />
 </template>
 

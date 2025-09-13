@@ -1,14 +1,16 @@
 <template>
-    <footer class="mt-auto">
-        <div class="container pb-4">
+    <footer class="mt-auto container">
+        <div class="pb-4">
             <hr />
             <div class="row">
                 <div class="col">
                     <div class="d-md-inline">
                         <span class="text-muted text-nowrap">&copy; 2025 Magic Dice</span>
                     </div>
-                    <span><a href="/">Home</a></span>
-                    <span><router-link to="/about/">About</router-link></span>
+                    <div class="d-md-inline d-print-none">
+                        <span><a href="/">Home</a></span>
+                        <span><router-link to="/about/">About</router-link></span>
+                    </div>
                 </div>
                 <div class="col text-end d-flex align-items-center justify-content-end">
                     <img src="../assets/logo.png" style="height: 30px;">

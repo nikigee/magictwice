@@ -25,7 +25,7 @@
             <div class="col fs-5">
                 <h2 class="h2 text-primary">About</h2>
                 <p>
-                    Hey! You're looking at a digital player sheet I made for dnd 5th edition.
+                    Hey! You're looking at a digital character manager I made for dnd 5th edition.
                 </p>
                 <p>
                     It's a website I made for myself because I wanted something with a lot less hassle than pen and
@@ -53,6 +53,8 @@
                 <p class="text-muted fs-6">A list of everything used in this project:</p>
                 <ul class="fs-6">
                     <li>Logo design: <span class="text-primary">Alex Marshall</span></li>
+                    <li>Background animation: <span class="text-primary">Liam H. Ditty</span></li>
+                    <li>Background art: <span class="text-primary">Adreas Rocha</span></li>
                     <li>Default banner art: <span class="text-primary">Spooky - Dmitry Zaviyalov</span></li>
                     <li>Cyberpunk banner art: <span class="text-primary">Ghost in The Shell - Ash Thorp</span></li>
                     <li>Art: <span class="text-primary">To camp - lok du</span></li>

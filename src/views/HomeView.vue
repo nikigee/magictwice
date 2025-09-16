@@ -1,10 +1,19 @@
 <template>
-    <div class="home container text-center">
-        <div class="position-absolute top-50 start-50 translate-middle">
+    <div class="home text-center">
+        <!-- Background video (hidden on mobile) -->
+        <video class="bg-video d-none d-md-block" autoplay muted loop playsinline>
+            <source src="../assets/img/bg/bg.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Fallback background overlay (for mobile + in case video fails) -->
+        <!-- <div class="bg-fallback"></div> -->
+
+        <!-- Foreground content -->
+        <div class="position-absolute top-50 start-50 translate-middle content">
             <img style="width: 10rem;" :src="require('@/assets/img/mdtwicelogo.png')" />
             <h1 class="display-1 mb-0 col text-nowrap">Magic Dice</h1>
             <p class="lead text-end mb-0">2nd Edition</p>
-            <div class="list-group mt-2">
+            <div class="list-group mt-3">
                 <router-link to="/create" class="list-group-item list-group-item-action">Create Character</router-link>
                 <router-link to="/load" class="list-group-item list-group-item-action">Load Character</router-link>
                 <router-link to="/about" class="list-group-item list-group-item-action">About</router-link>
@@ -16,11 +25,62 @@
 <script setup>
 import { onMounted } from 'vue';
 
-// clear theme
-onMounted(()=>{
+onMounted(() => {
     document.documentElement.removeAttribute("data-theme");
-
     document.title = "Magic Dice";
 });
-
 </script>
+
+<style lang="css" scoped>
+.home {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* Background video */
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0;
+    animation: fadeIn 3s ease forwards;
+}
+
+/* Fallback background (for mobile or if video fails) */
+.bg-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../assets/img/bg/2.jpg") center center;
+    background-size: cover;
+    z-index: -1;
+}
+
+/* Content above video */
+.content {
+    z-index: 1;
+    position: relative;
+    color: white;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.list-group-item {
+    background: none;
+    border-color: white;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+</style>

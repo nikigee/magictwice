@@ -68,14 +68,18 @@ export default {
                 return "bg-warning-subtle text-warning-emphasis"
             }
 
-            return "bg-success text-white";
+            return "full-hp text-white";
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .healthbar {
     transition: 0.4s;
+}
+
+.full-hp {
+    background-color: var(--md-health);
 }
 </style>

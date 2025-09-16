@@ -62,9 +62,8 @@
                 </ul>
             </div>
         </div>
-        <Footerr />
-
     </div>
+    <Footerr />
 </template>
 
 <script setup>

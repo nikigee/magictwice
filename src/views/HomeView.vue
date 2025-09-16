@@ -1,11 +1,9 @@
 <template>
     <div class="home text-center">
-        <!-- Background video (hidden on mobile) -->
-        <video class="bg-video d-none d-md-block" autoplay muted loop playsinline>
+        <video class="bg-video d-none d-md-block" autoplay muted loop playsinline @canplaythrough="showVideo">
             <source src="../assets/img/bg/bg.mp4" type="video/mp4" />
         </video>
 
-        <!-- Fallback background overlay (for mobile + in case video fails) -->
         <!-- <div class="bg-fallback"></div> -->
 
         <!-- Foreground content -->
@@ -23,7 +21,16 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+
+const bgVideo = ref(null);
+
+function showVideo() {
+    const video = document.querySelector(".bg-video");
+    if (video) {
+        video.classList.add("visible");
+    }
+}
 
 onMounted(() => {
     document.documentElement.removeAttribute("data-theme");
@@ -39,7 +46,7 @@ onMounted(() => {
     overflow: hidden;
 }
 
-/* Background video */
+/* Background video - starts hidden */
 .bg-video {
     position: absolute;
     top: 0;
@@ -49,10 +56,15 @@ onMounted(() => {
     object-fit: cover;
     z-index: 0;
     opacity: 0;
-    animation: fadeIn 3s ease forwards;
+    transition: opacity 2s ease;
 }
 
-/* Fallback background (for mobile or if video fails) */
+/* When ready, fade in */
+.bg-video.visible {
+    opacity: 1;
+}
+
+/* Fallback background */
 .bg-fallback {
     position: absolute;
     top: 0;
@@ -75,12 +87,5 @@ onMounted(() => {
 .list-group-item {
     background: none;
     border-color: white;
-}
-
-/* Fade animation */
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
 }
 </style>

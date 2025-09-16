@@ -81,7 +81,10 @@ onMounted(() => {
     z-index: 1;
     position: relative;
     color: white;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.content h1, .content .lead{
+    text-shadow: 0 0px 5px rgba(255, 255, 255, 0.7);
 }
 
 .list-group-item {

@@ -17,7 +17,7 @@
                     <form class="px-3 py-2" @submit="(e) => { e.preventDefault(); return false; }">
                         <div class="mb-2">
                             <label for="bannerBase64" class="form-label">Banner Source</label>
-                            <input @change="onFileChange" class="form-control form-control-sm" type="file"
+                            <input @change="onFileChange" class="form-control form-control-sm" type="file" accept="image/*"
                                 id="bannerBase64" />
                         </div>
                         <div class="mb-2">

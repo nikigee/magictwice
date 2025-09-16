@@ -39,7 +39,7 @@
                 <p>I hope it serves you well!</p>
                 <h2 class="h2 text-primary">Tips and Tricks</h2>
                 <p class="text-muted fs-6">(random hidden features which may be of use to you)</p>
-                <ul>
+                <ul class="fs-6">
                     <li>Typing "quickroll" into the dice tray followed by a diceroll e.g.
                         <code>quickroll d10 + str</code> will bookmark that roll to be quickly rolled whenever you want.
                     </li>

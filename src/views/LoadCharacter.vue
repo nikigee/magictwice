@@ -6,21 +6,23 @@
             </router-link>
         </div>
         <div class="row mt-3 mb-5">
-            <div class="col-xl-5 text-start">
+            <div class="col-xl-5 text-start mb-2">
                 <h1 class="mb-2 py-2 display-4 text-uppercase fst-italic">Load your Character</h1>
-                <p class="lead col-lg-10 mb-5">All stories begin, only some end. But tonight — one continues.</p>
+                <p class="lead col-lg-10">All stories begin, only some end. But tonight — one continues.</p>
             </div>
             <div class="col text-start">
-                <h2 class="mb-3 py-2">Upload Character</h2>
-                <div style="" class="mx-auto text-start">
-                    <label for="formFileLg" class="form-label">Upload a character file (.json format)</label>
-                    <input class="form-control form-control-lg" id="formFileLg" type="file" @change="handleFileUpload">
-                </div>
                 <hr class="mb-4" />
-                <h2 class="mb-2 mt-0">List of Characters</h2>
-                <div class="row justify-content-start mx-0">
+                <div class="row justify-content-start mx-0 align-items-center">
                     <div class="col-6 col-sm-4 g-2" v-for="(character, key) in characters">
                         <CharacterCard class="" :char="character" :link="key" />
+                    </div>
+                    <div class="col-6 col-sm-4 g-2 text-center rounded upload-card">
+                        <div class="card upload rounded">
+                            <div class="h1"><i class="bi bi-file-earmark-arrow-up"></i></div>
+                            <label for="formFileLg" class="form-label">Upload a character file (.json format)</label>
+                            <input class="form-control" id="formFileLg" type="file" accept=".json"
+                                @change="handleFileUpload">
+                        </div>
                     </div>
                     <div v-if="Object.keys(characters).length === 0">
                         <p class="lead mt-2">no characters... yet.</p>
@@ -31,6 +33,17 @@
     </div>
     <Footerr />
 </template>
+
+<style lang="css" scoped>
+.upload {
+    padding: 30px;
+    border: none;
+}
+
+.form-label{
+    font-size: 0.8rem;
+}
+</style>
 
 <script>
 import CharacterCard from "@/components/CharacterCard.vue";
@@ -55,7 +68,7 @@ export default {
     },
     mounted() {
         document.documentElement.removeAttribute("data-theme");
-        
+
         document.title = "Load Character - Magic Dice";
     },
     methods: {
@@ -81,5 +94,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped></style>

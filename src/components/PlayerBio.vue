@@ -3,7 +3,7 @@
         <!-- Edit Avatar -->
         <div class="my-3" v-if="showPhotoForm">
             <!-- File Upload for Avatar -->
-            <input type="file" @change="onAvatarFileChange" class="form-control form-control-sm mb-1" />
+            <input type="file" @change="onAvatarFileChange" accept="image/*" class="form-control form-control-sm mb-1" />
             <input type="text" v-model="avatarUrlInput" class="form-control form-control-sm" placeholder="image url" />
 
             <div class="mt-2 text-center text-lg-start">

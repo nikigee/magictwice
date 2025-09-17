@@ -125,7 +125,7 @@ export default {
             const command = this.diceInput.split(" ")[0].toLowerCase(); // simple command parsing
             let args = this.diceInput.substring(this.diceInput.indexOf(" ") + 1);
             const props = args.split(" ");
-            if (this.diceInput == "clear") {
+            if (command == "clear") {
                 this.$md.diceHistory.splice(0, this.$md.diceHistory.length);
                 localStorage.removeItem("last_roll");
                 this.diceInput = "";

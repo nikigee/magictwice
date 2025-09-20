@@ -24,6 +24,19 @@ $primary: $md-accent;
     --default-banner: url("../assets/img/bg/3.jpg");
 }
 
+.noavatar {
+    background: radial-gradient(circle at 30% 30%, var(--bs-primary), transparent 40%),
+        radial-gradient(circle at 70% 40%, var(--bs-secondary), transparent 40%),
+        radial-gradient(circle at 40% 70%, var(--bs-primary), transparent 40%),
+        radial-gradient(circle at 80% 80%, var(--bs-secondary), transparent 40%);
+    background-size: cover;
+}
+
+.noavatar-blur {
+    backdrop-filter: blur(80px);
+    height: 100%;
+}
+
 // Cyberpunk Theme, choom
 [data-theme="cyberpunk"] {
     --bs-body-bg: #000000;

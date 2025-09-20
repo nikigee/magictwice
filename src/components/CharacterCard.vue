@@ -1,6 +1,6 @@
 <template>
-    <div class="card overflow-hidden text-center border-0 shadow">
-        <div class="bg-black"
+    <div class="card overflow-hidden text-center border-0 shadow noavatar">
+        <div class="noavatar-blur"
             :style="{ 'background-image': 'url(' + char.renderData.avatar + ')', backgroundPosition: 'center top', backgroundSize: 'cover' }">
             <div style="height: 10rem;" class="">
             </div>

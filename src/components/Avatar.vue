@@ -9,6 +9,7 @@
     <div v-else class="pt-5 pt-md-0">
         <div class="wrapper rounded d-none d-md-block">
             <div class="noavatar">
+                <div class="noavatar-blur"></div>
             </div>
         </div>
     </div>
@@ -21,18 +22,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.noavatar {
-    height: 400px;
-    background: radial-gradient(circle at 30% 30%, var(--bs-primary), transparent 40%),
-        radial-gradient(circle at 70% 40%, var(--bs-secondary), transparent 40%),
-        radial-gradient(circle at 40% 70%, var(--bs-primary), transparent 40%),
-        radial-gradient(circle at 80% 80%, var(--bs-secondary), transparent 40%);
-    /* background: var(--default-banner) center center; */
-    /* background-size: cover; */
-    filter: blur(110px);
-}
-
 .wrapper {
     overflow: hidden;
+}
+
+.noavatar {
+    height: 400px;
 }
 </style>

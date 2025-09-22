@@ -22,21 +22,24 @@
                 <p>...or by email: <a href="mailto:ngolev.bus@gmail.com">ngolev.bus@gmail.com</a></p>
             </div>
             <!-- Right side -->
-            <div class="col fs-5">
+            <div class="col">
                 <h2 class="h2 text-primary">About</h2>
-                <p>
-                    Hey! You're looking at a digital character manager I made for dnd 5th edition.
-                </p>
-                <p>
-                    It's a website I made for myself because I wanted something with a lot less hassle than pen and
-                    paper and the existing digital solutions just really didn't work for me. For me, this offers
-                    automation without being too bulky (plus, it's just fun to work on).
-                </p>
-                <p>
-                    Magic Dice started out as a basic JS script I made back in 2018 which then turned into a website --
-                    This version being a total remake of that one, hence "2nd edition" :P
-                </p>
-                <p>I hope it serves you well!</p>
+                <div class="fs-6">
+                    <p>
+                        Hey! You're looking at a digital character manager I made for dnd 5th edition.
+                    </p>
+                    <p>
+                        It's a website I made for myself because I wanted something with a lot less hassle than pen and
+                        paper and the existing digital solutions just really didn't work for me. For me, this offers
+                        automation without being too bulky (plus, it's just fun to work on).
+                    </p>
+                    <p>
+                        Magic Dice started out as a basic JS script I made back in 2018 which then turned into a website
+                        --
+                        This version being a total remake of that one, hence "2nd edition" :P
+                    </p>
+                    <p>I hope it serves you well!</p>
+                </div>
                 <h2 class="h2 text-primary">Tips and Tricks</h2>
                 <p class="text-muted fs-6">(random hidden features which may be of use to you)</p>
                 <ul class="fs-6">

@@ -27,6 +27,6 @@ export default {
 }
 
 .noavatar {
-    height: 400px;
+    height: 350px;
 }
 </style>

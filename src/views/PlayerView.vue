@@ -22,6 +22,9 @@
                                     <li class="dropdown-item" @click="editScores = true">
                                         <i class="bi bi-pencil-square me-1"></i> Edit Information
                                     </li>
+                                    <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#diceHistoryModal">
+                                        <i class="bi bi-clock-history me-1"></i> Roll History
+                                    </li>
                                     <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#quickRolls">
                                         <i class="bi bi-dice-5 me-1"></i> Quickrolls
                                     </li>
@@ -35,6 +38,8 @@
                         </div>
                         <EditScores class="mb-2" v-if="editScores" />
                         <DiceRoller />
+                        <DiceHistoryModal />
+                        <QuickRollsMenu />
                     </div>
                     <div class="col-lg">
                         <Stats class="mt-1" />
@@ -66,6 +71,8 @@ import MobileNavBar from '../components/MobileNavBar.vue';
 import Avatar from '../components/Avatar.vue';
 import Alert from '@/components/Alert.vue';
 import Footerr from '@/components/Footerr.vue';
+import DiceHistoryModal from '@/components/DiceHistoryModal.vue';
+import QuickRollsMenu from '@/components/QuickRollsMenu.vue';
 import { useAPIStore } from '@/stores/apiStore';
 
 export default {
@@ -108,7 +115,9 @@ export default {
         MobileNavBar,
         Avatar,
         Alert,
-        Footerr
+        Footerr,
+        DiceHistoryModal,
+        QuickRollsMenu
     },
     watch: {
         $route(to, from) {

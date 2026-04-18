@@ -173,7 +173,7 @@ export default {
                             }
                         }
                     } else {
-                        this.$md.ply.quick_rolls.push(args);
+                        this.$md.ply.quick_rolls.push({v: args});
 
                         this.$md.savePlayer();
                     }

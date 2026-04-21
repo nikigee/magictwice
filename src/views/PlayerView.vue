@@ -39,7 +39,6 @@
                         <EditScores class="mb-2" v-if="editScores" />
                         <DiceRoller />
                         <DiceHistoryModal />
-                        <QuickRollsMenu />
                     </div>
                     <div class="col-lg">
                         <Stats class="mt-1" />
@@ -72,7 +71,6 @@ import Avatar from '../components/Avatar.vue';
 import Alert from '@/components/Alert.vue';
 import Footerr from '@/components/Footerr.vue';
 import DiceHistoryModal from '@/components/DiceHistoryModal.vue';
-import QuickRollsMenu from '@/components/QuickRollsMenu.vue';
 import { useAPIStore } from '@/stores/apiStore';
 
 export default {
@@ -116,8 +114,7 @@ export default {
         Avatar,
         Alert,
         Footerr,
-        DiceHistoryModal,
-        QuickRollsMenu
+        DiceHistoryModal
     },
     watch: {
         $route(to, from) {

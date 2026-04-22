@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col">
                     <div class="d-md-inline">
-                        <span class="text-muted text-nowrap">&copy; 2025 Magic Dice</span>
+                        <span class="text-muted text-nowrap">&copy; 2026 Magic Dice</span>
                     </div>
                     <div class="d-md-inline d-print-none">
                         <span><a href="/">Home</a></span>

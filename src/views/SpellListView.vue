@@ -115,7 +115,7 @@
                           data-bs-target="#createSpellModal"
                           @click="openEditModal(spell, $event)"
                         >
-                          <i class="bi bi-pencil text-primary"></i> Edit
+                          <i class="bi bi-pencil-square"></i><span>Edit</span>
                         </div>
                       </li>
                       <li>
@@ -125,12 +125,12 @@
                           @click="prepareSpell(spell, $event)"
                         >
                           <i :class="spell.prepared ? 'bi bi-dash' : 'bi bi-plus'"></i>
-                          {{ spell.prepared ? "Unprepare" : "Prepare" }}
+                          <span>{{ spell.prepared ? "Unprepare" : "Prepare" }}</span>
                         </div>
                       </li>
                       <li>
                         <div class="dropdown-item" @click="deleteSpell(spell, $event)">
-                          <i class="bi bi-x text-danger"></i> Remove
+                          <i class="bi bi-x text-danger"></i><span>Remove</span>
                         </div>
                       </li>
                     </ul>
@@ -507,6 +507,13 @@ export default {
 
 .dropdown-menu {
   z-index: 999999;
+}
+
+.dropdown-item i,
+span {
+  vertical-align: middle;
+  padding-right: 2px;
+  padding-left: 2px;
 }
 
 .banner-img {

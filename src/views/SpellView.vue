@@ -68,8 +68,10 @@ function prettyDescription(description) {
                 return `<ul>${listItems}</ul>`; // Wrap all items in <ul>
             }
 
-            // Bold "At higher levels."
+            // Bold "At higher levels," and text such like.
             paragraph = paragraph.replace(/(At higher levels\.)/gi, '<strong>$1</strong>');
+            paragraph = paragraph.replace(/(Using a Higher-Level Spell Slot\.)/gi, '<strong>$1</strong>');
+            paragraph = paragraph.replace(/(Cantrip Upgrade\.)/gi, '<strong>$1</strong>');
 
             // Wrap dice rolls like "2d8", "1d12", etc., in <a> tags
             paragraph = paragraph.replace(/(\b\d+d\d+\b)/g, '<a href="#">$1</a>');

@@ -61,6 +61,7 @@ import { useAlertStore } from '@/stores/alertStore';
 import { Modal } from 'bootstrap';
 import QuickRollsMenu from '@/components/QuickRollsMenu.vue'
 import { useMagicDice } from '@/stores/mdStore';
+import { useAPIStore } from '@/stores/apiStore';
 
 export default {
     name: "DiceRoller",
@@ -111,14 +112,14 @@ export default {
     methods: {
         performRoll(rollString) {
             const result = this.$md.Dice.x(rollString);
-            
+
             // 1. Push to the short-term Dice Tray
             this.$md.diceHistory.push(result);
-            
+
             // 2. Push to the Character's persistent History Log
             if (this.$md.ply) {
                 if (!this.$md.ply.dice_history) this.$md.ply.dice_history = [];
-                
+
                 this.$md.ply.dice_history.push({
                     dice: result.dice,
                     compText: result.compText,
@@ -205,6 +206,17 @@ export default {
                 const quickrolls = new Modal(document.querySelector("#quickRolls"));
                 quickrolls.show();
 
+                this.diceInput = "";
+            } else if (command == "robot") {
+                const api = useAPIStore();
+                const context = JSON.parse(localStorage["charList"])[this.$md.ply.id];
+                api.sendPrompt("In a sentence, " + args, context)
+                    .then((message) => {
+                        alert.create(message, "info");
+                    })
+                    .catch((err) => {
+                        alert.create(err.message, "danger");
+                    });
                 this.diceInput = "";
             } else if (command == "test") {
                 console.log("hi :)");

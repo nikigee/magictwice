@@ -19,5 +19,21 @@ export const useAPIStore = defineStore('api', () => {
             });
     }
 
-    return { log_session }
+    async function sendPrompt(prompt, context) {
+        try {
+            const response = await fetch(`${url}/ai`, {
+                method: 'POST',
+                body: JSON.stringify({ prompt, context }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+            return data.message;
+        } catch (error) {
+            console.error('Error sending prompt:', error);
+            throw error;
+        }
+    }
+
+    return { log_session, sendPrompt }
 })

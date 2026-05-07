@@ -136,6 +136,13 @@
                         v-model="character.equipment"></textarea>
                 </div>
             </div>
+            <div class="mb-3 row">
+                <label for="miscNotes" class="col-sm-3 col-form-label">Additional Notes</label>
+                <div class="col-sm-9">
+                    <textarea id="miscNotes" class="form-control" aria-describedby="languageHelp" rows="4"
+                        v-model="character.notes"></textarea>
+                </div>
+            </div>
             <h2 class="text-start mt-4">Step 5. Generate Character</h2>
             <p class="mb-4">
                 Have a look over everything you've done and make sure there isn't anything
@@ -146,7 +153,7 @@
                 Just note however, you're not done yet. Once the character has been generated
                 you'll want to then make sure to select your saving throw and skill
                 proficiencies, write up your notes (features, tool / equipment proficiencies,
-                etc.) and select any spells.
+                etc.) and add any spells.
             </p>
             <hr />
             <div class="text-center">
@@ -163,7 +170,7 @@
 import { onMounted } from "vue";
 import Footerr from "@/components/Footerr.vue";
 
-onMounted(()=>{
+onMounted(() => {
     document.title = "Create Character - Magic Dice";
 })
 </script>
@@ -191,6 +198,7 @@ export default {
                 background: "",
                 languages: "",
                 equipment: "",
+                notes: ""
             },
             errors: []
         };
@@ -268,6 +276,9 @@ export default {
                     defaultAC: this.character.ac,
                     currentAC: this.character.ac,
                 },
+                invData: {
+                    gold: 0
+                }
             };
 
             // generate some basic notes for the player
@@ -277,10 +288,13 @@ export default {
 
 **Background:** ${this.character.background}
 
+## General Notes
+${this.character.notes}
+
 ## Attacks
 | Name | Hit | Damage | Properties |
 |------|-----|--------|------------|
-| Dagger | +5 | 1d4 + dex | Finesse, Light, Thrown (range 20/60) |
+| Dagger | - | 1d4 + dex | Finesse, Light, Thrown (range 20/60) |
 
 ## Proficiencies
 **Languages:** ${this.character.languages}

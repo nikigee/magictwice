@@ -207,7 +207,7 @@ export default {
                 quickrolls.show();
 
                 this.diceInput = "";
-            } else if (command == "robot") {
+            } else if (command == "2b") {
                 const api = useAPIStore();
                 const context = JSON.parse(localStorage["charList"])[this.$md.ply.id];
                 api.sendPrompt("In a sentence, " + args, context)

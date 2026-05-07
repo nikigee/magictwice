@@ -405,6 +405,7 @@ export const magicDice = (() => {
             this.inspiration = parent.inspiration;
             this.quick_rolls = parent.quick_rolls;
             this.theme = parent.theme;
+            this.dice_history = parent.dice_history
             //this.statsData = parent.stats;
             this.statsData = {
                 save_throws: parent.stats.save_throws,
@@ -1230,7 +1231,8 @@ export const magicDice = (() => {
                     invData = {},
                     renderData = {},
                     quick_rolls = [],
-                    theme = "default"
+                    theme = "default",
+                    dice_history = []
                 } = props;
                 statsData.parent = this;
                 healthData.parent = this;
@@ -1253,6 +1255,7 @@ export const magicDice = (() => {
                 }
                 this.quick_rolls = quick_rolls;
                 this.theme = theme;
+                this.dice_history = dice_history
             }
             d20() {
                 return Dice.r("d20", true);

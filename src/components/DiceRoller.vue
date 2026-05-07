@@ -7,7 +7,7 @@
                 <li v-for="(d, index) in $md.diceHistory" v-show="index >= ($md.diceHistory.length - 1)"
                     class="list-group-item list-group-item-action list-group-item-secondary text-white dicerow">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div @click="$md.diceHistory.push($md.Dice.x(d.dice))">
+                        <div @click="performRoll(d.dice)">
                             <p class="mb-0 text-muted">{{ d.dice }}</p>
                             <div class="d-flex align-items-center">
                                 <div class="pe-3 text-center">
@@ -44,7 +44,7 @@
                 v-if="$md.ply.quick_rolls">
                 <span v-for="(roll) in $md.ply.quick_rolls"
                     class="border border-primary text-primary rounded p-1 px-2 quickroll shadow m-1 mb-0"
-                    @click="$md.diceHistory.push($md.Dice.x(roll.v))">
+                    @click="performRoll(roll.v)">
                     <div>{{ roll.label }}</div>
                     <div>{{ roll.v }}</div>
                 </span>
@@ -109,6 +109,28 @@ export default {
         }
     },
     methods: {
+        performRoll(rollString) {
+            const result = this.$md.Dice.x(rollString);
+            
+            // 1. Push to the short-term Dice Tray
+            this.$md.diceHistory.push(result);
+            
+            // 2. Push to the Character's persistent History Log
+            if (this.$md.ply) {
+                if (!this.$md.ply.dice_history) this.$md.ply.dice_history = [];
+                
+                this.$md.ply.dice_history.push({
+                    dice: result.dice,
+                    compText: result.compText,
+                    total: result.total,
+                    max: result.max,
+                    timestamp: Date.now(), // Add the timestamp
+                    note: ""               // Initialize empty note string
+                });
+                this.$md.savePlayer(); // Save to localStorage immediately
+            }
+        },
+
         deleteRoll(index) {
             this.$md.diceHistory.splice(index, 1);
             if (this.$md.diceHistory.length !== 0) {
@@ -173,7 +195,7 @@ export default {
                             }
                         }
                     } else {
-                        this.$md.ply.quick_rolls.push({v: args});
+                        this.$md.ply.quick_rolls.push({ v: args });
 
                         this.$md.savePlayer();
                     }
@@ -209,9 +231,9 @@ export default {
                     const diceRegex = /\b(\d*)d(\d+)\b/g;
                     if (diceRegex.test(this.diceInput.toLowerCase())) {
                         if (command == "roll") {
-                            this.$md.diceHistory.push(this.$md.Dice.x(args));
+                            this.performRoll(args);
                         } else {
-                            this.$md.diceHistory.push(this.$md.Dice.x(this.diceInput));
+                            this.performRoll(this.diceInput);
                         }
                     }
                     this.diceInput = "";

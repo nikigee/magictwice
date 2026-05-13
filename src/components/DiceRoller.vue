@@ -210,6 +210,8 @@ export default {
             } else if (command == "2b") {
                 const api = useAPIStore();
                 const context = JSON.parse(localStorage["charList"])[this.$md.ply.id];
+                context.renderData.avatar = "";
+                context.renderData.banner.url = "";
                 api.sendPrompt("In a sentence, " + args, context)
                     .then((message) => {
                         alert.create(message, "info");

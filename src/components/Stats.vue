@@ -14,7 +14,7 @@
                             <i class="bi bi-three-dots ms-2" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" @click="roll(x[1])">
+                                    <a class="dropdown-item" @click="roll(x[1], getName(x[0]), false)">
                                         Roll
                                     </a>
                                 </li>
@@ -50,7 +50,7 @@
                             <i class="bi bi-three-dots ms-2" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" @click="roll(calcSkill(skill, $md.ply.stats))">
+                                    <a class="dropdown-item" @click="roll(calcSkill(skill, $md.ply.stats), skill.name)">
                                         Roll
                                     </a>
                                 </li>
@@ -135,8 +135,28 @@ export default {
                     return "Attribute";
             }
         },
-        roll(v) {
-            this.$md.diceHistory.push(this.$md.Dice.x("d20+" + v)); // roll and save
+        roll(v, skill, check = true) {
+            const result = this.$md.Dice.x(`d20+${v}`);
+
+            // 1. Push to the short-term Dice Tray
+            this.$md.diceHistory.push(result);
+
+            // 2. Push to the Character's persistent History Log
+            if (this.$md.ply) {
+                if (!this.$md.ply.dice_history) this.$md.ply.dice_history = [];
+
+                const type = check ? "Roll" : "Saving Throw";
+
+                this.$md.ply.dice_history.push({
+                    dice: result.dice,
+                    compText: result.compText,
+                    total: result.total,
+                    max: result.max,
+                    timestamp: Date.now(), // Add the timestamp
+                    note: `${skill} ${type}`               // Initialize empty note string
+                });
+                this.$md.savePlayer(); // Save to localStorage immediately
+            }
         }
     }
 }

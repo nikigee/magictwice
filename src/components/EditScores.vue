@@ -88,11 +88,11 @@ export default {
             }
             this.$md.ply.health.maxHP = this.maxHP;
 
-            // set hp
-            if (this.$md.ply.health.tempHP == this.$md.ply.health.currentTempHP) {
-                this.$md.ply.health.currentTempHP = this.tempHP; // for convenience to player
+            // set temp hp
+            if (this.tempHP !== this.$md.ply.health.tempHP) {
+                this.$md.ply.health.currentTempHP = this.tempHP;
+                this.$md.ply.health.tempHP = this.tempHP;
             }
-            this.$md.ply.health.tempHP = this.tempHP;
 
             // set ab scores
             this.$md.ply.stats.ability = this.ability;

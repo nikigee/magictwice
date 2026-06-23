@@ -4,6 +4,10 @@
             <label class="text-body-secondary">Health Points</label>
             <input class="form-control" type="number" v-model="maxHP" />
         </div>
+        <div class="mb-3">
+            <label class="text-body-secondary">Temporary Health Points</label>
+            <input class="form-control" type="number" v-model="tempHP" />
+        </div>
 
         <label class="text-body-secondary form-label">Ability Scores</label>
         <div class="mb-2 row row-cols-3 row-cols-xl-6 justify-content-center text-center ab-scores">
@@ -77,12 +81,18 @@ export default {
             }
             return 10;
         },
-        save(){
+        save() {
             // set hp
-            if(this.$md.ply.health.maxHP == this.$md.ply.health.currentHP){
+            if (this.$md.ply.health.maxHP == this.$md.ply.health.currentHP) {
                 this.$md.ply.health.currentHP = this.maxHP; // for convenience to player
             }
             this.$md.ply.health.maxHP = this.maxHP;
+
+            // set hp
+            if (this.$md.ply.health.tempHP == this.$md.ply.health.currentTempHP) {
+                this.$md.ply.health.currentTempHP = this.tempHP; // for convenience to player
+            }
+            this.$md.ply.health.tempHP = this.tempHP;
 
             // set ab scores
             this.$md.ply.stats.ability = this.ability;
@@ -96,6 +106,7 @@ export default {
     data() {
         return {
             maxHP: this.$md.ply.health.maxHP,
+            tempHP: this.$md.ply.health.tempHP,
             ability: {
                 str: this.$md.ply.stats.ability.str,
                 dex: this.$md.ply.stats.ability.dex,

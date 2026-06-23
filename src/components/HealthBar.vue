@@ -2,6 +2,11 @@
     <div class="mb-2">
         <div class="dropdown">
             <label for="md-healthbar" class="text-body-secondary">Health Points</label>
+            <div class="temp-hp-divider mb-1" v-if="$md.ply.health.tempHP">
+                <span class="divider-line"></span>
+                <span class="divider-text">{{ $md.ply.health.currentTempHP }} / {{ $md.ply.health.tempHP }}</span>
+                <span class="divider-line"></span>
+            </div>
             <div id="md-healthbar" class="bg-dark-subtle rounded overflow-hidden" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <div class="p-1 text-center healthbar" :class="getColor()"
@@ -81,5 +86,22 @@ export default {
 
 .full-hp {
     background-color: var(--md-health);
+}
+
+.temp-hp-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .divider-line {
+        flex: 1;
+        height: 1px;
+        background-color: #ccc; // adjust color as needed
+    }
+
+    .divider-text {
+        white-space: nowrap;
+        font-size: 0.875rem;
+    }
 }
 </style>

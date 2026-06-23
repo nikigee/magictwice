@@ -2,7 +2,7 @@ import { create, all } from 'mathjs';
 
 export const magicDice = (() => {
     const math = create(all);
-    
+
     function MapToObj(strMap) {
         let obj = {};
         for (let [k, v] of strMap) {
@@ -816,6 +816,8 @@ export const magicDice = (() => {
                     hitdie = parent.lvl + parent.player_class.hitdie,
                     maxHP = new Dice(`${new Dice(parent.player_class.hitdie).max} + ${(parent.lvl - 1) + parent.player_class.hitdie}->${parent.stats.ability_mod.cnst}`).total,
                     currentHP = maxHP,
+                    tempHP = 0,
+                    currentTempHP = 0,
                     defaultAC = "10 + dex",
                     currentAC = defaultAC
                 } = props;
@@ -823,6 +825,8 @@ export const magicDice = (() => {
                 this.currentHP = currentHP;
                 this.defaultAC = defaultAC;
                 this.currentAC = currentAC;
+                this.tempHP = tempHP;
+                this.currentTempHP = currentTempHP;
                 this.hitdie = hitdie;
                 this.parent = parent;
             }
@@ -834,13 +838,31 @@ export const magicDice = (() => {
                 /* i love it when javascript changes my numbers to strings for no reason :) */
                 this.currentHP = Number(this.currentHP);
                 this.maxHP = Number(this.maxHP);
-                this.currentHP += Number(amt); // the modding itself
+                this.tempHP = Number(this.tempHP);
+                this.currentTempHP = Number(this.currentTempHP);
+
+                if (amt < 0) {
+                    // Taking damage - reduce temp HP first
+                    const damageAmount = Math.abs(Number(amt));
+                    const tempHPDamage = Math.min(this.currentTempHP, damageAmount);
+                    this.currentTempHP -= tempHPDamage;
+                    const remainingDamage = damageAmount - tempHPDamage;
+
+                    if (remainingDamage > 0 || this.currentTempHP == 0) {
+                        this.currentHP -= remainingDamage;
+                        this.tempHP = 0;
+                    }
+                } else {
+                    // Healing
+                    this.currentHP += Number(amt);
+                }
 
                 if (this.currentHP > this.maxHP) {
                     this.currentHP = this.maxHP;
                 }
+
                 var status = (amt < 0) ? "Damaged" : "Healed"; // did it heal or damage?
-                console.log(status + " by " + amt + " points! %c(HP: " + this.currentHP + " / " + this.maxHP + ")", "color:" + getColor(this.currentHP / this.maxHP * 100));
+                console.log(status + " by " + amt + " points! %c(HP: " + this.currentHP + " / " + this.maxHP + ", Temp HP: " + this.tempHP + ")", "color:" + getColor(this.currentHP / this.maxHP * 100));
 
                 return this.currentHP;
             }

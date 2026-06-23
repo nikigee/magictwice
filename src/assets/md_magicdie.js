@@ -422,6 +422,8 @@ export const magicDice = (() => {
             this.healthData = {
                 maxHP: parent.health.maxHP,
                 currentHP: parent.health.currentHP,
+                tempHP: parent.health.tempHP,
+                currentTempHP: parent.health.currentTempHP,
                 defaultAC: parent.health.defaultAC,
                 currentAC: parent.health.currentAC,
                 hitdie: parent.health.hitdie

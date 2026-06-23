@@ -62,17 +62,13 @@
                                     <span class="text-secondary ps-1" title="Can be ritual casted"
                                         v-if="spell.ritual == 'yes'">R</span>
                                 </div>
-                                <div class="col capitalise">
-                                    {{
-                                        spell.ctime.length >= 27
-                                            ? spell.ctime.slice(0, 26) + "..."
-                                            : spell.ctime
-                                    }}
+                                <div class="col text-truncate">
+                                    {{ spell.ctime }}
                                 </div>
                                 <div class="col d-none d-sm-block">{{ spell.duration }}</div>
                                 <div class="col d-none d-sm-block">{{ spell.range }}</div>
-                                <div class="col-4 text-muted d-none d-md-block" style="font-size: 15px">
-                                    {{ spell.description.slice(0, 65) }}...
+                                <div class="col-4 text-muted d-none d-md-block text-truncate" style="font-size: 15px">
+                                    {{ spell.description }}
                                 </div>
                                 <div class="col-1 d-print-none">
                                     <div class="dropdown text-end">

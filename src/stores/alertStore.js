@@ -13,6 +13,14 @@ export const useAlertStore = defineStore('alert', () => {
 
         if (alertElement) {
             alertElement.append(wrapper);
+            
+            // Set tabindex and focus wrapper for accessibility, removing outline to prevent visual distraction
+            wrapper.setAttribute('tabindex', '-1');
+            wrapper.style.outline = 'none';
+            wrapper.focus({ preventScroll: true });
+
+            // Scroll the wrapper into view smoothly
+            wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }
 

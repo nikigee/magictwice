@@ -53,7 +53,7 @@
             <div class="mb-2">
                 <label class="text-body-secondary mb-1">Passive Perception</label>
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text" id="pp">14 +</span>
+                    <span class="input-group-text" id="pp">{{ 10 + $md.ply.stats.skills.perception }} +</span>
                     <input type="text" class="form-control form-control-sm" v-model="passive_perception_mod"
                         placeholder="0" aria-describedby="pp" />
                 </div>

@@ -36,8 +36,9 @@
             </ul>
             <div class="input-group mt-2">
                 <input @keyup.enter="roll" type="text" class="form-control" v-model="diceInput"
-                    placeholder="Enter dice roll here (example: d20+4)"
-                    aria-label="Enter dice roll here (example: d20+4)" aria-describedby="button-addon2">
+                    placeholder="Enter dice roll here (example: d20+4)" 
+                    aria-label="Enter dice roll here (example: d20+4)" aria-describedby="button-addon2"
+                    autocorrect="off" autocapitalize="none" spellcheck="false" autocomplete="off">
                 <button @click="roll" class="btn btn-outline-primary" type="button" id="button-addon2">Roll</button>
             </div>
             <div class="mt-1 d-flex flex-wrap justify-content-center justify-content-sm-start mb-1"

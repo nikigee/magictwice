@@ -1352,13 +1352,24 @@ export const magicDice = (() => {
                 }
                 console.log("[WARNING] This will not save to HTML5 Local Storage, this will save externally only!");
 
-                // thanks to stack overflow for this code
-                var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(new Save(this)));
-                var downloadAnchorNode = document.createElement('a');
-                downloadAnchorNode.setAttribute("href", dataStr);
+                // Generate the JSON string
+                const saveData = JSON.stringify(new Save(this));
+
+                // Convert the data into a Blob
+                const blob = new Blob([saveData], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", url);
                 downloadAnchorNode.setAttribute("download", exportName + ".json");
+
+                // Append to body, click, and clean up
+                document.body.appendChild(downloadAnchorNode);
                 downloadAnchorNode.click();
-                downloadAnchorNode.remove();
+                document.body.removeChild(downloadAnchorNode);
+
+                // Free up memory
+                window.URL.revokeObjectURL(url);
             }
             parse(input) {
                 // turns out magic dice can handle all the parsing including ability mods and such

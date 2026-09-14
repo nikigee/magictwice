@@ -6,6 +6,7 @@
                     <div class="col">
                         <!-- <label class="form-label mb-1 text-body-secondary">Roll</label> -->
                         <input type="text" class="form-control form-control-sm" v-model="roll.v" placeholder="Roll"
+                            autocorrect="off" autocapitalize="none" spellcheck="false" autocomplete="off"
                             required />
                     </div>
                     <div class="col">

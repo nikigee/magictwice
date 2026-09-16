@@ -48,7 +48,7 @@ export const useAlertStore = defineStore("alert", () => {
 				spinner.setAttribute("role", "status");
 				spinner.style.position = "absolute";
 				spinner.style.bottom = "20px";
-				spinner.style.left = "20px";
+				spinner.style.right = "20px";
 				spinner.style.zIndex = "1050";
 				spinner.innerHTML =
 					'<span class="visually-hidden">Loading...</span>';

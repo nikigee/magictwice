@@ -46,7 +46,8 @@ export const useAlertStore = defineStore("alert", () => {
 				spinner.id = "processSpinner";
 				spinner.className = "spinner-border text-primary";
 				spinner.setAttribute("role", "status");
-				spinner.style.position = "absolute";
+				spinner.style.position = "fixed";
+				spinner.style.pointerEvents = "none";
 				spinner.style.bottom = "20px";
 				spinner.style.right = "20px";
 				spinner.style.zIndex = "1050";

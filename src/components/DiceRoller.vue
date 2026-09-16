@@ -36,7 +36,7 @@
             </ul>
             <div class="input-group mt-2">
                 <input @keyup.enter="roll" type="text" class="form-control" v-model="diceInput"
-                    placeholder="Enter dice roll here (example: d20+4)" 
+                    placeholder="Enter dice roll here (example: d20+4)"
                     aria-label="Enter dice roll here (example: d20+4)" aria-describedby="button-addon2"
                     autocorrect="off" autocapitalize="none" spellcheck="false" autocomplete="off">
                 <button @click="roll" class="btn btn-outline-primary" type="button" id="button-addon2">Roll</button>
@@ -213,12 +213,15 @@ export default {
                 const context = JSON.parse(localStorage["charList"])[this.$md.ply.id];
                 context.renderData.avatar = "";
                 context.renderData.banner.url = "";
+                alert.process(true);
                 api.sendPrompt("In a sentence, " + args, context)
                     .then((message) => {
                         alert.create(message, "info");
+                        alert.process(false);
                     })
                     .catch((err) => {
                         alert.create(err.message, "danger");
+                        alert.process(false);
                     });
                 this.diceInput = "";
             } else if (command == "test") {

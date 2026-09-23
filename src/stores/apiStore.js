@@ -35,5 +35,59 @@ export const useAPIStore = defineStore('api', () => {
         }
     }
 
-    return { log_session, sendPrompt }
+    // Returns the public/cached CDN URL for any uploaded fileKey
+    function getImageUrl(fileKey) {
+        if (!fileKey) return '';
+        // If it's already a full URL, return as is
+        if (fileKey.startsWith('http://') || fileKey.startsWith('https://')) return fileKey;
+        return `${url}/images/${encodeURIComponent(fileKey)}`;
+    }
+
+    // Handles the two-step direct upload to S3/Railway Bucket
+    async function uploadImage(file) {
+        try {
+            // 1. Ask your backend for a presigned upload URL
+            const ticketResponse = await fetch(`${url}/api/get-upload-url`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contentType: file.type || 'image/jpeg' })
+            });
+
+            const ticketData = await ticketResponse.json();
+            if (!ticketResponse.ok || ticketData.error) {
+                throw new Error(ticketData.error || 'Failed to get upload ticket');
+            }
+
+            const { uploadUrl, fileKey } = ticketData;
+
+            // 2. Upload file directly to the S3 bucket using PUT
+            const uploadResponse = await fetch(uploadUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': file.type || 'image/jpeg'
+                },
+                body: file
+            });
+
+            if (!uploadResponse.ok) {
+                throw new Error(`Direct upload failed with status ${uploadResponse.status}`);
+            }
+
+            // Return both the key (to save in your DB/state) and the display URL
+            return {
+                fileKey,
+                imageUrl: getImageUrl(fileKey)
+            };
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    }
+
+    return { 
+        log_session, 
+        sendPrompt, 
+        uploadImage, 
+        getImageUrl 
+    }
 })

@@ -3,24 +3,51 @@
         <!-- Edit Avatar -->
         <div class="my-3" v-if="showPhotoForm">
             <!-- File Upload for Avatar -->
-            <input type="file" @change="onAvatarFileChange" accept="image/*" class="form-control form-control-sm mb-1" />
-            <input type="text" v-model="avatarUrlInput" class="form-control form-control-sm" placeholder="image url" />
+            <input 
+                type="file" 
+                @change="onAvatarFileChange" 
+                accept="image/*" 
+                class="form-control form-control-sm mb-1" 
+                :disabled="isUploading"
+            />
+            <!-- <input 
+                type="text" 
+                v-model="avatarUrlInput" 
+                class="form-control form-control-sm" 
+                placeholder="image url" 
+                :disabled="isUploading"
+            /> -->
+
+            <!-- Upload progress & feedback -->
+            <div v-if="isUploading" class="small text-primary mt-1">
+                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                Uploading image...
+            </div>
+            <div v-if="uploadError" class="small text-danger mt-1">
+                {{ uploadError }}
+            </div>
 
             <div class="mt-2 text-center text-lg-start">
-                <mdButton class="ms-0" @click="changeAvatarUrl">Set</mdButton>
-                <mdButton class="me-0 btn-outline-secondary" @click="cancelPhotoForm">Cancel</mdButton>
+                <mdButton class="ms-0" @click="changeAvatarUrl" :disabled="isUploading">
+                    {{ isUploading ? 'Uploading...' : 'Set' }}
+                </mdButton>
+                <mdButton class="me-0 btn-outline-secondary" @click="cancelPhotoForm" :disabled="isUploading">
+                    Cancel
+                </mdButton>
             </div>
         </div>
+
         <!-- Name -->
         <div class="d-flex my-1 align-items-center justify-content-between">
             <h1 class="h2 py-1 m-0">{{ $md.ply.name }}</h1>
             <!-- Dropdown Options -->
             <div class="dropdown dropcenter">
-                <button class="btn fs-4 p-0 px-2 text-muted" data-bs-toggle="dropdown" aria-expanded="false"><i
-                        class="bi bi-three-dots"></i></button>
+                <button class="btn fs-4 p-0 px-2 text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots"></i>
+                </button>
                 <ul class="dropdown-menu">
                     <li class="dropdown-item" @click="openPhotoForm">
-                        <i class="bi bi-image me-1"></i> Choose Photo
+                        <i class="bi bi-image me-1"></i> Change Avatar
                     </li>
                     <li class="dropdown-item" @click="editMode = true">
                         <i class="bi bi-pencil-square me-1"></i> Edit Information
@@ -31,11 +58,13 @@
                 </ul>
             </div>
         </div>
+
         <!-- Important Info -->
-        <p class="text-body-secondary mb-0"> {{ $md.ply.player_class.name }} - Level {{ $md.ply.lvl }}</p>
-        <p>
-        <div v-if="$md.ply.exp !== 0"><span class="text-body-secondary">XP: </span>{{ $md.ply.exp }}</div>
-        </p>
+        <p class="text-body-secondary mb-0"> {{ $md.ply.player_class.name }} - Level {{$md.ply.lvl }}</p>
+        <div>
+            <div v-if="$md.ply.exp !== 0"><span class="text-body-secondary">XP: </span>{{ $md.ply.exp }}</div>
+        </div>
+
         <!-- Additional Player Info ... -->
         <div class="row justify-content-between mt-2">
             <div class="col-3">
@@ -51,26 +80,29 @@
                 <p class="fw-bold fs-3 m-0">{{ $md.ply.stats.speed }}</p>
             </div>
         </div>
+
         <!-- Other Info -->
         <div class="row py-1 mt-2 align-items-center">
-            <span class="text-body-secondary col">Proficiency Bonus: </span><span class="col-3 text-start">{{
-                $md.ply.stats.prof }}</span>
+            <span class="text-body-secondary col">Proficiency Bonus: </span>
+            <span class="col-3 text-start">{{ $md.ply.stats.prof }}</span>
         </div>
         <div class="row py-1 align-items-center">
-            <span class="text-body-secondary col">Passive Perception: </span><span class="col-3 text-start">{{
+            <span class="text-body-secondary col">Passive Perception: </span>
+            <span class="col-3 text-start">{{
                 $md.ply.parse(`${$md.ply.stats.passive_perception} + ${$md.ply.stats.passive_perception_mod ?
                     $md.ply.stats.passive_perception_mod : "0"}`)
-                }}</span>
+            }}</span>
         </div>
         <div class="row py-1 align-items-center">
-            <span class="text-body-secondary col">Gold: </span><span class="col-3 text-start">{{ $md.ply.inv.gold
-                }} GP</span>
+            <span class="text-body-secondary col">Gold: </span>
+            <span class="col-3 text-start">{{ $md.ply.inv.gold }} GP</span>
         </div>
         <div class="row py-1 align-items-center">
-            <span class="text-body-secondary col">Hit Dice: </span><span class="col-3 text-start">{{
-                $md.ply.health.hitdie }}</span>
+            <span class="text-body-secondary col">Hit Dice: </span>
+            <span class="col-3 text-start">{{ $md.ply.health.hitdie }}</span>
         </div>
     </div>
+
     <div v-if="editMode">
         <EditPlayerBio />
     </div>
@@ -79,6 +111,7 @@
 <script>
 import mdButton from "@/components/ui/mdButton.vue";
 import EditPlayerBio from "./EditPlayerBio.vue";
+import { useAPIStore } from "@/stores/apiStore.js"; // Adjust the path if your store directory differs
 
 export default {
     name: "PlayerBio",
@@ -86,7 +119,9 @@ export default {
         return {
             showPhotoForm: false,
             editMode: false,
-            oldAvatar: ""
+            oldAvatar: "",
+            isUploading: false,
+            uploadError: ""
         };
     },
     components: {
@@ -97,7 +132,7 @@ export default {
         avatarUrlInput: {
             get() {
                 const url = this.$md.ply.render.avatar || "";
-                // If the URL is a base64 string, don't display it in the input
+                // If it's a legacy base64 string, don't fill the text box
                 if (url.startsWith("data:")) {
                     return "";
                 }
@@ -114,29 +149,48 @@ export default {
         },
         openPhotoForm() {
             this.oldAvatar = this.$md.ply.render.avatar || "";
-
+            this.uploadError = "";
             this.showPhotoForm = true;
         },
         changeAvatarUrl() {
-            // The avatar URL has already been set via the file upload or text input
-            // Close the form and clear the input if needed
+            if (this.isUploading) return;
             this.showPhotoForm = false;
-            this.$md.savePlayer(); // Save the player data
+            this.$md.savePlayer();
         },
         cancelPhotoForm() {
+            if (this.isUploading) return;
             this.$md.ply.render.avatar = this.oldAvatar || "";
-
+            this.uploadError = "";
             this.showPhotoForm = false;
         },
-        onAvatarFileChange(e) {
+        async onAvatarFileChange(e) {
             const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    // Set the player's avatar to the base64 data URL
-                    this.$md.ply.render.avatar = event.target.result;
-                };
-                reader.readAsDataURL(file);
+            if (!file) return;
+
+            // Optional client-side size check (e.g. max 5MB)
+            const MAX_SIZE = 15 * 1024 * 1024;
+            if (file.size > MAX_SIZE) {
+                this.uploadError = "File size exceeds 15MB limit.";
+                e.target.value = "";
+                return;
+            }
+
+            this.isUploading = true;
+            this.uploadError = "";
+
+            try {
+                const apiStore = useAPIStore();
+                const { imageUrl } = await apiStore.uploadImage(file);
+                
+                // Set the avatar URL to the cached CDN proxy route
+                this.$md.ply.render.avatar = imageUrl;
+            } catch (err) {
+                console.error("Avatar upload failed:", err);
+                this.uploadError = err.message || "Failed to upload image. Please try again.";
+            } finally {
+                this.isUploading = false;
+                // Clear the input so selecting the same file again triggers change
+                e.target.value = "";
             }
         }
     }

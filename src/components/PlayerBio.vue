@@ -47,7 +47,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li class="dropdown-item" @click="openPhotoForm">
-                        <i class="bi bi-image me-1"></i> Change Avatar
+                        <i class="bi bi-image me-1"></i> Upload Avatar
                     </li>
                     <li class="dropdown-item" @click="editMode = true">
                         <i class="bi bi-pencil-square me-1"></i> Edit Information
@@ -111,7 +111,8 @@
 <script>
 import mdButton from "@/components/ui/mdButton.vue";
 import EditPlayerBio from "./EditPlayerBio.vue";
-import { useAPIStore } from "@/stores/apiStore.js"; // Adjust the path if your store directory differs
+import { useAPIStore } from "@/stores/apiStore.js";
+import { useAlertStore } from "@/stores/alertStore.js";
 
 export default {
     name: "PlayerBio",
@@ -184,6 +185,8 @@ export default {
                 
                 // Set the avatar URL to the cached CDN proxy route
                 this.$md.ply.render.avatar = imageUrl;
+
+                useAlertStore().create("Avatar uploaded successfully!", "success");
             } catch (err) {
                 console.error("Avatar upload failed:", err);
                 this.uploadError = err.message || "Failed to upload image. Please try again.";

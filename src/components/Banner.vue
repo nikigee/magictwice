@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu">
                     <form class="px-3 py-2" @submit.prevent>
                         <div class="mb-2">
-                            <label for="bannerBase64" class="form-label">Change Banner</label>
+                            <label for="bannerBase64" class="form-label">Upload Banner</label>
                             <input 
                                 @change="onFileChange" 
                                 class="form-control form-control-sm" 
@@ -80,6 +80,7 @@
 import mdButton from "@/components/ui/mdButton.vue";
 import ColorThief from "colorthief";
 import { useAPIStore } from "@/stores/apiStore"; // Adjust the path if your store directory differs
+import { useAlertStore } from "@/stores/alertStore";
 
 export default {
     name: "Banner",
@@ -148,6 +149,8 @@ export default {
 
                 // Recompute the dynamic glow box-shadow with the new image
                 this.setGlow();
+
+                useAlertStore().create("Banner uploaded successfully!", "success");
             } catch (err) {
                 console.error("Banner upload failed:", err);
                 this.uploadError = err.message || "Failed to upload banner. Please try again.";

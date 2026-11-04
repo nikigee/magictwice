@@ -15,10 +15,9 @@
                 <span>Add Spell</span>
             </button>
 
-            <div class="dropdown">
+            <div class="dropdown" :class="{ 'has-active-filter': filterPrepared || filterRitual }">
                 <button type="button" class="btn spell-toolbar-btn d-inline-flex align-items-center gap-2 rounded-1"
-                    :class="{ 'active-filter': filterPrepared || filterRitual }" data-bs-toggle="dropdown"
-                    data-bs-auto-close="outside" id="spellSettings" aria-expanded="false">
+                    data-bs-toggle="dropdown" data-bs-auto-close="outside" id="spellSettings" aria-expanded="false">
                     <i class="bi bi-sliders"></i>
                     <span>Filter</span>
                     <span v-if="(filterPrepared ? 1 : 0) + (filterRitual ? 1 : 0) > 0"
@@ -55,19 +54,17 @@
                             </span>
                         </button>
                     </li>
-                    <template v-if="filterPrepared || filterRitual">
-                        <li>
-                            <hr class="dropdown-divider my-1" />
-                        </li>
-                        <li>
-                            <button type="button"
-                                class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 text-body-secondary small"
-                                @click="clearFilters($event)">
-                                <i class="bi bi-arrow-counterclockwise"></i>
-                                <span>Reset filters</span>
-                            </button>
-                        </li>
-                    </template>
+                    <li v-show="filterPrepared || filterRitual">
+                        <hr class="dropdown-divider my-1" />
+                    </li>
+                    <li v-show="filterPrepared || filterRitual">
+                        <button type="button"
+                            class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 text-body-secondary small"
+                            @click="clearFilters($event)">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            <span>Reset filters</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
 
@@ -517,9 +514,9 @@ export default {
         color: var(--bs-white);
     }
 
-    &.active-filter {
-        border-color: var(--bs-primary);
-    }
+.has-active-filter .spell-toolbar-btn {
+    border-color: var(--bs-primary);
+}
 }
 
 .spell-toolbar-btn-primary {

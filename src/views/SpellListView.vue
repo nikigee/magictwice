@@ -4,35 +4,90 @@
         <div class="banner"></div>
     </div>
     <div class="container spell-view pt-3">
-        <h1 class="display-4 spell-heading">Spells</h1>
-        <div class="d-flex spell-buttons align-items-center fs-3 d-print-none">
-            <button type="button" class="btn btn-link text-muted me-3 spell-button p-0" data-bs-toggle="modal"
-                data-bs-target="#createSpellModal" @click="openCreateModal">
-                <i class="bi bi-plus-circle fs-3"></i>
+        <h1 class="display-4 spell-heading mb-2">Spells</h1>
+
+        <!-- Neat Toolbar Under Spells -->
+        <div class="spell-toolbar d-flex flex-wrap align-items-center gap-2 mb-3 d-print-none">
+            <button type="button"
+                class="btn spell-toolbar-btn spell-toolbar-btn-primary d-inline-flex align-items-center gap-2 rounded-1"
+                data-bs-toggle="modal" data-bs-target="#createSpellModal" @click="openCreateModal">
+                <i class="bi bi-plus-lg"></i>
+                <span>Add Spell</span>
             </button>
-            <button type="button" class="btn btn-link text-muted me-3 spell-button p-0" data-bs-toggle="dropdown"
-                id="spellSettings">
-                <i class="bi bi-three-dots fs-3"></i>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="spellSettings">
-                <li>
-                    <div class="dropdown-item" @click="toggleFilter('prepared', $event)">
-                        <i :class="filterPrepared ? 'bi bi-check text-primary' : 'bi bi-x'"> </i>
-                        Filter: Prepared spells ({{ $md.ply.magic.getPreparedSpells().length }})
-                    </div>
-                </li>
-                <li>
-                    <div class="dropdown-item" @click="toggleFilter('ritual', $event)">
-                        <i :class="filterRitual ? 'bi bi-check text-primary' : 'bi bi-x'"> </i>
-                        Filter: Ritual spells
-                    </div>
-                </li>
-            </ul>
+
+            <div class="dropdown">
+                <button type="button" class="btn spell-toolbar-btn d-inline-flex align-items-center gap-2 rounded-1"
+                    :class="{ 'active-filter': filterPrepared || filterRitual }" data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside" id="spellSettings" aria-expanded="false">
+                    <i class="bi bi-sliders"></i>
+                    <span>Filter</span>
+                    <span v-if="(filterPrepared ? 1 : 0) + (filterRitual ? 1 : 0) > 0"
+                        class="badge rounded-1 bg-primary text-dark fw-bold ms-1">
+                        {{ (filterPrepared ? 1 : 0) + (filterRitual ? 1 : 0) }}
+                    </span>
+                </button>
+                <ul class="dropdown-menu spell-dropdown-menu shadow rounded-1 py-1" aria-labelledby="spellSettings">
+                    <li class="dropdown-header text-uppercase small fw-bold text-body-secondary px-3 py-1">
+                        Filter Spells
+                    </li>
+                    <li>
+                        <button type="button"
+                            class="dropdown-item d-flex align-items-center justify-content-between gap-3 py-2 px-3"
+                            @click="toggleFilter('prepared', $event)">
+                            <span class="d-flex align-items-center gap-2">
+                                <i class="bi"
+                                    :class="filterPrepared ? 'bi-check-square-fill text-primary' : 'bi-square text-secondary'"></i>
+                                <span>Prepared spells</span>
+                            </span>
+                            <span class="badge rounded-1 bg-secondary bg-opacity-25 text-body-secondary">
+                                {{ $md.ply.magic.getPreparedSpells().length }}
+                            </span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button"
+                            class="dropdown-item d-flex align-items-center justify-content-between gap-3 py-2 px-3"
+                            @click="toggleFilter('ritual', $event)">
+                            <span class="d-flex align-items-center gap-2">
+                                <i class="bi"
+                                    :class="filterRitual ? 'bi-check-square-fill text-primary' : 'bi-square text-secondary'"></i>
+                                <span>Ritual spells</span>
+                            </span>
+                        </button>
+                    </li>
+                    <template v-if="filterPrepared || filterRitual">
+                        <li>
+                            <hr class="dropdown-divider my-1" />
+                        </li>
+                        <li>
+                            <button type="button"
+                                class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 text-body-secondary small"
+                                @click="clearFilters($event)">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                                <span>Reset filters</span>
+                            </button>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+
+            <!-- Active Filter Indicators -->
+            <div v-if="filterPrepared || filterRitual" class="d-flex flex-wrap align-items-center gap-2 ms-sm-2">
+                <span v-if="filterPrepared" class="filter-chip rounded-1 d-inline-flex align-items-center gap-1"
+                    @click="toggleFilter('prepared', $event)">
+                    Prepared ({{ $md.ply.magic.getPreparedSpells().length }})
+                    <i class="bi bi-x"></i>
+                </span>
+                <span v-if="filterRitual" class="filter-chip rounded-1 d-inline-flex align-items-center gap-1"
+                    @click="toggleFilter('ritual', $event)">
+                    Ritual
+                    <i class="bi bi-x"></i>
+                </span>
+            </div>
         </div>
         <!-- no spells? -->
         <div class="mt-2" v-if="$md.ply.magic.spells.size == 0">
-            <hr class="hr" />
-            <p class="lead">Your character doesn't have any spells.</p>
+            <p class="lead text-body-secondary">Your character doesn't have any spells.</p>
         </div>
         <div class="spell-table mb-5 mt-4">
             <div v-for="group in getSpellsByLevel($md.ply.magic.spells)" :key="group[0]">
@@ -70,33 +125,43 @@
                                 <div class="col-4 text-muted d-none d-md-block text-truncate" style="font-size: 15px">
                                     {{ spell.description }}
                                 </div>
-                                <div class="col-1 d-print-none">
+                                <div class="col-1 d-print-none" @click.stop.prevent>
                                     <div class="dropdown text-end">
-                                        <button class="btn text-muted px-0 py-0 px-sm-3" type="button"
-                                            :id="`dropdownMenuButton-${spell.id}`" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
+                                        <button class="btn spell-row-action-btn text-muted px-2 py-1 rounded-1"
+                                            type="button" :id="`dropdownMenuButton-${spell.id}`"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-three-dots"></i>
                                         </button>
-                                        <ul class="dropdown-menu" :aria-labelledby="`dropdownMenuButton-${spell.id}`">
+                                        <ul class="dropdown-menu dropdown-menu-end spell-dropdown-menu shadow rounded-1 py-1"
+                                            :aria-labelledby="`dropdownMenuButton-${spell.id}`">
                                             <li>
-                                                <div class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#createSpellModal"
+                                                <button type="button"
+                                                    class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
+                                                    data-bs-toggle="modal" data-bs-target="#createSpellModal"
                                                     @click="openEditModal(spell, $event)">
-                                                    <i class="bi bi-pencil-square"></i><span>Edit</span>
-                                                </div>
+                                                    <i class="bi bi-pencil-square text-body-secondary"></i>
+                                                    <span>Edit Spell</span>
+                                                </button>
                                             </li>
-                                            <li>
-                                                <div class="dropdown-item"
-                                                    v-if="spell.level.toLowerCase() !== 'cantrip'"
+                                            <li v-if="spell.level.toLowerCase() !== 'cantrip'">
+                                                <button type="button"
+                                                    class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
                                                     @click="prepareSpell(spell, $event)">
-                                                    <i :class="spell.prepared ? 'bi bi-dash' : 'bi bi-plus'"></i>
+                                                    <i class="bi"
+                                                        :class="spell.prepared ? 'bi-bookmark-dash text-warning' : 'bi-bookmark-check text-primary'"></i>
                                                     <span>{{ spell.prepared ? "Unprepare" : "Prepare" }}</span>
-                                                </div>
+                                                </button>
                                             </li>
                                             <li>
-                                                <div class="dropdown-item" @click="deleteSpell(spell, $event)">
-                                                    <i class="bi bi-x text-danger"></i><span>Remove</span>
-                                                </div>
+                                                <hr class="dropdown-divider my-1" />
+                                            </li>
+                                            <li>
+                                                <button type="button"
+                                                    class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 text-danger"
+                                                    @click="deleteSpell(spell, $event)">
+                                                    <i class="bi bi-trash3"></i>
+                                                    <span>Remove</span>
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
@@ -229,7 +294,7 @@ if (savedFilters) {
 }
 
 function toggleFilter(filter, event) {
-    event.preventDefault();
+    if (event) event.preventDefault();
     switch (filter) {
         case "prepared":
             filterPrepared.value = filterPrepared.value ? false : true;
@@ -247,6 +312,16 @@ function toggleFilter(filter, event) {
     };
 
     sessionStorage.setItem("spellFilters", JSON.stringify(filters));
+}
+
+function clearFilters(event) {
+    if (event) event.preventDefault();
+    filterPrepared.value = false;
+    filterRitual.value = false;
+    sessionStorage.setItem(
+        "spellFilters",
+        JSON.stringify({ prepared: false, ritual: false })
+    );
 }
 
 function getSpellsByLevel(spells) {
@@ -413,17 +488,6 @@ export default {
     height: 19vh;
 }
 
-.dropdown-menu {
-    z-index: 999999;
-}
-
-.dropdown-item i,
-span {
-    vertical-align: middle;
-    padding-right: 2px;
-    padding-left: 2px;
-}
-
 .banner-img {
     background: url("../assets/img/bg/1.jpg") top center;
     background-size: cover;
@@ -438,16 +502,86 @@ span {
     text-transform: capitalize;
 }
 
-.dropdown-item {
+/* Toolbar Under Spells */
+.spell-toolbar-btn {
+    background: var(--bs-secondary-bg);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--bs-body-color);
+    font-size: 0.9rem;
+    padding: 0.4rem 0.9rem;
+    transition: all 0.15s ease;
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.28);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--bs-white);
+    }
+
+    &.active-filter {
+        border-color: var(--bs-primary);
+    }
+}
+
+.spell-toolbar-btn-primary {
+    border-color: var(--bs-primary);
+    color: var(--bs-primary);
+
+    &:hover {
+        background: var(--bs-primary);
+        color: #090c11;
+    }
+}
+
+.filter-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--bs-body-secondary);
+    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
     cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+
+    &:hover {
+        border-color: var(--bs-primary);
+        color: var(--bs-white);
+    }
 }
 
-.spell-button {
-    text-align: center;
+/* Neat Dropdown Menus */
+.spell-dropdown-menu {
+    z-index: 1050;
+    min-width: 210px;
+    background: var(--bs-body-bg);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+
+    .dropdown-item {
+        font-size: 0.92rem;
+        cursor: pointer;
+        transition: background-color 0.12s ease;
+
+        &:hover,
+        &:focus {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        &:active {
+            background: rgba(255, 255, 255, 0.1);
+            color: inherit;
+        }
+    }
 }
 
-.spell-button:hover {
-    color: var(--bs-white) !important;
+.spell-row-action-btn {
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+
+    &:hover,
+    &[aria-expanded="true"] {
+        color: var(--bs-white) !important;
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.12);
+    }
 }
 
 .modal-footer button {

@@ -40,14 +40,24 @@
                     aria-label="Enter dice roll here (example: d20+4)" aria-describedby="button-addon2"
                     autocorrect="off" autocapitalize="none" spellcheck="false" autocomplete="off">
                 <button @click="roll" class="btn btn-outline-primary" type="button" id="button-addon2">Roll</button>
+                <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#diceHistoryModal" title="Roll History">
+                    <i class="bi bi-clock-history"></i>
+                </button>
             </div>
-            <div class="mt-1 d-flex flex-wrap justify-content-center justify-content-sm-start mb-1"
+            <div class="mt-1 d-flex flex-wrap align-items-stretch justify-content-center justify-content-sm-start mb-1"
                 v-if="$md.ply.quick_rolls">
                 <span v-for="(roll) in $md.ply.quick_rolls"
                     class="border border-primary text-primary rounded p-1 px-2 quickroll shadow m-1 mb-0"
                     @click="performRoll(roll.v)">
                     <div>{{ roll.label }}</div>
                     <div>{{ roll.v }}</div>
+                </span>
+                <span
+                    class="border border-primary border-opacity-50 text-primary rounded p-1 px-2 quickroll quickroll-edit shadow m-1 mb-0 d-flex align-items-center"
+                    data-bs-toggle="modal" data-bs-target="#quickRolls" title="Edit Quickrolls">
+                    <i class="bi bi-plus-lg"></i>
+                    <span v-if="!$md.ply.quick_rolls.length" class="ms-1">Quickrolls</span>
                 </span>
             </div>
         </Card>
@@ -285,8 +295,12 @@ export default {
     user-select: none;
 }
 
+.quickroll-edit {
+    border-style: dashed !important;
+}
+
 .quickroll:hover {
     border-color: white !important;
     color: white !important;
 }
-</style>./ui/Card.vue
+</style>

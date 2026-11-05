@@ -18,9 +18,12 @@ export const useAlertStore = defineStore("alert", () => {
 		const wrapper = document.createElement("div");
 		const formattedMessage = parseMarkdown(message);
 		wrapper.innerHTML = [
-			`<div class="alert alert-${type} alert-dismissible" role="alert">`,
-			`   <div>${formattedMessage}</div>`,
-			'   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+			`<div class="alert alert-${type} alert-dismissible mascot-alert d-flex align-items-stretch p-0 overflow-hidden shadow-sm" role="alert">`,
+			'   <div class="alert-mascot flex-shrink-0"></div>',
+			'   <div class="alert-dialogue flex-grow-1 d-flex align-items-top py-3 ps-3 pe-5">',
+			`       <div>"${formattedMessage}"</div>`,
+			"   </div>",
+			'   <button type="button" class="btn-close top-0 end-0 m-2 p-2" data-bs-dismiss="alert" aria-label="Close"></button>',
 			"</div>",
 		].join("");
 
@@ -42,18 +45,22 @@ export const useAlertStore = defineStore("alert", () => {
 
 		if (show) {
 			if (!existingSpinner) {
-				const spinner = document.createElement("div");
-				spinner.id = "processSpinner";
-				spinner.className = "spinner-border text-primary";
-				spinner.setAttribute("role", "status");
-				spinner.style.position = "fixed";
-				spinner.style.pointerEvents = "none";
-				spinner.style.bottom = "20px";
-				spinner.style.right = "20px";
-				spinner.style.zIndex = "1050";
-				spinner.innerHTML =
-					'<span class="visually-hidden">Loading...</span>';
-				document.body.appendChild(spinner);
+				const wrapper = document.createElement("div");
+				wrapper.id = "processSpinner";
+				wrapper.className =
+					"d-flex align-items-center justify-content-center p-3 rounded-4 shadow-lg";
+				wrapper.style.position = "fixed";
+				wrapper.style.top = "50%";
+				wrapper.style.left = "50%";
+				wrapper.style.transform = "translate(-50%, -50%)";
+				wrapper.style.backgroundColor = "rgba(9, 12, 17, 0.85)";
+				wrapper.style.backdropFilter = "blur(4px)";
+				wrapper.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+				wrapper.style.pointerEvents = "none";
+				wrapper.style.zIndex = "1050";
+				wrapper.innerHTML =
+					'<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
+				document.body.appendChild(wrapper);
 			}
 		} else {
 			if (existingSpinner) {

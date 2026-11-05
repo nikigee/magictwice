@@ -12,6 +12,7 @@
                 <Alert />
                 <div class="row mx-0">
                     <Banner />
+                    <ActionBar class="mt-2 px-0" />
                 </div>
                 <div class="row pt-2">
                     <div class="col-lg-7 mb-3 main-stats" style="break-after: page;">
@@ -21,12 +22,6 @@
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item" @click="editScores = true">
                                         <i class="bi bi-pencil-square me-1"></i> Edit Information
-                                    </li>
-                                    <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#diceHistoryModal">
-                                        <i class="bi bi-clock-history me-1"></i> Roll History
-                                    </li>
-                                    <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#quickRolls">
-                                        <i class="bi bi-dice-5 me-1"></i> Quickrolls
                                     </li>
                                 </ul>
                             </div>
@@ -65,6 +60,7 @@ import Stats from '../components/Stats.vue';
 import PlayerBio from '../components/PlayerBio.vue';
 import DiceRoller from '../components/DiceRoller.vue';
 import Banner from '../components/Banner.vue';
+import ActionBar from '@/components/ActionBar.vue';
 import EditScores from '../components/EditScores.vue';
 import MobileNavBar from '../components/MobileNavBar.vue';
 import Avatar from '../components/Avatar.vue';
@@ -109,6 +105,7 @@ export default {
         PlayerBio: PlayerBio,
         DiceRoller: DiceRoller,
         Banner: Banner,
+        ActionBar,
         EditScores: EditScores,
         MobileNavBar,
         Avatar,

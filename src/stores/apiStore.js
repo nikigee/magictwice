@@ -35,6 +35,24 @@ export const useAPIStore = defineStore('api', () => {
         }
     }
 
+    async function resolveCommand(prompt, commands) {
+        try {
+            const response = await fetch(`${url}/ai/command`, {
+                method: 'POST',
+                body: JSON.stringify({ prompt, commands }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            if (!response.ok || data.error) {
+                throw new Error(data.error || 'Failed to resolve command');
+            }
+            return data;
+        } catch (error) {
+            console.error('Error resolving command:', error);
+            throw error;
+        }
+    }
+
     // Returns the public/cached CDN URL for any uploaded fileKey
     function getImageUrl(fileKey) {
         if (!fileKey) return '';
@@ -87,6 +105,7 @@ export const useAPIStore = defineStore('api', () => {
     return { 
         log_session, 
         sendPrompt, 
+        resolveCommand,
         uploadImage, 
         getImageUrl 
     }

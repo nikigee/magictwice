@@ -13,15 +13,105 @@ export const useAlertStore = defineStore("alert", () => {
 			.replace(/~~(.*?)~~/g, "<del>$1</del>");
 	}
 
+	function typewriteElement(targetEl, htmlContent, alertBox) {
+		const temp = document.createElement("div");
+		temp.innerHTML = `"${htmlContent}"`;
+
+		const textEntries = [];
+		function collectTextNodes(node) {
+			if (node.nodeType === Node.TEXT_NODE) {
+				textEntries.push({
+					node,
+					fullText: node.nodeValue || "",
+				});
+				node.nodeValue = "";
+			} else {
+				node.childNodes.forEach(collectTextNodes);
+			}
+		}
+		collectTextNodes(temp);
+
+		while (temp.firstChild) {
+			targetEl.appendChild(temp.firstChild);
+		}
+
+		const cursor = document.createElement("span");
+		cursor.className = "vn-cursor";
+		cursor.textContent = "▍";
+		targetEl.appendChild(cursor);
+
+		alertBox.classList.add("is-speaking");
+
+		let entryIdx = 0;
+		let charIdx = 0;
+		let timerId = null;
+		let finished = false;
+
+		function finishImmediately() {
+			if (finished) return;
+			finished = true;
+			if (timerId) clearTimeout(timerId);
+
+			for (const entry of textEntries) {
+				entry.node.nodeValue = entry.fullText;
+			}
+			alertBox.classList.remove("is-speaking");
+			cursor.textContent = "▾";
+		}
+
+		function step() {
+			if (finished) return;
+
+			while (
+				entryIdx < textEntries.length &&
+				charIdx >= textEntries[entryIdx].fullText.length
+			) {
+				entryIdx++;
+				charIdx = 0;
+			}
+
+			if (entryIdx >= textEntries.length) {
+				finishImmediately();
+				return;
+			}
+
+			const current = textEntries[entryIdx];
+			const nextChar = current.fullText[charIdx];
+			current.node.nodeValue += nextChar;
+			charIdx++;
+
+			// Slight cadence pause on punctuation like a visual novel
+			let delay = 20;
+			if ([".", "!", "?"].includes(nextChar)) {
+				delay = 140;
+			} else if ([",", ";", ":"].includes(nextChar)) {
+				delay = 70;
+			}
+
+			timerId = setTimeout(step, delay);
+		}
+
+		// Allow clicking the dialogue area to skip typing animation
+		alertBox.addEventListener("click", (e) => {
+			if (!e.target.classList.contains("btn-close")) {
+				finishImmediately();
+			}
+		});
+
+		step();
+	}
+
 	function create(message, type = "primary") {
 		const alertElement = document.getElementById("playerAlert");
 		const wrapper = document.createElement("div");
 		const formattedMessage = parseMarkdown(message);
 		wrapper.innerHTML = [
 			`<div class="alert alert-${type} alert-dismissible mascot-alert d-flex align-items-stretch p-0 overflow-hidden shadow-sm" role="alert">`,
-			'   <div class="alert-mascot flex-shrink-0"></div>',
-			'   <div class="alert-dialogue flex-grow-1 d-flex align-items-top py-3 ps-3 pe-5">',
-			`       <div>"${formattedMessage}"</div>`,
+			'   <div class="alert-mascot-wrap flex-shrink-0">',
+			'       <div class="alert-mascot"></div>',
+			"   </div>",
+			'   <div class="alert-dialogue flex-grow-1 d-flex align-items-center py-3 ps-3 pe-5" title="Click to skip typing">',
+			'       <div class="alert-dialogue-text"></div>',
 			"   </div>",
 			'   <button type="button" class="btn-close top-0 end-0 m-2 p-2" data-bs-dismiss="alert" aria-label="Close"></button>',
 			"</div>",
@@ -29,6 +119,12 @@ export const useAlertStore = defineStore("alert", () => {
 
 		if (alertElement) {
 			alertElement.append(wrapper);
+
+			const alertBox = wrapper.querySelector(".mascot-alert");
+			const textTarget = wrapper.querySelector(".alert-dialogue-text");
+			if (alertBox && textTarget) {
+				typewriteElement(textTarget, formattedMessage, alertBox);
+			}
 
 			// Set tabindex and focus wrapper for accessibility, removing outline to prevent visual distraction
 			wrapper.setAttribute("tabindex", "-1");

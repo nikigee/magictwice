@@ -42,7 +42,6 @@
         background-image: var(--alert-mascot);
         background-size: cover;
         background-position: center 18%;
-        transition: transform 0.25s ease;
     }
 
     .mascot-alert.is-speaking .alert-mascot {
@@ -68,6 +67,19 @@
 
     .mascot-alert:not(.is-speaking) .vn-cursor {
         animation: rpgPromptBounce 0.9s ease-in-out infinite;
+    }
+
+    .alert-undo-btn {
+        color: inherit;
+        opacity: 0.75;
+        text-decoration: underline;
+        font-size: 0.95rem;
+        transition: opacity 0.15s ease;
+
+        &:hover {
+            opacity: 1;
+            color: inherit;
+        }
     }
 }
 

@@ -13,7 +13,9 @@ export const useAlertStore = defineStore("alert", () => {
 			.replace(/~~(.*?)~~/g, "<del>$1</del>");
 	}
 
-	function typewriteElement(targetEl, htmlContent, alertBox) {
+	function typewriteElement(targetEl, htmlContent, alertBox, onUndo = null) {
+		targetEl.innerHTML = "";
+
 		const temp = document.createElement("div");
 		temp.innerHTML = `"${htmlContent}"`;
 
@@ -47,6 +49,29 @@ export const useAlertStore = defineStore("alert", () => {
 		let timerId = null;
 		let finished = false;
 
+		function appendUndoLink() {
+			if (typeof onUndo !== "function") return;
+
+			const undoBtn = document.createElement("button");
+			undoBtn.type = "button";
+			undoBtn.className =
+				"btn btn-link btn-sm p-0 ms-2 alert-undo-btn align-baseline";
+			undoBtn.textContent = "(Undo)";
+
+			undoBtn.addEventListener("click", (e) => {
+				e.stopPropagation();
+				onUndo();
+				typewriteElement(
+					targetEl,
+					parseMarkdown("Got it, I've undone that for you!"),
+					alertBox,
+					null,
+				);
+			});
+
+			targetEl.appendChild(undoBtn);
+		}
+
 		function finishImmediately() {
 			if (finished) return;
 			finished = true;
@@ -57,6 +82,7 @@ export const useAlertStore = defineStore("alert", () => {
 			}
 			alertBox.classList.remove("is-speaking");
 			cursor.textContent = "▾";
+			appendUndoLink();
 		}
 
 		function step() {
@@ -93,7 +119,10 @@ export const useAlertStore = defineStore("alert", () => {
 
 		// Allow clicking the dialogue area to skip typing animation
 		alertBox.addEventListener("click", (e) => {
-			if (!e.target.classList.contains("btn-close")) {
+			if (
+				!e.target.classList.contains("btn-close") &&
+				!e.target.classList.contains("alert-undo-btn")
+			) {
 				finishImmediately();
 			}
 		});
@@ -101,7 +130,7 @@ export const useAlertStore = defineStore("alert", () => {
 		step();
 	}
 
-	function create(message, type = "primary") {
+	function create(message, type = "primary", options = {}) {
 		const alertElement = document.getElementById("playerAlert");
 		const wrapper = document.createElement("div");
 		const formattedMessage = parseMarkdown(message);
@@ -110,7 +139,7 @@ export const useAlertStore = defineStore("alert", () => {
 			'   <div class="alert-mascot-wrap flex-shrink-0">',
 			'       <div class="alert-mascot"></div>',
 			"   </div>",
-			'   <div class="alert-dialogue flex-grow-1 d-flex align-items-center py-3 ps-3 pe-5" title="Click to skip typing">',
+			'   <div class="alert-dialogue flex-grow-1 d-flex align-items-center py-3 ps-3 pe-5">',
 			'       <div class="alert-dialogue-text"></div>',
 			"   </div>",
 			'   <button type="button" class="btn-close top-0 end-0 m-2 p-2" data-bs-dismiss="alert" aria-label="Close"></button>',
@@ -123,7 +152,12 @@ export const useAlertStore = defineStore("alert", () => {
 			const alertBox = wrapper.querySelector(".mascot-alert");
 			const textTarget = wrapper.querySelector(".alert-dialogue-text");
 			if (alertBox && textTarget) {
-				typewriteElement(textTarget, formattedMessage, alertBox);
+				typewriteElement(
+					textTarget,
+					formattedMessage,
+					alertBox,
+					options.onUndo || null,
+				);
 			}
 
 			// Set tabindex and focus wrapper for accessibility, removing outline to prevent visual distraction

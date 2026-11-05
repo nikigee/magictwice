@@ -28,7 +28,7 @@ import { useCommandStore } from '@/stores/commandStore';
 const props = defineProps({
     placeholder: {
         type: String,
-        default: 'Ask purple...'
+        default: 'Do anything...'
     },
     disabled: {
         type: Boolean,

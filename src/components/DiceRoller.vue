@@ -218,7 +218,7 @@ export default {
                 quickrolls.show();
 
                 this.diceInput = "";
-            } else if (command == "athena") {
+            } else if (command == "purple") {
                 const api = useAPIStore();
                 const context = JSON.parse(localStorage["charList"])[this.$md.ply.id];
                 context.renderData.avatar = "";

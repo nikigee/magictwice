@@ -35,11 +35,11 @@ export const useAPIStore = defineStore('api', () => {
         }
     }
 
-    async function resolveCommand(prompt, commands) {
+    async function resolveCommand(prompt, commands, context = null) {
         try {
             const response = await fetch(`${url}/ai/command`, {
                 method: 'POST',
-                body: JSON.stringify({ prompt, commands }),
+                body: JSON.stringify({ prompt, commands, context }),
                 headers: { 'Content-Type': 'application/json' }
             });
             const data = await response.json();

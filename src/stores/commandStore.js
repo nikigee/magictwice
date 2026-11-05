@@ -15,6 +15,26 @@ function getPlayerSerializedJson(md) {
     }
 }
 
+function getScrubbedContext(md) {
+    if (md.ply) {
+        md.savePlayer();
+    }
+    const rawJson = getPlayerSerializedJson(md);
+    if (!rawJson) return null;
+
+    try {
+        const context = JSON.parse(rawJson);
+        delete context.renderData;
+        delete context.dice_history;
+        if (context.statsData) {
+            delete context.statsData.misc_notes;
+        }
+        return context;
+    } catch {
+        return null;
+    }
+}
+
 function captureSnapshot(md) {
     if (md.ply) {
         md.savePlayer();
@@ -132,7 +152,8 @@ export const useCommandStore = defineStore('command', () => {
 
         try {
             const schemas = getCommandSchemas(commands);
-            const result = await apiStore.resolveCommand(prompt, schemas);
+            const context = getScrubbedContext(md);
+            const result = await apiStore.resolveCommand(prompt, schemas, context);
 
             if (result && result.matched && result.command && commands[result.command]) {
                 const snapshot = captureSnapshot(md);

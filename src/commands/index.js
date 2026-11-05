@@ -2,12 +2,14 @@ import { skillsCommands } from './skills';
 import { healthCommands } from './health';
 import { diceCommands } from './dice';
 import { characterCommands } from './character';
+import { conversationCommands } from './conversation';
 
 export const commandList = [
     ...skillsCommands,
     ...healthCommands,
     ...diceCommands,
-    ...characterCommands
+    ...characterCommands,
+    ...conversationCommands
 ];
 
 export const commandMap = Object.fromEntries(

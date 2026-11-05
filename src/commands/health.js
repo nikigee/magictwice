@@ -165,5 +165,54 @@ export const healthCommands = [
 
             return { message: 'Unsupported combat stat.', type: 'warning' };
         }
+    },
+    {
+        name: 'set_hit_dice',
+        description:
+            'Set or update the character\'s Hit Dice (e.g. "set hit dice to 4d10", "change my hit die to d8", "set remaining hit dice to 2").',
+        parameters: {
+            type: 'object',
+            properties: {
+                hit_dice: {
+                    type: 'string',
+                    description:
+                        'The hit dice value to set, such as a full dice string ("3d10"), a die type ("d8"), or a remaining count ("2").'
+                }
+            },
+            required: ['hit_dice'],
+            additionalProperties: false
+        },
+        execute({ hit_dice }, { md }) {
+            if (!md.ply?.health) {
+                return { message: 'No active character loaded.', type: 'danger' };
+            }
+
+            const raw = String(hit_dice || '').trim().toLowerCase();
+            if (!raw) {
+                return { message: 'Please specify a Hit Dice value.', type: 'warning' };
+            }
+
+            const current = String(md.ply.health.hitdie || '1d8').toLowerCase();
+            const currentParts = current.split('d');
+            const currentCount = parseInt(currentParts[0], 10) || Number(md.ply.lvl) || 1;
+            const currentFace = parseInt(currentParts[1], 10) || 8;
+
+            let nextHitDie = raw;
+            if (/^\d+d\d+$/.test(raw)) {
+                nextHitDie = raw;
+            } else if (/^d\d+$/.test(raw)) {
+                nextHitDie = `${currentCount}${raw}`;
+            } else if (/^\d+$/.test(raw)) {
+                nextHitDie = `${raw}d${currentFace}`;
+            }
+
+            md.ply.health.hitdie = nextHitDie;
+            md.savePlayer();
+
+            return {
+                message: `Updated **Hit Dice** to **${md.ply.health.hitdie}**!`,
+                type: 'success'
+            };
+        }
     }
 ];
